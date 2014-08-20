@@ -21,22 +21,12 @@ A Java-Version light-weight Json RPC framework based on GSON/Protostuff.
 
 - Use GSON.
 - Use simple http connection to send/receive packages.
-- 压缩协议: 无
-- Client编程方式：
-	- 支持Spring AOP代理方式
-- Server编程方式：
-	- 支持Spring Web Servlet方式
-
-## Future Version ##
-
-- Use Gson/Protostuff.
-- Use simple http connection to send/receive packages.
 - 压缩协议: 无/Protostuff
 - Client编程方式：
 	- 支持Spring AOP代理方式
 - Server编程方式：
 	- 支持Spring Web Servlet方式
-	- 支持非Web方式
+- 同步调用 
 	
 ## 局限性 ##
 
