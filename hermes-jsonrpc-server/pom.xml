@@ -121,11 +121,6 @@
             <artifactId>protobuf-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.knightliao.xspeedjsonrpc</groupId>
-            <artifactId>xspeed-jsonrpc-core</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
@@ -140,6 +135,11 @@
         <dependency>
             <groupId>com.github.knightliao</groupId>
             <artifactId>apollo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.knightliao.hermesjsonrpc</groupId>
+            <artifactId>hermes-jsonrpc-core</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
