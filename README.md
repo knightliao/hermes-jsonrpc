@@ -1,9 +1,9 @@
 hermes-jsonrpc
 ==============
 
-A Java-Version light-weight RPC framework based on GSON/Protostuff.
+A Java-Version light-weight Json RPC framework based on GSON/Protostuff.
 
-基于GSON/Protostuff的轻量级Java Rpc框架
+基于GSON/Protostuff的轻量级Java Json Rpc框架
 
 还未正式发布，敬请期待
 
