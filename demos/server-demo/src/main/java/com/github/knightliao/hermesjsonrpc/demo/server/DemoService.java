@@ -2,6 +2,8 @@ package com.github.knightliao.hermesjsonrpc.demo.server;
 
 import org.springframework.stereotype.Service;
 
+import com.github.knightliao.apollo.utils.common.RandomUtil;
+
 /**
  * 
  * @author liaoqiqi
@@ -11,7 +13,8 @@ import org.springframework.stereotype.Service;
 public class DemoService implements DemoServiceDriver {
 
     public int getRandom() {
-        return 0;
+
+        return RandomUtil.random(0, 1000000);
     }
 
 }
