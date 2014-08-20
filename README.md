@@ -1,9 +1,11 @@
-Xspeed-jsonrpc
+hermes-jsonrpc
 ==============
 
-A Java-Version light-weight RPC framework based on compression/decompression of GSON/Protostuff.
+A Java-Version light-weight RPC framework based on com(decom)pression of GSON/Protostuff.
 
 基于GSON/Protostuff压缩协议的轻量级Java Rpc框架
+
+还未正式发布，敬请期待
 
 ## 项目信息 ##
 
@@ -12,8 +14,8 @@ A Java-Version light-weight RPC framework based on compression/decompression of 
 
 ## 它是什么? ##
 
-- 命名为Xspeed-jsonrpc
-- 专注于高效、简单的 Java Rpc 编程
+- 命名为hermes-jsonrpc
+- 专注于高效、高速、简单的 Java Rpc 编程
 
 ## 1.0 版本 ##
 
