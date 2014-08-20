@@ -9,6 +9,9 @@
     <packaging>pom</packaging>
 
     <modules>
+    <module>hermes-jsonrpc-client</module>
+    <module>hermes-jsonrpc-core</module>
+    <module>hermes-jsonrpc-server</module>
     </modules>
 
     <inceptionYear>2014</inceptionYear>
