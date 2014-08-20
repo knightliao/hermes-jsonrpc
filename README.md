@@ -15,12 +15,13 @@ A Java-Version light-weight Json RPC framework based on GSON/Protostuff.
 ## 它是什么? ##
 
 - 命名为hermes-jsonrpc
-- 专注于高效、高速、简单的 Java Rpc 编程
+- 专注于高效、高速、简单的 Java Json Rpc 编程
 
 ## 1.0 版本 ##
 
 - Use GSON.
 - Use simple http connection to send/receive packages.
+- 压缩协议: 无
 - Client编程方式：
 	- 支持Spring AOP代理方式
 - Server编程方式：
@@ -30,6 +31,7 @@ A Java-Version light-weight Json RPC framework based on GSON/Protostuff.
 
 - Use Gson/Protostuff.
 - Use simple http connection to send/receive packages.
+- 压缩协议: 无/Protostuff
 - Client编程方式：
 	- 支持Spring AOP代理方式
 - Server编程方式：
