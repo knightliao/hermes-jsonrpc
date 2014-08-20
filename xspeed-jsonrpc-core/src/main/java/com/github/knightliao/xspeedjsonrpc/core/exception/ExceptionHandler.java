@@ -12,6 +12,8 @@ import com.google.gson.JsonPrimitive;
 /**
  * 默认的异常处理器，将JsonRpcException异常转换为JsonElement结构
  * 
+ * @author liaoqiqi
+ * @version 2014-8-20
  */
 public class ExceptionHandler {
 
@@ -44,7 +46,7 @@ public class ExceptionHandler {
      * @param e
      * @return 生成的JsonElement树
      */
-    protected JsonElement makeExcetpion(int error, JsonRpcException e) {
+    private JsonElement makeExcetpion(int error, JsonRpcException e) {
 
         JsonObject obj = new JsonObject();
 
@@ -63,7 +65,7 @@ public class ExceptionHandler {
                 // data
                 String msg = cause.getMessage();
                 if (msg == null) {
-                    obj.add(Constants.DATA_FIELD, new JsonNull());
+                    obj.add(Constants.DATA_FIELD, JsonNull.INSTANCE);
                 } else {
                     obj.add(Constants.DATA_FIELD, new JsonPrimitive(msg));
                 }
@@ -78,7 +80,7 @@ public class ExceptionHandler {
         // data
         String msg = e.getMessage();
         if (msg == null) {
-            obj.add(Constants.DATA_FIELD, new JsonNull());
+            obj.add(Constants.DATA_FIELD, JsonNull.INSTANCE);
         } else {
             obj.add(Constants.DATA_FIELD, new JsonPrimitive(e.getMessage()));
         }
@@ -94,18 +96,18 @@ public class ExceptionHandler {
      * @return error数据
      */
     public JsonElement serialize(JsonRpcException e) {
+
         Integer error = exceptionMap.get(e.getClass());
 
         if (error != null) {
+
             return makeExcetpion(error, e);
-        } else
-        // if (e instanceof JsonRpcException) {
-        {
+
+        } else {
+
             return makeExcetpion(e.errorCode(), e);
         }
-        // else {
-        // return makeExcetpion(-32000, e);
-        // }
+
     }
 
     /**

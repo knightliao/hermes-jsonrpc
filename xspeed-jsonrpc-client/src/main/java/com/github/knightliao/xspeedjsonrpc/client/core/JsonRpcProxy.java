@@ -11,7 +11,8 @@ import com.google.gson.JsonElement;
 /**
  * 代理Json文本格式的rpc调用
  * 
- * 
+ * @author liaoqiqi
+ * @version 2014-8-20
  */
 public class JsonRpcProxy extends RpcProxyBase implements Cloneable {
 

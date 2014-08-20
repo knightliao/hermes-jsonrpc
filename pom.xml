@@ -455,6 +455,11 @@
                 <artifactId>netty</artifactId>
                 <version>3.6.6.Final</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.knightliao</groupId>
+                <artifactId>apollo</artifactId>
+                <version>1.0.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

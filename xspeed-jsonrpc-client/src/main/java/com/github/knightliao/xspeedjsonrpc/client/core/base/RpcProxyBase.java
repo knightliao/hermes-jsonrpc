@@ -27,7 +27,8 @@ import com.google.gson.JsonObject;
 /**
  * JsonRpc调用端的公共基类，包含绝大部分rpc调用的实现
  * 
- * 
+ * @author liaoqiqi
+ * @version 2014-8-20
  */
 public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
@@ -117,11 +118,8 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
-     * java.lang.reflect.Method, java.lang.Object[])
      */
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable {

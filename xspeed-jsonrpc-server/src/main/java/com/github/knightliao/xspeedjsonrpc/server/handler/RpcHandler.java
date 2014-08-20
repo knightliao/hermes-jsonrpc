@@ -8,6 +8,7 @@ import com.github.knightliao.xspeedjsonrpc.server.model.RpcRequest;
  * 
  */
 public interface RpcHandler {
+
     /**
      * 处理rpc请求
      * 

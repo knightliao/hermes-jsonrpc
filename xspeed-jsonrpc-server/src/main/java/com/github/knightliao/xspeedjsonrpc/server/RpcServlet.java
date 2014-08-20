@@ -20,8 +20,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.github.knightliao.apollo.utils.web.HtmlUtils;
 import com.github.knightliao.xspeedjsonrpc.core.constant.Constants;
-import com.github.knightliao.xspeedjsonrpc.core.utils.WebUtils;
 import com.github.knightliao.xspeedjsonrpc.server.handler.HandlerFactory;
 import com.github.knightliao.xspeedjsonrpc.server.handler.RpcHandler;
 import com.github.knightliao.xspeedjsonrpc.server.model.RpcRequest;
@@ -103,7 +103,7 @@ public class RpcServlet extends HttpServlet {
                                 + m.getName()
                                 + "</td>"
                                 + "<td>"
-                                + WebUtils.escapeHTML(m
+                                + HtmlUtils.escapeHTML(m
                                         .toGenericString()
                                         .substring(16)
                                         .replaceAll("java\\.lang\\.", "")

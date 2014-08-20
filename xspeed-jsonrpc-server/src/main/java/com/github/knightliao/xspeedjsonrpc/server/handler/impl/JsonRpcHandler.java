@@ -8,17 +8,15 @@ import com.google.gson.JsonElement;
 /**
  * 处理Json文本格式的Rpc调用
  * 
+ * @author liaoqiqi
+ * @version 2014-8-20
  */
 public class JsonRpcHandler extends JsonRpcHandlerBase {
 
-    static final Processor processor = new JsonProcessor();
+    private static final Processor processor = new JsonProcessor();
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see
-     * com.baidu.rpc.server.JsonRpcHandlerBase#deserialize(java.lang.String,
-     * byte[])
      */
     @Override
     protected JsonElement deserialize(String encoding, byte[] req)
@@ -26,11 +24,8 @@ public class JsonRpcHandler extends JsonRpcHandlerBase {
         return processor.deserialize(encoding, req);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see com.baidu.rpc.server.JsonRpcHandlerBase#serialize(java.lang.String,
-     * com.google.gson.JsonElement)
      */
     @Override
     protected byte[] serialize(String encoding, JsonElement res)

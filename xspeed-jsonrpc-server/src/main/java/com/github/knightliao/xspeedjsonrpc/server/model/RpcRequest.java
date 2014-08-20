@@ -5,14 +5,17 @@ package com.github.knightliao.xspeedjsonrpc.server.model;
  * 
  */
 public class RpcRequest {
+
     /**
      * 所调用的服务接口
      */
     public Class<?> service;
+    
     /**
      * 完成请求的bean
      */
     public Object actor;
+    
     /**
      * 传入的协议数据
      */
@@ -21,10 +24,12 @@ public class RpcRequest {
      * 储存答复数据
      */
     public byte[] response;
+    
     /**
      * 请求所使用的字符编码
      */
     public String encoding;
+    
     /**
      * 储存http返回值
      */

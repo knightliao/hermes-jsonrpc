@@ -13,8 +13,8 @@ import com.google.gson.JsonParser;
  */
 public class JsonProcessor implements Processor {
 
-    static final JsonParser parser = new JsonParser();
-    static final Gson gson = new Gson();
+    private static final JsonParser parser = new JsonParser();
+    private static final Gson gson = new Gson();
 
     /**
      * 将 字节码 转成 对象
@@ -35,6 +35,7 @@ public class JsonProcessor implements Processor {
      */
     public byte[] serialize(String encoding, JsonElement res)
             throws ParseErrorException {
+
         try {
 
             String data = gson.toJson(res);

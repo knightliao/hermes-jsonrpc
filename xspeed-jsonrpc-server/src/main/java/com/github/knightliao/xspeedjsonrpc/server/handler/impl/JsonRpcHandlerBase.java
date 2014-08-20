@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.knightliao.xspeedjsonrpc.core.constant.Constants;
 import com.github.knightliao.xspeedjsonrpc.core.exception.ExceptionHandler;
@@ -17,10 +17,10 @@ import com.github.knightliao.xspeedjsonrpc.core.exception.JsonRpcException;
 import com.github.knightliao.xspeedjsonrpc.core.exception.MethodNotFoundException;
 import com.github.knightliao.xspeedjsonrpc.core.exception.ParseErrorException;
 import com.github.knightliao.xspeedjsonrpc.core.exception.ServerErrorException;
+import com.github.knightliao.xspeedjsonrpc.core.gson.GsonFactory;
 import com.github.knightliao.xspeedjsonrpc.server.handler.RpcHandler;
 import com.github.knightliao.xspeedjsonrpc.server.model.RpcRequest;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -29,13 +29,15 @@ import com.google.gson.JsonObject;
 /**
  * 所有JsonRpc处理器的基类
  * 
+ * @author liaoqiqi
+ * @version 2014-8-20
  */
 public abstract class JsonRpcHandlerBase implements RpcHandler {
 
-    protected final Log log = LogFactory.getLog(getClass());
-    final static Gson gson = new GsonBuilder().serializeNulls()
-            .disableHtmlEscaping().serializeSpecialFloatingPointValues()
-            .create();
+    protected static final Logger LOGGER = LoggerFactory
+            .getLogger(JsonRpcHandlerBase.class);
+
+    final static Gson gson = GsonFactory.getGson();
     final static ExceptionHandler exp = new ExceptionHandler();
 
     /**
@@ -82,7 +84,10 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
                     arg_obj[i] = gson.fromJson(e.next(), argtype[i]);
                 }
 
-                Object res;
+                //
+                // 调用
+                //
+                Object res = null;
 
                 try {
                     res = ms.invoke(obj, arg_obj);
@@ -109,6 +114,7 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
                         throw new ServerErrorException(e2);
                     }
                 }
+
                 if (res == void.class) {
                     return null;
                 } else {
@@ -219,13 +225,13 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
 
             } catch (JsonRpcException e) {
 
-                log.warn(e);
+                LOGGER.warn(e.toString());
                 return make_res(parameterObject, null, e, null);
             }
 
         } catch (Exception e) {
 
-            log.warn(e);
+            LOGGER.warn(e.toString());
             return make_res(parameterObject, null,
                     new InvalidRequestException(), null);
         }
@@ -268,7 +274,7 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
             res.addProperty(Constants.JSONRPC_PROTOCOL,
                     Constants.JSONRPC_PROTOCOL_VERSION);
             res.add(Constants.JSON_RESULT_ERROR, exp.serialize(error));
-            res.add("id", new JsonNull());
+            res.add("id", JsonNull.INSTANCE);
             int code = error.errorCode();
 
             if (code == InvalidRequestException.INVALID_REQUEST_ERROR_CODE) {
