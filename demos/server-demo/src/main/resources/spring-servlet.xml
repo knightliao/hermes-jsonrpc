@@ -133,4 +133,6 @@
         <property name="maxInMemorySize" value="10240" />
     </bean>
 
+    <mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
+
 </beans>
