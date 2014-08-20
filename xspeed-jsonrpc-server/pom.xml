@@ -3,12 +3,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>xspeed-pbrpc-server</artifactId>
+    <artifactId>xspeed-jsonrpc-server</artifactId>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.baidu.xspeedpbrpc</groupId>
-        <artifactId>xspeed-pbrpc-base</artifactId>
+        <groupId>com.github.knightliao.xspeedjsonrpc</groupId>
+        <artifactId>xspeed-jsonrpc-base</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
@@ -132,6 +132,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
         </dependency>
     </dependencies>
 
