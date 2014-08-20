@@ -3,12 +3,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>xspeed-jsonrpc-client</artifactId>
+    <artifactId>hermes-jsonrpc-client</artifactId>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.github.knightliao.xspeedjsonrpc</groupId>
-        <artifactId>xspeed-jsonrpc-base</artifactId>
+        <groupId>com.github.knightliao.hermesjsonrpc</groupId>
+        <artifactId>hermes-jsonrpc-base</artifactId>
         <version>1.0.0</version>
         <relativePath>../</relativePath>
     </parent>
@@ -202,8 +202,8 @@
         </plugins>
     </build>
 
-    <name>xspeed-pbrpc-client</name>
-    <url>https://github.com/knightliao/XSpeed-pbrpc/tree/master/xspeed-pbrpc-client</url>
+    <name>hermes-jsonrpc-client</name>
+    <url>https://github.com/knightliao/hermes-jsonrpc/tree/master/hermes-jsonrpc-client</url>
 
     <organization>
         <name>Baidu</name>
@@ -211,8 +211,8 @@
     </organization>
 
     <scm>
-        <url>scm:git:git@github.com:knightliao/XSpeed-pbrpc</url>
-        <connection>scm:git:git@github.com:knightliao/XSpeed-pbrpc</connection>
+        <url>scm:git:git@github.com:knightliao/hermes-pbrpc</url>
+        <connection>scm:git:git@github.com:knightliao/hermes-pbrpc</connection>
         <tag>xspeed-pbrpc-client</tag>
     </scm>
 
@@ -278,5 +278,5 @@
         </profile>
     </profiles>
     <version>${client.version}</version>
-    <description>https://github.com/knightliao/XSpeed-pbrpc/tree/master/xspeed-pbrpc-client</description>
+    <description>https://github.com/knightliao/hermes-jsonrpc/tree/master/hermes-jsonrpc-client</description>
 </project>

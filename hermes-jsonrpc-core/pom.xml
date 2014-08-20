@@ -4,15 +4,15 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xspeed-jsonrpc-core</artifactId>
+    <artifactId>hermes-jsonrpc-core</artifactId>
     <packaging>jar</packaging>
 
 
-    <name>xspeed-pbrpc-core</name>
+    <name>hermes-jsonrpc-core</name>
 
     <parent>
-        <groupId>com.github.knightliao.xspeedjsonrpc</groupId>
-        <artifactId>xspeed-jsonrpc-base</artifactId>
+        <groupId>com.github.knightliao.hermesjsonrpc</groupId>
+        <artifactId>hermes-jsonrpc-base</artifactId>
         <relativePath>../</relativePath>
         <version>1.0.0</version>
     </parent>
@@ -104,13 +104,9 @@
             <scope>test</scope>
         </dependency>
 
-
-
-
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.3</version>
         </dependency>
     </dependencies>
 
@@ -194,7 +190,7 @@
         </plugins>
     </build>
 
-    <url>https://github.com/knightliao/XSpeed-pbrpc/tree/master/xspeed-pbrpc-core</url>
+    <url>https://github.com/knightliao/hermes-jsonrpc/tree/master/hermes-jsonrpc-core</url>
 
     <organization>
         <name>Baidu</name>
@@ -202,8 +198,8 @@
     </organization>
 
     <scm>
-        <url>scm:git:git@github.com:knightliao/xspeed-pbrpc</url>
-        <connection>scm:git:git@github.com:knightliao/xspeed-pbrpc</connection>
+        <url>scm:git:git@github.com:knightliao/hermes-jsonrpc-core</url>
+        <connection>scm:git:git@github.com:knightliao/hermes-jsonrpc-core</connection>
         <tag>xspeed-pbrpc-core</tag>
     </scm>
 
@@ -270,5 +266,5 @@
     </profiles>
 
     <version>${core.version}</version>
-    <description>https://github.com/knightliao/XSpeed-pbrpc/tree/master/xspeed-pbrpc-core</description>
+    <description>https://github.com/knightliao/hermes-jsonrpc/tree/master/hermes-jsonrpc-core</description>
 </project>

@@ -3,8 +3,8 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.knightliao.xspeedjsonrpc</groupId>
-    <artifactId>xspeed-jsonrpc-base</artifactId>
+    <groupId>com.github.knightliao.hermesjsonrpc</groupId>
+    <artifactId>hermes-jsonrpc-base</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
@@ -747,14 +747,12 @@
     </organization>
 
     <scm>
-        <url>scm:git:git@github.com:knightliao/dan-pbrpc</url>
-        <connection>scm:git:git@github.com:knightliao/dan-pbrpc</connection>
-        <tag>disconf-base</tag>
+        <url>scm:git:git@github.com:knightliao/hermes-jsonrpc</url>
+        <connection>scm:git:git@github.com:knightliao/hermes-jsonrpc</connection>
     </scm>
 
-    <url>https://github.com/knightliao/dan-pbrpc</url>
-    <name>dan-pbrpc</name>
-    <description> Java-Version light-weight RPC implement of google protobuf RPC framework.</description>
+    <url>https://github.com/knightliao/hermes-jsonrpc</url>
+    <name>hermes-jsonrpc</name>
 
     <profiles>
         <profile>
@@ -818,4 +816,5 @@
         </profile>
     </profiles>
 
+    <description>A Java-Version light-weight Json RPC framework based on GSON/Protostuff.</description>
 </project>
