@@ -1,9 +1,9 @@
 hermes-jsonrpc
 ==============
 
-A Java-Version light-weight RPC framework based on com(decom)pression of GSON/Protostuff.
+A Java-Version light-weight RPC framework based on GSON/Protostuff.
 
-基于GSON/Protostuff压缩协议的轻量级Java Rpc框架
+基于GSON/Protostuff的轻量级Java Rpc框架
 
 还未正式发布，敬请期待
 
@@ -19,7 +19,7 @@ A Java-Version light-weight RPC framework based on com(decom)pression of GSON/Pr
 
 ## 1.0 版本 ##
 
-- Use GSON to Serialize and Deserialize.
+- Use GSON.
 - Use simple http connection to send/receive packages.
 - Client编程方式：
 	- 支持Spring AOP代理方式
@@ -28,7 +28,7 @@ A Java-Version light-weight RPC framework based on com(decom)pression of GSON/Pr
 
 ## Future Version ##
 
-- Use Gson/Protostuff to Serialize and Deserialize.
+- Use Gson/Protostuff.
 - Use simple http connection to send/receive packages.
 - Client编程方式：
 	- 支持Spring AOP代理方式
