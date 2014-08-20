@@ -30,7 +30,8 @@ A Java-Version light-weight Json RPC framework based on GSON/Protostuff.
 	
 ## 局限性 ##
 
-- 只支持Java语言编程
+- 服务和客户端均只能是Java语言编程
+- 不支持异步调用 
 
 ## Authors ##
 
