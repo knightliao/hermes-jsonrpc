@@ -18,9 +18,7 @@ import com.github.knightliao.hermesjsonrpc.client.selector.ServiceSelector;
 import com.github.knightliao.hermesjsonrpc.client.selector.impl.RandomServiceSelector;
 
 /**
- * 通用的基于JDK的Mcpack客户端调用方式
- * <P>
- * 只依赖于MCPACK
+ * 通用的基于JDK的客户端调用方式
  * 
  * @author liaoqiqi
  * @version 2013-12-5
