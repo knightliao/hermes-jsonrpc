@@ -1,4 +1,4 @@
-package com.github.knightliao.hermesjsonrpc.client.core;
+package com.github.knightliao.hermesjsonrpc.client.core.jsonrpc;
 
 import com.github.knightliao.hermesjsonrpc.client.core.base.RpcProxyBase;
 import com.github.knightliao.hermesjsonrpc.core.constant.Constants;

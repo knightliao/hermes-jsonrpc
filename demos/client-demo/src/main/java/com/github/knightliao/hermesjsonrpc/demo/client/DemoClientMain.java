@@ -1,0 +1,52 @@
+package com.github.knightliao.hermesjsonrpc.demo.client;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * 
+ * @author liaoqiqi
+ * @version 2014-8-21
+ */
+public class DemoClientMain {
+
+    protected static final Logger LOG = LoggerFactory
+            .getLogger(DemoClientMain.class);
+    private static String[] fn = null;
+
+    // 初始化spring文档
+    private static void contextInitialized() {
+        fn = new String[] { "applicationContext.xml" };
+    }
+
+    public static void main(String[] args) {
+
+        contextInitialized();
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+                fn);
+
+        //
+        // process
+        //
+        DemoServiceDriver demoServiceDriver = (DemoServiceDriver) ctx
+                .getBean("demoServiceDriver");
+
+        LOG.info("start to process");
+
+        for (int i = 0; i < 1000; ++i) {
+            int ret = demoServiceDriver.getRandom();
+
+            LOG.info(ret + "");
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        LOG.info("end. ");
+        System.exit(0);
+    }
+}

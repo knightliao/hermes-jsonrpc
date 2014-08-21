@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
 import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 import com.github.knightliao.hermesjsonrpc.core.exception.InternalErrorException;
@@ -31,6 +34,9 @@ import com.google.gson.JsonObject;
  * @version 2014-8-20
  */
 public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
+
+    protected static final Logger LOG = LoggerFactory
+            .getLogger(RpcProxyBase.class);
 
     final static Gson gson = GsonFactory.getGson();
 
@@ -127,11 +133,15 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
         try {
 
             int id = counter.getAndIncrement();
+            // LOG.info(id + "");
 
             //
             // 组装原请求
             //
             JsonElement request = makeRequest(id, method, args);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("request=" + request);
+            }
 
             //
             // 序列化
@@ -166,7 +176,11 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             // 解析结果
             //
-            return parseResult(id, resJson, method);
+            Object ret = parseResult(id, resJson, method);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("result=" + ret);
+            }
+            return ret;
 
         } catch (IOException e) {
             throw new InternalErrorException(e);

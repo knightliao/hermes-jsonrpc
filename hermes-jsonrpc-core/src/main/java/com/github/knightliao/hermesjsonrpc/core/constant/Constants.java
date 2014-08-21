@@ -36,4 +36,7 @@ public class Constants {
     // protocol
     //
     public static final String JSON_PROTOCOL_TYPE = "application/xspeed.json-rpc";
+
+    // 权限验证
+    public static final String WWW_AUTH_RPC = "Authorization";
 }

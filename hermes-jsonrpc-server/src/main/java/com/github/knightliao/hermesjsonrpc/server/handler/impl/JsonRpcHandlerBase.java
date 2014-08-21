@@ -176,7 +176,13 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
         //
         // 解析
         //
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("request=" + jreq);
+        }
         JsonElement res = parse(parameterObject, jreq);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("result=" + res);
+        }
 
         // 序列化
         parameterObject.response = serialize(parameterObject.encoding, res);

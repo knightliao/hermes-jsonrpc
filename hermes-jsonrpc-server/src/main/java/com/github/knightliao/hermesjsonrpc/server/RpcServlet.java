@@ -88,7 +88,7 @@ public class RpcServlet extends HttpServlet {
 
                 out.println("This list all functions in <a href=\""
                         + req.getContextPath() + req.getServletPath()
-                        + "\"/>service </a>"
+                        + "\"/>service</a> "
                         + serviceExporter.getServiceInterfaceName());
 
                 try {
