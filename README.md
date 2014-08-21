@@ -53,6 +53,10 @@ server:
         <version>1.0.0</version>
     </dependency>
 
+主要依赖为：
+
+- apollo(1.0.0)
+
 ### Tutorials ###
 
 - [Tutorial 1 Json RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial1)
