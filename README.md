@@ -55,8 +55,8 @@ server:
 
 ### Tutorials ###
 
-- [Tutorial 1 Json RPC Server撰写方法（最佳实践）](https://github.com/knightliao/disconf/wiki/Tutorial1)
-- [Tutorial 2 Json RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/disconf/wiki/Tutorial2)
+- [Tutorial 1 Json RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial1)
+- [Tutorial 2 Json RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial2)
 	
 ## 局限性 ##
 
