@@ -26,7 +26,7 @@ hermes-jsonrpc当前最新版本：
 
 - Use GSON.
 - Use simple http connection to send/receive packages.
-- 压缩协议: 无/Protostuff
+- 压缩协议: 无 或 Protostuff
 - Client编程方式：
 	- 支持Spring AOP代理方式
 - Server编程方式：
