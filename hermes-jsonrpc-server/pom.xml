@@ -133,13 +133,13 @@
             <artifactId>servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.knightliao</groupId>
-            <artifactId>apollo</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.knightliao.hermesjsonrpc</groupId>
             <artifactId>hermes-jsonrpc-core</artifactId>
             <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.knightliao.apollo</groupId>
+            <artifactId>apollo</artifactId>
         </dependency>
     </dependencies>
 

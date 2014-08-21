@@ -9,9 +9,9 @@
     <packaging>pom</packaging>
 
     <modules>
-    <module>hermes-jsonrpc-client</module>
-    <module>hermes-jsonrpc-core</module>
-    <module>hermes-jsonrpc-server</module>
+        <module>hermes-jsonrpc-client</module>
+        <module>hermes-jsonrpc-core</module>
+        <module>hermes-jsonrpc-server</module>
     </modules>
 
     <inceptionYear>2014</inceptionYear>
@@ -459,7 +459,7 @@
                 <version>3.6.6.Final</version>
             </dependency>
             <dependency>
-                <groupId>com.github.knightliao</groupId>
+                <groupId>com.github.knightliao.apollo</groupId>
                 <artifactId>apollo</artifactId>
                 <version>1.0.0</version>
             </dependency>
