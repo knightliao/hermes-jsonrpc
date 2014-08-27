@@ -1,4 +1,4 @@
-hermes-jsonrpc
+hermes-jsonrpc [![Build Status](https://travis-ci.org/knightliao/hermes-jsonrpc.svg?branch=master)](https://travis-ci.org/knightliao/hermes-jsonrpc)
 ==============
 
 A Java-Version light-weight Json RPC framework based on GSON/Protostuff.
