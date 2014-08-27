@@ -3,8 +3,8 @@ package com.github.knightliao.hermesjsonrpc.client;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
-import com.github.knightliao.hermesjsonrpc.client.core.jsonrpc.JsonRpcProxy;
 import com.github.knightliao.hermesjsonrpc.client.core.jsonrpc.RpcProxyWithAuthenticator;
+import com.github.knightliao.hermesjsonrpc.client.core.jsonrpc.RpcProxyWithHeaderProperty;
 import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 
 /**
@@ -16,15 +16,17 @@ import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 public class RpcProxyFactory {
 
     /**
-     * 获取普通的Rpc Proxy
+     * 获取具有头部功能的Rpc Proxy
      * 
      * @param url
      * @param encoding
      * @return
      */
-    public static JsonRpcProxy getJsonRpcProxy(String url, String encoding) {
+    public static RpcProxyWithHeaderProperty getJsonRpcWithHeaderProxy(
+            String url, String encoding) {
 
-        return new JsonRpcProxy(url, encoding, new ExceptionHandler());
+        return new RpcProxyWithHeaderProperty(url, encoding,
+                new ExceptionHandler());
     }
 
     /**
@@ -34,8 +36,8 @@ public class RpcProxyFactory {
      * @param encoding
      * @return
      */
-    public static JsonRpcProxy getJsonRpcProxyWithAuthenticator(String url,
-            String encoding, String userName, String password) {
+    public static RpcProxyWithHeaderProperty getJsonRpcProxyWithAuthenticator(
+            String url, String encoding, String userName, String password) {
 
         return new RpcProxyWithAuthenticator(url, encoding,
                 new ExceptionHandler(), userName, password);

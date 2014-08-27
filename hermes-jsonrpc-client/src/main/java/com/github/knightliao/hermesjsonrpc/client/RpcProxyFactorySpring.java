@@ -4,24 +4,31 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.github.knightliao.hermesjsonrpc.client.core.jsonrpc.JsonRpcProxy;
+import com.github.knightliao.hermesjsonrpc.client.core.jsonrpc.RpcProxyWithHeaderProperty;
 import com.github.knightliao.hermesjsonrpc.client.exception.RpcServiceException;
 import com.github.knightliao.hermesjsonrpc.client.selector.ServiceInvoker;
 import com.github.knightliao.hermesjsonrpc.client.selector.ServiceSelector;
 import com.github.knightliao.hermesjsonrpc.client.selector.impl.RandomServiceSelector;
 
 /**
- * 通用的基于JDK的客户端调用方式
+ * 最新通的通用的基于JDK的客户端调用方式<br/>
+ * 
+ * 支持<br/>
+ * 1. 普通的RPC调用 <br/>
+ * 2. 带头的RPC <br/>
+ * 3. 带用户名密码的验证的RPC<br/>
  * 
  * @author liaoqiqi
- * @version 2013-12-5
+ * @version 2014-8-22
  */
 @SuppressWarnings("rawtypes")
 public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
@@ -30,25 +37,25 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
             .getLogger(RpcProxyFactorySpring.class);
 
     /** 服务列表，非空，由server+url生成 */
-    protected String[] services;
+    private String[] services;
 
     /** 配置的服务器列表，含端口 */
-    protected String[] servers;
+    private String[] servers;
 
     /** 协议前缀 */
-    protected String protocol = "http://";
+    private String protocol = "http://";
 
     /** 调用的Url */
-    protected String serviceUrl;
+    private String serviceUrl;
 
     /** 编码 */
-    protected String encoding = "UTF-8";
+    private String encoding = "UTF-8";
 
     /** 重试次数，会取min(services.length, retryTimes)的较小值来重试 */
-    protected int retryTimes = 3;
+    private int retryTimes = 3;
 
-    //
-    protected Class serviceInterface;
+    // 接口
+    private Class serviceInterface;
 
     /** 出错后是否直接退出,默认是false */
     protected boolean errorExit = false;
@@ -58,6 +65,13 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
     /** 读超时，毫秒数 */
     private int readTimeout;
+
+    // header map
+    private Map<String, String> headerMap = new HashMap<String, String>();
+
+    // 用户名密码
+    private String userName = null;
+    private String password = null;
 
     /**
      * 
@@ -70,14 +84,20 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
         public Object invoke(Object proxy, Method method, Object[] args)
                 throws Throwable {
 
-            final Class targetClass = method.getDeclaringClass();// 待调用的接口；
-            Method targetMethodmethod = method;// 待调用的方法
-            Object[] targetArgs = args;// 待传入参数
+            // 待调用的接口
+            final Class targetClass = method.getDeclaringClass();
 
+            // 待调用的方法
+            Method targetMethodmethod = method;
+
+            // 待传入参数
+            Object[] targetArgs = args;
+
+            //
             // 具体调用时实现重试功能
+            //
             List<ServiceInvoker> serviceInvokers = new ArrayList<ServiceInvoker>(
                     services.length);
-
             for (int i = 0; i < services.length; i++) {
 
                 final String serviceUrl = services[i];
@@ -86,19 +106,43 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
                     public Object getInvoker() throws RpcServiceException {
 
-                        JsonRpcProxy jsonRpcProxy = RpcProxyFactory
-                                .getJsonRpcProxy(serviceUrl, encoding);
+                        RpcProxyWithHeaderProperty rpcProxyWithHeaderProperty = null;
 
-                        if (connectionTimeout > 0) {
-                            jsonRpcProxy.setConnectTimeout(connectionTimeout);
+                        //
+                        // 判断是否开启用户名、密码模式
+                        //
+                        if (userName != null && password != null) {
+                            rpcProxyWithHeaderProperty = RpcProxyFactory
+                                    .getJsonRpcProxyWithAuthenticator(
+                                            serviceUrl, encoding, userName,
+                                            password);
+                        } else {
+
+                            rpcProxyWithHeaderProperty = RpcProxyFactory
+                                    .getJsonRpcWithHeaderProxy(serviceUrl,
+                                            encoding);
                         }
 
+                        // 
+                        if (connectionTimeout > 0) {
+                            rpcProxyWithHeaderProperty
+                                    .setConnectTimeout(connectionTimeout);
+                        }
+
+                        //
                         if (readTimeout > 0) {
-                            jsonRpcProxy.setReadTimeout(readTimeout);
+                            rpcProxyWithHeaderProperty
+                                    .setReadTimeout(readTimeout);
+                        }
+
+                        // 加头
+                        if (headerMap.keySet().size() > 0) {
+                            rpcProxyWithHeaderProperty
+                                    .addHeaderProperties(headerMap);
                         }
 
                         return RpcProxyFactory.createProxy(targetClass,
-                                jsonRpcProxy);
+                                rpcProxyWithHeaderProperty);
                     }
 
                 };
@@ -206,17 +250,14 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
      */
     public void afterPropertiesSet() throws Exception {
 
-        if (services == null || services.length < 1) {
+        if (servers == null || servers.length < 1) {
 
-            if (servers == null || servers.length < 1) {
-
-                throw new IllegalArgumentException(
-                        "either servers or services is required!");
-            }
-            services = new String[servers.length];
-            for (int i = 0; i < servers.length; i++) {
-                services[i] = protocol + servers[i] + serviceUrl;
-            }
+            throw new IllegalArgumentException(
+                    "either servers or services is required!");
+        }
+        services = new String[servers.length];
+        for (int i = 0; i < servers.length; i++) {
+            services[i] = protocol + servers[i] + serviceUrl;
         }
     }
 
@@ -234,6 +275,30 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
+    }
+
+    public Map<String, String> getHeaderMap() {
+        return headerMap;
+    }
+
+    public void setHeaderMap(Map<String, String> headerMap) {
+        this.headerMap = headerMap;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
