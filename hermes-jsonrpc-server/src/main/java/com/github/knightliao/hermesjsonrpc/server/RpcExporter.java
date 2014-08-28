@@ -20,9 +20,6 @@ public class RpcExporter {
     private String userName = "";
     private String password = "";
 
-    // encoding
-    private String encoding = "UTF-8";
-
     // IP白名单
     private Set<String> ipSet = new HashSet<String>();
 
@@ -100,11 +97,4 @@ public class RpcExporter {
         this.serviceInterface = serviceInterface;
     }
 
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
 }

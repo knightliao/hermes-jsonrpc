@@ -47,7 +47,6 @@
         </property>
         <property name="userName" value="hello" />
         <property name="password" value="hermesjsonrpc" />
-        <property name="encoding" value="UTF-8" />
         <property name="ipSet">
             <set>
                 <value>127.0.0.1</value>

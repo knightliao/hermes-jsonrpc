@@ -291,7 +291,7 @@ public class RpcServlet extends HttpServlet {
             try {
 
                 // 安全性验证
-                if (!doorCheck(request, serviceExporter)) {
+                if (!doorCheck(request, serviceExporter, encoding)) {
                     response.setStatus(400);
                     return;
                 }
@@ -359,13 +359,12 @@ public class RpcServlet extends HttpServlet {
      * @return
      */
     private boolean doorCheck(HttpServletRequest request,
-            RpcExporter serviceExporter) {
+            RpcExporter serviceExporter, String encoding) {
 
         String data = request.getHeader("Authorization");
 
-        boolean authOK = secretProcessor.isAuthOk(data,
-                serviceExporter.getEncoding(), serviceExporter.getUserName(),
-                serviceExporter.getPassword());
+        boolean authOK = secretProcessor.isAuthOk(data, encoding,
+                serviceExporter.getUserName(), serviceExporter.getPassword());
         if (!authOK) {
             log.warn("auth check failed.");
             return false;
