@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -49,12 +52,30 @@ public class RpcServlet extends HttpServlet {
     // 安全校验器
     private SecretProcessor secretProcessor = new DefaultSecretProcessor();
 
+    // 允许GET请求的IP地址集合，一般设定为127.0.0.1防止外部人员看见
+    private Set<String> permissionGetRequestIps = new HashSet<String>();
+    public static final String GET_REQUEST_IPS = "GET_REQUEST_IPS";
+    public static final String GET_REQUEST_IPS_SEP = ",";
+
     /**
      * 显示接口信息
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        //
+        // 只允许指定IP人员来访问
+        //
+        if (!permissionGetRequestIps.contains(req.getRemoteAddr())) {
+            log.warn("no permission GET: " + req.getRemoteAddr());
+            resp.setStatus(404);
+            return;
+        }
+
+        //
+        // 正常逻辑
+        //
 
         String context = req.getPathInfo();
         resp.setContentType("text/html");
@@ -147,9 +168,23 @@ public class RpcServlet extends HttpServlet {
 
         super.init(config);
 
-        ApplicationContext factory = null;
-
         try {
+
+            // ips
+            String ips = config.getInitParameter(GET_REQUEST_IPS);
+            if (ips != null) {
+                String[] ipStrings = StringUtils.split(ips, GET_REQUEST_IPS);
+                for (String ip : ipStrings) {
+                    log.info("add GET access ip " + ip);
+                    this.permissionGetRequestIps.add(ip);
+                }
+            }
+
+            //
+            // exporters
+            //
+
+            ApplicationContext factory = null;
 
             factory = WebApplicationContextUtils
                     .getWebApplicationContext(config.getServletContext());
@@ -191,6 +226,7 @@ public class RpcServlet extends HttpServlet {
                 }
             }
         } catch (BeansException e1) {
+
             log.warn(e1.toString());
         }
     }

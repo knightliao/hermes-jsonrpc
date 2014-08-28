@@ -84,6 +84,10 @@ id="WebApp_ID" version="2.5">
         <servlet-name>jsonRpcServlet</servlet-name>
         <servlet-class>com.github.knightliao.hermesjsonrpc.server.RpcServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
+        <init-param>
+            <param-name>GET_REQUEST_IPS</param-name>
+            <param-value>127.0.0.2</param-value>
+        </init-param>
     </servlet>
 
     <servlet-mapping>
