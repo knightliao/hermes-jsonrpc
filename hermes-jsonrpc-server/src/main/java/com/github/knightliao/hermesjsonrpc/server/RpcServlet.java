@@ -25,6 +25,8 @@ import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
 import com.github.knightliao.hermesjsonrpc.server.handler.HandlerFactory;
 import com.github.knightliao.hermesjsonrpc.server.handler.RpcHandler;
 import com.github.knightliao.hermesjsonrpc.server.model.RpcRequest;
+import com.github.knightliao.hermesjsonrpc.server.secret.SecretProcessor;
+import com.github.knightliao.hermesjsonrpc.server.secret.impl.DefaultSecretProcessor;
 
 /**
  * 用于处理JsonRpc请求的Servlet
@@ -43,6 +45,9 @@ public class RpcServlet extends HttpServlet {
 
     // 处理器
     private HandlerFactory handlerFactory = new HandlerFactory();
+
+    // 安全校验器
+    private SecretProcessor secretProcessor = new DefaultSecretProcessor();
 
     /**
      * 显示接口信息
@@ -249,6 +254,12 @@ public class RpcServlet extends HttpServlet {
 
             try {
 
+                // 安全性验证
+                if (!doorCheck(request, serviceExporter)) {
+                    response.setStatus(400);
+                    return;
+                }
+
                 // 读取请求
                 byte[] bytes = readStream(request.getInputStream(),
                         request.getContentLength());
@@ -304,5 +315,34 @@ public class RpcServlet extends HttpServlet {
         }
 
         return bytes;
+    }
+
+    /**
+     * 门神验证
+     * 
+     * @return
+     */
+    private boolean doorCheck(HttpServletRequest request,
+            RpcExporter serviceExporter) {
+
+        String data = request.getHeader("Authorization");
+
+        boolean authOK = secretProcessor.isAuthOk(data,
+                serviceExporter.getEncoding(), serviceExporter.getUserName(),
+                serviceExporter.getPassword());
+        if (!authOK) {
+            log.warn("auth check failed.");
+            return false;
+        }
+
+        boolean ipOk = secretProcessor.isIpOk(request.getRemoteAddr(),
+                serviceExporter.getIpSet());
+        if (!ipOk) {
+            log.warn("ip check failed. Ip: " + request.getRemoteAddr());
+            return false;
+        }
+
+        return true;
+
     }
 }

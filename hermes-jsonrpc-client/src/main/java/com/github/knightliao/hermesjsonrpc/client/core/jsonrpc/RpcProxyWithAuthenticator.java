@@ -87,9 +87,9 @@ public class RpcProxyWithAuthenticator extends RpcProxyWithHeaderProperty {
      */
     private String getAuth(String username, String password) {
 
-        String _basicAuth = "Basic "
-                + EncodingUtil.getAsciiString(Base64.encodeBase64(EncodingUtil
-                        .getBytes(username + ":" + password, encoding)));
+        String _basicAuth = EncodingUtil.getAsciiString(Base64
+                .encodeBase64(EncodingUtil.getBytes(username + ":" + password,
+                        encoding)));
         return _basicAuth;
     }
 }

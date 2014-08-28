@@ -35,9 +35,14 @@ public class DemoClientMain {
         LOG.info("start to process");
 
         for (int i = 0; i < 1000; ++i) {
-            int ret = demoServiceDriver.getRandom();
 
-            LOG.info(ret + "");
+            try {
+                int ret = demoServiceDriver.getRandom();
+
+                LOG.info(ret + "");
+            } catch (Exception e) {
+                LOG.warn(e.toString());
+            }
 
             try {
                 Thread.sleep(1000);

@@ -38,11 +38,19 @@
         </property>
     </bean>
 
-    <bean class="com.github.knightliao.hermesjsonrpc.server.RpcExporter" scope="singleton">
+    <bean class="com.github.knightliao.hermesjsonrpc.server.RpcExporter"
+        scope="singleton">
         <property name="serviceInterfaceName"
             value="com.github.knightliao.hermesjsonrpc.demo.server.DemoServiceDriver" />
         <property name="serviceBean">
             <ref bean="demoServiceProxy" />
+        </property>
+        <property name="userName" value="hello" />
+        <property name="password" value="hermesjsonrpc" />
+        <property name="ipSet">
+            <set>
+                <value>127.0.0.1</value>
+            </set>
         </property>
     </bean>
 

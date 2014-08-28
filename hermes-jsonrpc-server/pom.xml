@@ -141,6 +141,11 @@
             <groupId>com.github.knightliao.apollo</groupId>
             <artifactId>apollo</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
     </dependencies>
 
     <build>

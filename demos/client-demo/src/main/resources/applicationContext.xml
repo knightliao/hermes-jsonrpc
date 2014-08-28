@@ -43,6 +43,8 @@
         <property name="encoding" value="UTF-8" />
         <property name="connectionTimeout" value="${connectionTimeout}" />
         <property name="readTimeout" value="${readTimeout}" />
+        <property name="userName" value="${server.username}" />
+        <property name="password" value="${server.password}" />
     </bean>
 
 </beans>
