@@ -7,9 +7,9 @@ A Java-Version light-weight Json RPC framework based on GSON/Protostuff.
 
 hermes-jsonrpc当前最新版本：
 
-- 1.0.0
+- 1.0.1
 
-在Maven Central Repository里查看[com.github.knightliao.hermesjsonrpc](http://search.maven.org/#search%7Cga%7C1%7Ccom.github.knightliao.hermesjsonrpc )
+在Maven Central Repository里查看 [com.github.knightliao.hermesjsonrpc](http://search.maven.org/#search%7Cga%7C1%7Ccom.github.knightliao.hermesjsonrpc )
 
 
 ## 项目信息 ##
@@ -26,12 +26,15 @@ hermes-jsonrpc当前最新版本：
 
 - Use GSON.
 - Use simple http connection to send/receive packages.
-- 压缩协议: 无 或 Protostuff, 目前还不支持 Protostuff
+- 压缩协议: 无压缩 或 Protostuff
 - Client编程方式：
-	- 支持Spring AOP代理方式
+	- 支持Spring AOP代理方式请求方式
 - Server编程方式：
-	- 支持Spring Web Servlet方式
-- 同步调用 
+	- 支持Spring Web Servlet接受请求方式
+	- 支持用户名/密码验证
+	- 支持白名单
+	- 支持接受GET请求，它显示接口信息。GET请求支持白名单
+- 同步调用，不支持异步调用
 
 ## 使用 ##
 
@@ -42,7 +45,7 @@ client:
     <dependency>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
         <artifactId>hermes-jsonrpc-client</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 
 server:
@@ -50,23 +53,21 @@ server:
     <dependency>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
         <artifactId>hermes-jsonrpc-server</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 
 主要依赖为：
 
-- apollo(1.0.0)
+- apollo(1.0.1)
 
 ### Tutorials ###
 
 - [Tutorial 1 Json RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial1)
 - [Tutorial 2 Json RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial2)
+- [Tutorial 3 带有权限验证和IP白名单的 Json RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial1)
+- [Tutorial 4 请求带有权限验证 Json RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial2)
 	
 ## 局限性 ##
 
 - 服务和客户端均只能是Java语言编程
 - 不支持异步调用 
-
-## Authors ##
-
-- [Qiqi Liao](https://github.com/knightliao): knightliao AT gmail.com
