@@ -1,9 +1,9 @@
 hermes-jsonrpc [![Build Status](https://travis-ci.org/knightliao/hermes-jsonrpc.svg?branch=master)](https://travis-ci.org/knightliao/hermes-jsonrpc) [![Coverage Status](https://coveralls.io/repos/knightliao/hermes-jsonrpc/badge.png)](https://coveralls.io/r/knightliao/hermes-jsonrpc)
 ==============
 
-A Java-Version light-weight HTTP-JSON RPC framework based on GSON/Protostuff.
+A Java-Version light-weight HTTP-JSON RPC framework using GSON/Protostuff.
 
-基于GSON/Protostuff的轻量级HTTP协议的Java Json Rpc框架
+使用 GSON/Protostuff 的轻量级HTTP协议的Java Json Rpc框架
 
 hermes-jsonrpc当前最新版本：
 
@@ -24,8 +24,9 @@ hermes-jsonrpc当前最新版本：
 
 ## Features ##
 
-- HTTP协议，JSON格式，具体协议规范可参见: [https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md](https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md)
-- 压缩协议: GSON 或 Protostuff
+- 协议：HTTP
+- 传输格式：JSON
+- codec协议: GSON 或 Protostuff
 - Client编程方式：
 	- 支持Spring AOP代理方式请求方式
 - Server编程方式：
@@ -34,6 +35,8 @@ hermes-jsonrpc当前最新版本：
 	- 支持白名单
 	- 支持接受GET请求，它显示接口信息。GET请求支持白名单
 - 同步调用，不支持异步调用
+
+注：本框架遵循的规范可参见: [https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md](https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md)
 
 ## 协议规范示例 ##
 
@@ -132,10 +135,11 @@ server:
 
 ### Tutorials ###
 
-- [Tutorial 1 Json RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial1)
-- [Tutorial 2 Json RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial2)
-- [Tutorial 3 带有权限验证和IP白名单的 Json RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial3)
-- [Tutorial 4 请求带有权限验证 Json RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial4)
+- [Tutorial 1 Json GSON RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial1)
+- [Tutorial 2 Json GSON RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial2)
+- [Tutorial 3 带有权限验证和IP白名单的 Json GSON RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial3)
+- [Tutorial 4 请求带有权限验证 Json GSON RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial4)
+- [Tutorial 5 Json Protostuff RPC 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial5)
 	
 ## 局限性 ##
 
