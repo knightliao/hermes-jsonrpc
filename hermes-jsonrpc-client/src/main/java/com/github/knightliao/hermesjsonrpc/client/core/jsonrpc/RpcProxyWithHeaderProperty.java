@@ -19,7 +19,7 @@ import com.google.gson.JsonElement;
  * @author liaoqiqi
  * @version 2014-8-21
  */
-public class RpcProxyWithHeaderProperty extends JsonRpcProxy {
+public class RpcProxyWithHeaderProperty extends GsonRpcProxy {
 
     protected static final Logger LOG = LoggerFactory
             .getLogger(RpcProxyWithHeaderProperty.class);
@@ -55,7 +55,7 @@ public class RpcProxyWithHeaderProperty extends JsonRpcProxy {
      * 
      */
     @Override
-    protected Object parseResult(int id, JsonElement ele, Method method)
+    protected Object parseResult(long id, JsonElement ele, Method method)
             throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("JsonRpc head=" + headerProperties + " response=" + ele);
@@ -67,7 +67,7 @@ public class RpcProxyWithHeaderProperty extends JsonRpcProxy {
      * 
      */
     @Override
-    protected JsonElement makeRequest(int id, Method method, Object[] args)
+    protected JsonElement makeRequest(long id, Method method, Object[] args)
             throws ParseErrorException {
         JsonElement result = super.makeRequest(id, method, args);
         if (LOG.isDebugEnabled()) {

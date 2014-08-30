@@ -24,14 +24,13 @@ hermes-jsonrpc当前最新版本：
 
 ## Features ##
 
-- Use GSON.
-- Use simple http connection to send/receive packages.
-- 压缩协议: 无压缩 或 Protostuff
+- HTTP协议，JSON格式，具体协议规范可参见: [https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md](https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md)
+- 压缩协议: GSON 或 Protostuff
 - Client编程方式：
 	- 支持Spring AOP代理方式请求方式
 - Server编程方式：
 	- 支持Spring Web Servlet接受请求方式
-	- 支持用户名/密码验证
+	- 支持安全的 用户名/密码验证(无法反算)
 	- 支持白名单
 	- 支持接受GET请求，它显示接口信息。GET请求支持白名单
 - 同步调用，不支持异步调用

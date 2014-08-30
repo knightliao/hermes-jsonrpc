@@ -273,7 +273,7 @@ public class RpcServlet extends HttpServlet {
         String encoding = request.getCharacterEncoding();
         String contentType = request.getContentType().split(";")[0];
         if (contentType == null) {
-            contentType = Constants.JSON_PROTOCOL_TYPE;
+            contentType = Constants.JSON_CONTENT_GSON_TYPE;
         } else {
             contentType = contentType.toLowerCase();
         }

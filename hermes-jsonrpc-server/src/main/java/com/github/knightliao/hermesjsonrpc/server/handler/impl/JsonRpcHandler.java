@@ -2,7 +2,7 @@ package com.github.knightliao.hermesjsonrpc.server.handler.impl;
 
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
 import com.github.knightliao.hermesjsonrpc.core.protocol.Processor;
-import com.github.knightliao.hermesjsonrpc.core.protocol.impl.JsonProcessor;
+import com.github.knightliao.hermesjsonrpc.core.protocol.impl.GsonProcessor;
 import com.google.gson.JsonElement;
 
 /**
@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
  */
 public class JsonRpcHandler extends JsonRpcHandlerBase {
 
-    private static final Processor processor = new JsonProcessor();
+    private static final Processor processor = new GsonProcessor();
 
     /**
      * 

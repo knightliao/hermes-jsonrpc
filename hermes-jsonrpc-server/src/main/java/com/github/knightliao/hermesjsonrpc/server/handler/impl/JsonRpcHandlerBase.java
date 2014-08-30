@@ -18,6 +18,9 @@ import com.github.knightliao.hermesjsonrpc.core.exception.MethodNotFoundExceptio
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
 import com.github.knightliao.hermesjsonrpc.core.exception.ServerErrorException;
 import com.github.knightliao.hermesjsonrpc.core.gson.GsonFactory;
+import com.github.knightliao.hermesjsonrpc.core.model.common.ProtocolResult.ProtocolResponseResultBuilder;
+import com.github.knightliao.hermesjsonrpc.core.model.server.ProtocolResponseObject;
+import com.github.knightliao.hermesjsonrpc.core.model.server.ProtocolResponseObject.ProtocolResponseObjectBuilder;
 import com.github.knightliao.hermesjsonrpc.server.handler.RpcHandler;
 import com.github.knightliao.hermesjsonrpc.server.model.RpcRequest;
 import com.google.gson.Gson;
@@ -149,11 +152,8 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
     protected abstract byte[] serialize(String encoding, JsonElement res)
             throws ParseErrorException;
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see
-     * com.baidu.rpc.server.RpcHandler#service(com.baidu.rpc.server.RpcRequest)
      */
     public void service(RpcRequest parameterObject) throws JsonRpcException {
 
@@ -203,31 +203,29 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
 
         try {
 
-            JsonObject request = json.getAsJsonObject();
+            // 获取请求对象
+            JsonObject jsonObject = json.getAsJsonObject();
+            ProtocolResponseObject protocolObject = ProtocolResponseObjectBuilder
+                    .parse(jsonObject);
 
             //
             // 版本
             //
-            if (!request.get(Constants.JSONRPC_PROTOCOL).getAsString()
-                    .equals(Constants.JSONRPC_PROTOCOL_VERSION)) {
+            if (!protocolObject.getVersion().equals(
+                    Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
                 throw new InvalidRequestException();
             }
-
-            //
-            // method, param, id
-            //
-            String method = request.get(Constants.JSONRPC_METHOD).getAsString();
-            JsonArray params = request.get(Constants.JSONRPC_PARAM)
-                    .getAsJsonArray();
-            JsonElement id = request.get(Constants.JSONRPC_ID);
 
             //
             // 调用实际的函数
             //
             try {
 
-                JsonElement result = invoke(objClass, obj, method, params);
-                return make_res(parameterObject, result, null, id);
+                JsonElement result = invoke(objClass, obj,
+                        protocolObject.getMethod(),
+                        protocolObject.getParArray());
+                return make_res(parameterObject, result, null,
+                        protocolObject.getId());
 
             } catch (JsonRpcException e) {
 
@@ -264,23 +262,16 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
         //
         if (result != null && error == null && id != null) {
 
-            JsonObject res = new JsonObject();
-            res.addProperty(Constants.JSONRPC_PROTOCOL,
-                    Constants.JSONRPC_PROTOCOL_VERSION);
-            res.add(Constants.JSON_RESULT, result);
-            res.add(Constants.JSONRPC_ID, id);
-            return res;
+            return ProtocolResponseResultBuilder.getJsonObject(result, id);
 
         } else if (result == null && error != null && id == null) {
 
             //
             // 错误的
             //
-            JsonObject res = new JsonObject();
-            res.addProperty(Constants.JSONRPC_PROTOCOL,
-                    Constants.JSONRPC_PROTOCOL_VERSION);
-            res.add(Constants.JSON_RESULT_ERROR, exp.serialize(error));
-            res.add("id", JsonNull.INSTANCE);
+            JsonObject res = ProtocolResponseResultBuilder.getJsonObject(
+                    result, exp.serialize(error), JsonNull.INSTANCE);
+
             int code = error.errorCode();
 
             if (code == InvalidRequestException.INVALID_REQUEST_ERROR_CODE) {

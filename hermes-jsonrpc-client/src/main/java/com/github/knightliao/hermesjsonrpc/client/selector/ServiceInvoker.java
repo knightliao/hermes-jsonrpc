@@ -2,6 +2,11 @@ package com.github.knightliao.hermesjsonrpc.client.selector;
 
 import com.github.knightliao.hermesjsonrpc.client.exception.RpcServiceException;
 
+/**
+ * 
+ * @author liaoqiqi
+ * @version 2014-8-30
+ */
 public interface ServiceInvoker {
 
     /**

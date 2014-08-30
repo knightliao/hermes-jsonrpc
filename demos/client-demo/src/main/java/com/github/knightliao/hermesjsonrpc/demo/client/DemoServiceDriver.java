@@ -7,5 +7,5 @@ package com.github.knightliao.hermesjsonrpc.demo.client;
  */
 public interface DemoServiceDriver {
 
-    int getRandom();
+    int getRandom(int maxValue);
 }

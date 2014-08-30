@@ -17,26 +17,16 @@ public class Constants {
     // 异常名
     public static final String MESSAGE_FIELD = "message";
 
-    //
-    // 输入
-    //
-    public static final String JSONRPC_PROTOCOL = "jsonrpc";
-    public static final String JSONRPC_PROTOCOL_VERSION = "2.0";
-    public static final String JSONRPC_METHOD = "method";
-    public static final String JSONRPC_PARAM = "params";
-    public static final String JSONRPC_ID = "id";
+    // 统一类型
+    public static final String JSONRPC_PROTOCOL_VERSION = "jsonrpc";
+    public static final String JSON_CONTENT_GSON_TYPE = "application/json-hermes-gson";
 
-    //
-    // 输出
-    //
-    public static final String JSON_RESULT = "result";
-    public static final String JSON_RESULT_ERROR = "error";
-
-    //
-    // protocol
-    //
-    public static final String JSON_PROTOCOL_TYPE = "application/xspeed.json-rpc";
+    // 目前版本
+    public static final String JSONRPC_PROTOCOL_VERSION_VALUE = "2.0";
 
     // 权限验证
     public static final String WWW_AUTH_RPC = "Authorization";
+
+    // 统一的ID
+    public static final String JSONRPC_ID = "id";
 }

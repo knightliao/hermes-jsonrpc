@@ -5,21 +5,21 @@ import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
 import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
 import com.github.knightliao.hermesjsonrpc.core.protocol.Processor;
-import com.github.knightliao.hermesjsonrpc.core.protocol.impl.JsonProcessor;
+import com.github.knightliao.hermesjsonrpc.core.protocol.impl.GsonProcessor;
 import com.google.gson.JsonElement;
 
 /**
- * 代理Json文本格式的rpc调用
+ * GSON 序列化方式
  * 
  * @author liaoqiqi
  * @version 2014-8-20
  */
-public class JsonRpcProxy extends RpcProxyBase implements Cloneable {
+public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
 
     /**
      * 处理器
      */
-    private static final Processor processor = new JsonProcessor();
+    private static final Processor processor = new GsonProcessor();
 
     /**
      * @param url
@@ -29,35 +29,28 @@ public class JsonRpcProxy extends RpcProxyBase implements Cloneable {
      * @param exp
      *            异常处理器
      */
-    public JsonRpcProxy(String url, String encoding, ExceptionHandler exp) {
+    public GsonRpcProxy(String url, String encoding, ExceptionHandler exp) {
         super(url, encoding, exp);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.baidu.rpc.client.RpcProxyBase#contentType()
+    /**
+     * 协议
      */
     @Override
     protected String contentType() {
-        return Constants.JSON_PROTOCOL_TYPE;
+        return Constants.JSON_CONTENT_GSON_TYPE;
     }
 
-    /*
-     * 字节 -> 对象
-     * 
-     * @see com.baidu.rpc.client.RpcProxyBase#deserialize(byte[])
+    /**
+     * 对象->字节
      */
     @Override
     protected JsonElement deserialize(byte[] req) throws ParseErrorException {
         return processor.deserialize(encoding, req);
     }
 
-    /*
-     * 字节 -> 对象
-     * 
-     * @see
-     * com.baidu.rpc.client.RpcProxyBase#serialize(com.google.gson.JsonElement)
+    /**
+     * 字节->对象
      */
     @Override
     protected byte[] serialize(JsonElement res) throws ParseErrorException {

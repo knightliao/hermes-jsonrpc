@@ -122,30 +122,4 @@ public class RandomServiceSelector implements ServiceSelector {
         LOG.error(errMsg, e);
     }
 
-    /**
-     * 
-     * @param args
-     */
-    public static void main(String[] args) {
-
-        int start = 2;
-        start++;
-        start %= 3;
-        System.out.println(start);
-        start++;
-        start %= 3;
-        System.out.println(start);
-        start++;
-        start %= 3;
-        System.out.println(start);
-        start++;
-        start %= 3;
-        System.out.println(start);
-        start++;
-        start %= 3;
-        System.out.println(start);
-        start++;
-        start %= 3;
-        System.out.println(start);
-    }
 }

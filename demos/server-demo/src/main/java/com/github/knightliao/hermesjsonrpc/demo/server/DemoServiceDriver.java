@@ -7,5 +7,5 @@ package com.github.knightliao.hermesjsonrpc.demo.server;
  */
 public interface DemoServiceDriver {
 
-    int getRandom();
+    int getRandom(int seed);
 }

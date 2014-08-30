@@ -8,10 +8,8 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +21,9 @@ import com.github.knightliao.hermesjsonrpc.core.exception.JsonRpcException;
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
 import com.github.knightliao.hermesjsonrpc.core.exception.ServerErrorException;
 import com.github.knightliao.hermesjsonrpc.core.gson.GsonFactory;
+import com.github.knightliao.hermesjsonrpc.core.model.client.ProtocolRequestObject.ProtocolRequestObjectBuilder;
+import com.github.knightliao.hermesjsonrpc.core.model.common.ProtocolResult;
+import com.github.knightliao.hermesjsonrpc.core.model.common.ProtocolResult.ProtocolRequestResultBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -42,7 +43,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     protected ExceptionHandler exceptionHandler = new ExceptionHandler();
 
-    protected AtomicInteger counter = new AtomicInteger();
+    protected AtomicLong counter = new AtomicLong(0L);
     protected String encoding;
     protected String url;
     protected int _connectTimeout = -1; // 默认连接超时30秒
@@ -101,9 +102,9 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             throws ParseErrorException;
 
     /**
-     * 返回所处理的contentType() 由子类覆盖
+     * 内容类型
      * 
-     * @return 所处理的MIME类类型，
+     * @return
      */
     protected abstract String contentType();
 
@@ -120,34 +121,30 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
         this.encoding = encoding;
         this.url = url;
         this.exceptionHandler = exceptionHandler;
-        this.counter.set(new Random().nextInt());
+        this.counter.set(new Random().nextInt(100000));
 
     }
 
     /**
-     * 
+     * 调用 函数
      */
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable {
 
         try {
 
-            int id = counter.getAndIncrement();
-            // LOG.info(id + "");
-
             //
-            // 组装原请求
+            // 请求
             //
+            long id = counter.getAndIncrement();
             JsonElement request = makeRequest(id, method, args);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("request=" + request);
-            }
+            LOG.debug("request=" + request);
 
             //
             // 序列化
             //
             byte[] reqBytes = serialize(request);
-            // log.debug("request bytes size is " + reqBytes.length);
+            LOG.debug("request bytes size is " + reqBytes.length);
 
             //
             // 连接
@@ -165,24 +162,24 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             // 发送请求
             //
             sendRequest(reqBytes, connection);
+            byte[] resBytes = null;
+            resBytes = readResponse(connection);
 
             //
             // 反序列化
             //
-            byte[] resBytes = null;
-            resBytes = readResponse(connection);
             JsonElement resJson = deserialize(resBytes);
 
             //
             // 解析结果
             //
             Object ret = parseResult(id, resJson, method);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("result=" + ret);
-            }
+            LOG.debug("result=" + ret);
+
             return ret;
 
         } catch (IOException e) {
+
             throw new InternalErrorException(e);
         }
     }
@@ -205,12 +202,14 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
         try {
 
+            // 正常读取
             if (httpconnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 
                 in = httpconnection.getInputStream();
 
             } else {
 
+                // 读取错误日志
                 if (httpconnection.getContentType().equals(contentType())
                         && httpconnection.getErrorStream() != null) {
                     in = httpconnection.getErrorStream();
@@ -219,11 +218,13 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
                 }
             }
 
+            // 长度
             int len = httpconnection.getContentLength();
             if (len <= 0) {
                 throw new InternalErrorException("no response to get.");
             }
 
+            // 读取字节
             resBytes = new byte[len];
             int offset = 0;
             while (offset < resBytes.length) {
@@ -239,8 +240,6 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
                 throw new InternalErrorException("there is no service to "
                         + url);
             }
-
-            // log.debug("response bytes size is " + offset);
 
         } catch (IOException e) {
 
@@ -308,30 +307,12 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      * @return 生成的请求数据
      * @throws ParseErrorException
      */
-    protected JsonElement makeRequest(int id, Method method, Object[] args)
+    protected JsonElement makeRequest(long id, Method method, Object[] args)
             throws ParseErrorException {
 
-        String name = method.getName();
-
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        // protocol
-        map.put(Constants.JSONRPC_PROTOCOL, Constants.JSONRPC_PROTOCOL_VERSION);
-
-        // method name
-        map.put(Constants.JSONRPC_METHOD, name);
-
-        // args
-        if (args != null) {
-            map.put(Constants.JSONRPC_PARAM, args);
-        } else {
-            map.put(Constants.JSONRPC_PARAM, new Object[0]);
-        }
-
-        // id
-        map.put(Constants.JSONRPC_ID, "" + id);
-
-        return gson.toJsonTree(map);
+        return gson.toJsonTree(ProtocolRequestObjectBuilder.getObjectMap(
+                String.valueOf(id), method.getName(), args,
+                Constants.JSONRPC_PROTOCOL_VERSION_VALUE));
     }
 
     /**
@@ -342,26 +323,31 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      * @return 调用的返回值
      * @throws Exception
      */
-    protected Object parseResult(int id, JsonElement ele, Method method)
+    protected Object parseResult(long id, JsonElement ele, Method method)
             throws Exception {
 
         JsonObject res = (JsonObject) ele;
 
         //
+        // 获取可解析对象
+        //
+        ProtocolResult protocolResult = ProtocolRequestResultBuilder.parse(res);
+
+        //
         // 版本
         //
-        if (!res.get(Constants.JSONRPC_PROTOCOL).getAsString()
-                .equals(Constants.JSONRPC_PROTOCOL_VERSION)) {
+        if (!protocolResult.getVersion().equals(
+                Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
             throw new InternalErrorException();
         }
 
         //
         // 返回
         //
-        JsonElement result = res.get(Constants.JSON_RESULT);
+        JsonElement result = protocolResult.getResult();
         if (result != null) {
 
-            if (res.get(Constants.JSONRPC_ID).getAsInt() != id) {
+            if (protocolResult.getId().getAsLong() != id) {
                 throw new InternalErrorException("no id in response");
             } else {
 
@@ -376,7 +362,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             // 出错
             //
-            JsonElement e = res.get(Constants.JSON_RESULT_ERROR);
+            JsonElement e = protocolResult.getError();
 
             if (e != null) {
 

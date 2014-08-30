@@ -1,13 +1,11 @@
 package com.github.knightliao.hermesjsonrpc.server.secret.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Set;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.knightliao.hermesjsonrpc.core.auth.AuthController;
 import com.github.knightliao.hermesjsonrpc.server.secret.SecretProcessor;
 
 /**
@@ -19,23 +17,6 @@ public class DefaultSecretProcessor implements SecretProcessor {
 
     protected final Logger LOG = LoggerFactory
             .getLogger(DefaultSecretProcessor.class);
-
-    /**
-     * 
-     * @param username
-     * @param password
-     * @return
-     */
-    private String getAuth(String data, String encoding) {
-
-        try {
-            String _basicAuth = new String(Base64.decodeBase64(data), encoding);
-            return _basicAuth;
-        } catch (UnsupportedEncodingException e) {
-            LOG.info(e.toString());
-            return "";
-        }
-    }
 
     @Override
     public boolean isAuthOk(String data, String encoding, String userName,
@@ -50,14 +31,10 @@ public class DefaultSecretProcessor implements SecretProcessor {
             return false;
         }
 
-        String secretData = getAuth(data, encoding);
+        String secretData = AuthController
+                .getAuth(userName, password, encoding);
 
-        String[] secretPair = StringUtils.split(secretData, ":");
-        if (secretPair == null || secretPair.length != 2) {
-            return false;
-        }
-
-        if (secretPair[0].equals(userName) && secretPair[1].equals(password)) {
+        if (secretData.equals(data)) {
             return true;
         }
 

@@ -37,7 +37,7 @@ public class DemoClientMain {
         for (int i = 0; i < 1000; ++i) {
 
             try {
-                int ret = demoServiceDriver.getRandom();
+                int ret = demoServiceDriver.getRandom(i);
 
                 LOG.info(ret + "");
             } catch (Exception e) {

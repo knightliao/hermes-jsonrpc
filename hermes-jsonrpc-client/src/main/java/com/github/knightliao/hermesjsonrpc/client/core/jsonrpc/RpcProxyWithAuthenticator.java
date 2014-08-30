@@ -1,8 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.client.core.jsonrpc;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.httpclient.util.EncodingUtil;
-
+import com.github.knightliao.hermesjsonrpc.core.auth.AuthController;
 import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
 import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 
@@ -16,8 +14,10 @@ public class RpcProxyWithAuthenticator extends RpcProxyWithHeaderProperty {
 
     @Override
     public Object clone() {
+
         RpcProxyWithAuthenticator result = new RpcProxyWithAuthenticator(url,
                 encoding, exceptionHandler);
+
         result.setHeaderProperties(headerProperties);
         return result;
     }
@@ -47,49 +47,27 @@ public class RpcProxyWithAuthenticator extends RpcProxyWithHeaderProperty {
             ExceptionHandler exp, String username, String password) {
         super(url, encoding, exp);
         // 授权信息
-        addHeaderProperties(Constants.WWW_AUTH_RPC, getAuth(username, password));
+        addHeaderProperties(Constants.WWW_AUTH_RPC,
+                AuthController.getAuth(username, password, encoding));
     }
 
     /**
-     * 带auth的构造函数
      * 
      * @param url
-     *            服务url
      * @param encoding
-     *            编码
      * @param username
-     *            auth的username
      * @param password
-     *            auth的password
      * @param connectTimeout
-     *            连接超时时间
      * @param readTimeout
-     *            read超时
      * @param exp
      */
     public RpcProxyWithAuthenticator(String url, String encoding,
             String username, String password, int connectTimeout,
             int readTimeout, ExceptionHandler exp) {
 
-        super(url, encoding, exp);
+        this(url, encoding, exp, username, password);
         setConnectTimeout(connectTimeout);
         setReadTimeout(readTimeout);
-
-        // 授权信息
-        addHeaderProperties(Constants.WWW_AUTH_RPC, getAuth(username, password));
     }
 
-    /**
-     * 
-     * @param username
-     * @param password
-     * @return
-     */
-    private String getAuth(String username, String password) {
-
-        String _basicAuth = EncodingUtil.getAsciiString(Base64
-                .encodeBase64(EncodingUtil.getBytes(username + ":" + password,
-                        encoding)));
-        return _basicAuth;
-    }
 }

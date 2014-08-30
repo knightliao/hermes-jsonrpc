@@ -11,11 +11,11 @@ import com.github.knightliao.hermesjsonrpc.server.handler.impl.JsonRpcHandler;
  */
 public class HandlerFactory {
 
-    final static RpcHandler json = new JsonRpcHandler();
+    final static RpcHandler gson = new JsonRpcHandler();
     final static Map<String, RpcHandler> handlerMap = new TreeMap<String, RpcHandler>();
 
     static {
-        handlerMap.put(Constants.JSON_PROTOCOL_TYPE, json);
+        handlerMap.put(Constants.JSON_CONTENT_GSON_TYPE, gson);
     }
 
     /**

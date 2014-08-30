@@ -3,6 +3,7 @@ package com.github.knightliao.hermesjsonrpc.core.protocol.impl;
 import java.io.UnsupportedEncodingException;
 
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
+import com.github.knightliao.hermesjsonrpc.core.gson.GsonFactory;
 import com.github.knightliao.hermesjsonrpc.core.protocol.Processor;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -11,10 +12,10 @@ import com.google.gson.JsonParser;
 /**
  * 用于Json和JsonElement间的转换
  */
-public class JsonProcessor implements Processor {
+public class GsonProcessor implements Processor {
 
     private static final JsonParser parser = new JsonParser();
-    private static final Gson gson = new Gson();
+    private static final Gson gson = GsonFactory.getGson();
 
     /**
      * 将 字节码 转成 对象

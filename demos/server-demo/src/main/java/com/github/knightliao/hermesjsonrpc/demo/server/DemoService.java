@@ -12,9 +12,9 @@ import com.github.knightliao.apollo.utils.common.RandomUtil;
 @Service(value = "demoService")
 public class DemoService implements DemoServiceDriver {
 
-    public int getRandom() {
+    public int getRandom(int maxValue) {
 
-        return RandomUtil.random(0, 1000000);
+        return RandomUtil.random(0, maxValue);
     }
 
 }
