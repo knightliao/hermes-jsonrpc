@@ -4,6 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver;
+import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver.Request;
+import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver.Response;
+
 /**
  * 
  * @author liaoqiqi
@@ -37,7 +41,9 @@ public class DemoClientMain {
         for (int i = 0; i < 1000; ++i) {
 
             try {
-                int ret = demoServiceDriver.getRandom(i);
+
+                Response ret = demoServiceDriver.getRandom(new Request(0,
+                        i * 10));
 
                 LOG.info(ret + "");
             } catch (Exception e) {

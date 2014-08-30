@@ -3,6 +3,7 @@ package com.github.knightliao.hermesjsonrpc.demo.server;
 import org.springframework.stereotype.Service;
 
 import com.github.knightliao.apollo.utils.common.RandomUtil;
+import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver;
 
 /**
  * 
@@ -12,9 +13,10 @@ import com.github.knightliao.apollo.utils.common.RandomUtil;
 @Service(value = "demoService")
 public class DemoService implements DemoServiceDriver {
 
-    public int getRandom(int maxValue) {
+    public Response getRandom(Request seed) {
 
-        return RandomUtil.random(0, maxValue);
+        return new Response(RandomUtil.random(seed.getMinValue(),
+                seed.getMaxValue()));
     }
 
 }

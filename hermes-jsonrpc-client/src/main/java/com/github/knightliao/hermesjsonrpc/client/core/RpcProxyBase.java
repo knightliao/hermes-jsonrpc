@@ -97,13 +97,13 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             long id = counter.getAndIncrement();
             RequestDto request = makeRequest(id, method, args);
-            LOG.debug("request=" + request);
+            // LOG.debug("request=" + request);
 
             //
             // 序列化
             //
             byte[] reqBytes = serialize(request);
-            LOG.debug("request bytes size is " + reqBytes.length);
+            // LOG.debug("request bytes size is " + reqBytes.length);
 
             //
             // 连接
@@ -129,7 +129,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             ResponseDto responseDto = deserialize(resBytes,
                     method.getGenericReturnType());
-            LOG.debug("result=" + responseDto);
+            // LOG.debug("result=" + responseDto);
 
             //
             // 校验结果

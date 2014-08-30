@@ -16,7 +16,7 @@ public class GsonFactory {
      */
     public static Gson getGson() {
 
-        return new GsonBuilder().serializeNulls().disableHtmlEscaping()
+        return new GsonBuilder().disableHtmlEscaping()
                 .serializeSpecialFloatingPointValues().create();
     }
 }

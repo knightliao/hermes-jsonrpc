@@ -34,14 +34,14 @@
     <bean id="demoServiceProxy" parent="apiInternalProxyBase">
         <property name="target" ref="demoService"></property>
         <property name="proxyInterfaces"
-            value="com.github.knightliao.hermesjsonrpc.demo.server.DemoServiceDriver">
+            value="com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver">
         </property>
     </bean>
 
     <bean class="com.github.knightliao.hermesjsonrpc.server.RpcExporter"
         scope="singleton">
         <property name="serviceInterfaceName"
-            value="com.github.knightliao.hermesjsonrpc.demo.server.DemoServiceDriver" />
+            value="com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver" />
         <property name="serviceBean">
             <ref bean="demoServiceProxy" />
         </property>

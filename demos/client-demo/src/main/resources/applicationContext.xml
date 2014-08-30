@@ -35,7 +35,7 @@
     <bean id="demoServiceDriver"
     class="com.github.knightliao.hermesjsonrpc.client.RpcProxyFactorySpring">
         <property name="serviceInterface">
-            <value>com.github.knightliao.hermesjsonrpc.demo.client.DemoServiceDriver
+            <value>com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver
             </value>
         </property>
         <property name="serviceUrl" value="${SERVICE_URL}" />

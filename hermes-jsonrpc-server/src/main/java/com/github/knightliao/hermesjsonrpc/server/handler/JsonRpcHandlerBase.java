@@ -151,7 +151,7 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
             //
             RequestDto requestDto = deserialize(rpcRequestDto.getEncoding(),
                     rpcRequestDto.getRequest(), rpcRequestDto.getService());
-            LOGGER.debug("request=" + requestDto);
+            // LOGGER.debug("request=" + requestDto);
 
             //
             // 校验

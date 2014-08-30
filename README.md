@@ -37,13 +37,74 @@ hermes-jsonrpc当前最新版本：
 
 ## 协议规范示例 ##
 
-client request: 
+###Java接口:####
 
-	{"id":"8754","method":"getRandom","params":[6],"jsonrpc":"2.0"}
-
-server response:
+	package com.github.knightliao.hermesjsonrpc.demo;
 	
-	{"jsonrpc":"2.0","result":358255,"id":"38197"}
+	/**
+	 * 
+	 * @author liaoqiqi
+	 * @version 2014-8-21
+	 */
+	public interface DemoServiceDriver {
+	
+	    public class Request {
+	
+	        public Request(int maxValue, int minValue) {
+	            super();
+	            this.maxValue = maxValue;
+	            this.minValue = minValue;
+	        }
+	
+	        private int maxValue;
+	
+	        public int getMaxValue() {
+	            return maxValue;
+	        }
+	
+	        public void setMaxValue(int maxValue) {
+	            this.maxValue = maxValue;
+	        }
+	
+	        public int getMinValue() {
+	            return minValue;
+	        }
+	
+	        public void setMinValue(int minValue) {
+	            this.minValue = minValue;
+	        }
+	
+	        private int minValue;
+	    }
+	
+	    public class Response {
+	
+	        public Response(int value) {
+	            super();
+	            this.value = value;
+	        }
+	
+	        private int value;
+	
+	        public int getValue() {
+	            return value;
+	        }
+	
+	        public void setValue(int value) {
+	            this.value = value;
+	        }
+	    }
+	
+	    Response getRandom(Request seed);
+	}
+
+###client request: ###
+
+	{"method":"getRandom","version":"2.0","params":[{"maxValue":0,"minValue":50}],"id":39547}
+
+###server response:###
+	
+	{"result":{"value":27},"version":"2.0","id":39547}
 
 ## 使用 ##
 

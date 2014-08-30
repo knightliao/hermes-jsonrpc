@@ -68,6 +68,7 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
     protected byte[] serialize(RequestDto res) throws ParseErrorException {
 
         JsonElement jsonElement = processor.serialize(res, RequestDto.class);
+        LOG.debug("request: " + jsonElement.toString());
 
         return processor.serialize(encoding, jsonElement);
     }
@@ -80,6 +81,7 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
             throws ParseErrorException {
 
         JsonElement jsonElement = processor.deserialize(encoding, req);
+        LOG.debug("response: " + jsonElement.toString());
 
         try {
 

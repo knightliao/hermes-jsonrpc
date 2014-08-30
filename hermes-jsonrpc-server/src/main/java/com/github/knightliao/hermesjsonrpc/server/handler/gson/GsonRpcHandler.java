@@ -32,6 +32,8 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
 
         JsonElement jsonElement = processor.serialize(responseDto,
                 ResponseDto.class);
+        LOGGER.debug("response: " + jsonElement.toString());
+
         return processor.serialize(encoding, jsonElement);
     }
 
@@ -43,6 +45,7 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
         // 反序列化JSON对象
         //
         JsonElement jsonElement = processor.deserialize(encoding, req);
+        LOGGER.debug("request: " + jsonElement.toString());
 
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
