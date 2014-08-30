@@ -1,10 +1,11 @@
-package com.github.knightliao.hermesjsonrpc.client.core.base;
+package com.github.knightliao.hermesjsonrpc.client.core;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -15,18 +16,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
+import com.github.knightliao.hermesjsonrpc.core.dto.ErrorDto;
+import com.github.knightliao.hermesjsonrpc.core.dto.RequestDto;
+import com.github.knightliao.hermesjsonrpc.core.dto.RequestDto.RequestDtoBuilder;
+import com.github.knightliao.hermesjsonrpc.core.dto.ResponseDto;
 import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 import com.github.knightliao.hermesjsonrpc.core.exception.InternalErrorException;
 import com.github.knightliao.hermesjsonrpc.core.exception.JsonRpcException;
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
 import com.github.knightliao.hermesjsonrpc.core.exception.ServerErrorException;
-import com.github.knightliao.hermesjsonrpc.core.gson.GsonFactory;
-import com.github.knightliao.hermesjsonrpc.core.model.client.ProtocolRequestObject.ProtocolRequestObjectBuilder;
-import com.github.knightliao.hermesjsonrpc.core.model.common.ProtocolResult;
-import com.github.knightliao.hermesjsonrpc.core.model.common.ProtocolResult.ProtocolRequestResultBuilder;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 /**
  * JsonRpc调用端的公共基类，包含绝大部分rpc调用的实现
@@ -39,82 +37,43 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     protected static final Logger LOG = LoggerFactory
             .getLogger(RpcProxyBase.class);
 
-    final static Gson gson = GsonFactory.getGson();
-
     protected ExceptionHandler exceptionHandler = new ExceptionHandler();
 
     protected AtomicLong counter = new AtomicLong(0L);
     protected String encoding;
     protected String url;
-    protected int _connectTimeout = -1; // 默认连接超时30秒
-    protected int _readTimeout = -1; // 默认连接超时60秒
+    protected int _connectTimeout = 30; // 默认连接超时30秒
+    protected int _readTimeout = 60; // 默认连接超时60秒
 
     /**
-     * 设置连接超时(ms)
-     * 
-     */
-    public void setConnectTimeout(int v) {
-        _connectTimeout = v;
-    }
-
-    /**
-     * 获取连接超时设置(ms)
-     * 
-     */
-    public int getConnectTimeout() {
-        return _connectTimeout;
-    }
-
-    /**
-     * 获取读超时设置(ms)
-     * 
-     */
-    public void setReadTimeout(int v) {
-        _readTimeout = v;
-    }
-
-    /**
-     * 设置读超时(ms)/c
-     * 
-     */
-    public int getReadTimeout() {
-        return _readTimeout;
-    }
-
-    /**
-     * 将二进制协议数据反序列化成JsonElement树 由子类覆盖
      * 
      * @param req
-     * @return 生成的JsonElement树
+     * @return
      * @throws ParseErrorException
      */
-    protected abstract JsonElement deserialize(byte[] req)
-            throws ParseErrorException;
+    protected abstract ResponseDto deserialize(byte[] req,
+            Type genericReturnType) throws ParseErrorException;
 
     /**
-     * 将JsonElement树反序列化成二进制协议数据 由子类覆盖
      * 
      * @param res
-     * @return 生成的二进制协议数据
+     * @return
      * @throws ParseErrorException
      */
-    protected abstract byte[] serialize(JsonElement res)
+    protected abstract byte[] serialize(RequestDto res)
             throws ParseErrorException;
 
     /**
-     * 内容类型
      * 
      * @return
      */
     protected abstract String contentType();
 
     /**
+     * 
      * @param url
-     *            服务的url
      * @param encoding
-     *            编码
      * @param exceptionHandler
-     *            异常处理器
      */
     public RpcProxyBase(String url, String encoding,
             ExceptionHandler exceptionHandler) {
@@ -137,7 +96,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             // 请求
             //
             long id = counter.getAndIncrement();
-            JsonElement request = makeRequest(id, method, args);
+            RequestDto request = makeRequest(id, method, args);
             LOG.debug("request=" + request);
 
             //
@@ -168,15 +127,16 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             // 反序列化
             //
-            JsonElement resJson = deserialize(resBytes);
+            ResponseDto responseDto = deserialize(resBytes,
+                    method.getGenericReturnType());
+            LOG.debug("result=" + responseDto);
 
             //
-            // 解析结果
+            // 校验结果
             //
-            Object ret = parseResult(id, resJson, method);
-            LOG.debug("result=" + ret);
+            checkResponse(id, responseDto, method);
 
-            return ret;
+            return responseDto.getResult();
 
         } catch (IOException e) {
 
@@ -300,61 +260,47 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     }
 
     /**
-     * 组装rpc数据报
      * 
+     * @param id
      * @param method
      * @param args
-     * @return 生成的请求数据
-     * @throws ParseErrorException
+     * @return
      */
-    protected JsonElement makeRequest(long id, Method method, Object[] args)
-            throws ParseErrorException {
+    protected RequestDto makeRequest(long id, Method method, Object[] args) {
 
-        return gson.toJsonTree(ProtocolRequestObjectBuilder.getObjectMap(
-                String.valueOf(id), method.getName(), args,
-                Constants.JSONRPC_PROTOCOL_VERSION_VALUE));
+        return RequestDtoBuilder.getRequestDto(method.getName(),
+                Constants.JSONRPC_PROTOCOL_VERSION_VALUE, args, id);
     }
 
     /**
-     * 处理接受到的rpc数据报
      * 
-     * @param ele
+     * @param id
+     * @param responseDto
      * @param method
-     * @return 调用的返回值
+     * @return
      * @throws Exception
      */
-    protected Object parseResult(long id, JsonElement ele, Method method)
+    protected void checkResponse(long id, ResponseDto responseDto, Method method)
             throws Exception {
-
-        JsonObject res = (JsonObject) ele;
-
-        //
-        // 获取可解析对象
-        //
-        ProtocolResult protocolResult = ProtocolRequestResultBuilder.parse(res);
 
         //
         // 版本
         //
-        if (!protocolResult.getVersion().equals(
+        if (!responseDto.getVersion().equals(
                 Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
             throw new InternalErrorException();
         }
 
         //
-        // 返回
+        // result
         //
-        JsonElement result = protocolResult.getResult();
-        if (result != null) {
+        if (responseDto.getResult() != null) {
 
-            if (protocolResult.getId().getAsLong() != id) {
+            //
+            // id
+            //
+            if (responseDto.getId() != id) {
                 throw new InternalErrorException("no id in response");
-            } else {
-
-                //
-                // 反射
-                //
-                return gson.fromJson(result, method.getGenericReturnType());
             }
 
         } else {
@@ -362,14 +308,15 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             // 出错
             //
-            JsonElement e = protocolResult.getError();
+            ErrorDto errorDto = responseDto.getError();
 
-            if (e != null) {
+            if (errorDto != null) {
 
                 //
                 // 是否是服务器异常
                 //
-                JsonRpcException jre = exceptionHandler.deserialize(e);
+                JsonRpcException jre = exceptionHandler.deserialize(errorDto);
+
                 if (jre instanceof ServerErrorException) {
                     String msg = jre.getMessage();
                     Class<?>[] exp_types = method.getExceptionTypes();
@@ -403,5 +350,37 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    /**
+     * 设置连接超时(ms)
+     * 
+     */
+    public void setConnectTimeout(int v) {
+        _connectTimeout = v;
+    }
+
+    /**
+     * 获取连接超时设置(ms)
+     * 
+     */
+    public int getConnectTimeout() {
+        return _connectTimeout;
+    }
+
+    /**
+     * 获取读超时设置(ms)
+     * 
+     */
+    public void setReadTimeout(int v) {
+        _readTimeout = v;
+    }
+
+    /**
+     * 设置读超时(ms)/c
+     * 
+     */
+    public int getReadTimeout() {
+        return _readTimeout;
     }
 }

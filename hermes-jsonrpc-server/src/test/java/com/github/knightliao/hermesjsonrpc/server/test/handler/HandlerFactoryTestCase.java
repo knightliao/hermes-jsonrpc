@@ -3,7 +3,7 @@ package com.github.knightliao.hermesjsonrpc.server.test.handler;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
+import com.github.knightliao.hermesjsonrpc.core.constant.ProtocolEnum;
 import com.github.knightliao.hermesjsonrpc.server.handler.HandlerFactory;
 import com.github.knightliao.hermesjsonrpc.server.handler.RpcHandler;
 
@@ -22,7 +22,7 @@ public class HandlerFactoryTestCase {
 
         HandlerFactory handlerFactory = new HandlerFactory();
         RpcHandler rpcHandler = handlerFactory
-                .getProtocolHandler(Constants.JSON_CONTENT_GSON_TYPE);
+                .getProtocolHandler(ProtocolEnum.GSON.getModelName());
         Assert.assertTrue(rpcHandler instanceof RpcHandler);
     }
 }

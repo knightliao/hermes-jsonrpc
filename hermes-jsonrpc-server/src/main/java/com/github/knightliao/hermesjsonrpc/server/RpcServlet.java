@@ -24,10 +24,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.github.knightliao.apollo.utils.web.HtmlUtils;
-import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
+import com.github.knightliao.hermesjsonrpc.core.constant.ProtocolEnum;
+import com.github.knightliao.hermesjsonrpc.server.dto.RpcRequestDto;
+import com.github.knightliao.hermesjsonrpc.server.dto.RpcResponseDto;
 import com.github.knightliao.hermesjsonrpc.server.handler.HandlerFactory;
 import com.github.knightliao.hermesjsonrpc.server.handler.RpcHandler;
-import com.github.knightliao.hermesjsonrpc.server.model.RpcRequest;
 import com.github.knightliao.hermesjsonrpc.server.secret.SecretProcessor;
 import com.github.knightliao.hermesjsonrpc.server.secret.impl.DefaultSecretProcessor;
 
@@ -273,7 +274,7 @@ public class RpcServlet extends HttpServlet {
         String encoding = request.getCharacterEncoding();
         String contentType = request.getContentType().split(";")[0];
         if (contentType == null) {
-            contentType = Constants.JSON_CONTENT_GSON_TYPE;
+            contentType = ProtocolEnum.GSON.getModelName();
         } else {
             contentType = contentType.toLowerCase();
         }
@@ -301,7 +302,7 @@ public class RpcServlet extends HttpServlet {
                         request.getContentLength());
 
                 // 组装请求
-                RpcRequest rpcReq = new RpcRequest(
+                RpcRequestDto rpcReq = new RpcRequestDto(
                         serviceExporter.getServiceInterface(),
                         serviceExporter.getServiceBean(), bytes, encoding);
 
@@ -312,13 +313,13 @@ public class RpcServlet extends HttpServlet {
                         .getProtocolHandler(contentType);
 
                 // 处理
-                handler.service(rpcReq);
+                RpcResponseDto rpcResponseDto = handler.service(rpcReq);
 
                 // 设置返回
                 response.setContentType(contentType);
-                response.setContentLength(rpcReq.response.length);
+                response.setContentLength(rpcResponseDto.getResponse().length);
                 response.setCharacterEncoding(encoding);
-                response.getOutputStream().write(rpcReq.response);
+                response.getOutputStream().write(rpcResponseDto.getResponse());
 
             } catch (Exception e) {
 

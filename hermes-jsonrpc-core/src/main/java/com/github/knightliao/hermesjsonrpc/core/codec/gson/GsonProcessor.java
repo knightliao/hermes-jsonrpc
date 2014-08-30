@@ -1,21 +1,35 @@
-package com.github.knightliao.hermesjsonrpc.core.protocol.impl;
+package com.github.knightliao.hermesjsonrpc.core.codec.gson;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
-import com.github.knightliao.hermesjsonrpc.core.gson.GsonFactory;
-import com.github.knightliao.hermesjsonrpc.core.protocol.Processor;
+import com.github.knightliao.hermesjsonrpc.core.utils.gson.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * 用于Json和JsonElement间的转换
  */
-public class GsonProcessor implements Processor {
+public class GsonProcessor {
 
     private static final JsonParser parser = new JsonParser();
     private static final Gson gson = GsonFactory.getGson();
+
+    /**
+     * 
+     * @param jsonElement
+     * @param type
+     * @return
+     * @throws JsonSyntaxException
+     */
+    public <T> T deserialize(JsonElement jsonElement, Type type)
+            throws JsonSyntaxException {
+
+        return gson.fromJson(jsonElement, type);
+    }
 
     /**
      * 将 字节码 转成 对象
@@ -48,5 +62,18 @@ public class GsonProcessor implements Processor {
             throw new ParseErrorException(e.toString());
 
         }
+    }
+
+    /**
+     * 
+     * @param object
+     * @param type
+     * @return
+     * @throws ParseErrorException
+     */
+    public JsonElement serialize(Object object, Type type)
+            throws ParseErrorException {
+
+        return gson.toJsonTree(object, type);
     }
 }

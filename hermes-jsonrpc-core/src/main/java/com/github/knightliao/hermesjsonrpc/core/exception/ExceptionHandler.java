@@ -3,17 +3,13 @@ package com.github.knightliao.hermesjsonrpc.core.exception;
 import java.util.HashMap;
 import java.util.List;
 
-import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.github.knightliao.hermesjsonrpc.core.dto.ErrorDto;
+import com.github.knightliao.hermesjsonrpc.core.dto.ErrorDto.ErrorDtoBuilder;
 
 /**
- * 默认的异常处理器，将JsonRpcException异常转换为JsonElement结构
  * 
  * @author liaoqiqi
- * @version 2014-8-20
+ * @version 2014-8-30
  */
 public class ExceptionHandler {
 
@@ -42,15 +38,15 @@ public class ExceptionHandler {
     }
 
     /**
+     * 
      * @param error
      * @param e
-     * @return 生成的JsonElement树
+     * @return
      */
-    private JsonElement makeExcetpion(int error, JsonRpcException e) {
+    private ErrorDto makeExcetpion(int error, JsonRpcException e) {
 
-        JsonObject obj = new JsonObject();
-
-        obj.add(Constants.CODE_FIELD, new JsonPrimitive(error));
+        String message = null;
+        String data = null;
 
         if (e instanceof ServerErrorException && !e.getClass().isMemberClass()) {
 
@@ -59,43 +55,29 @@ public class ExceptionHandler {
             if (cause != null) {
 
                 // message
-                obj.add(Constants.MESSAGE_FIELD, new JsonPrimitive(cause
-                        .getClass().getSimpleName()));
+                message = cause.getClass().getSimpleName();
 
                 // data
-                String msg = cause.getMessage();
-                if (msg == null) {
-                    obj.add(Constants.DATA_FIELD, JsonNull.INSTANCE);
-                } else {
-                    obj.add(Constants.DATA_FIELD, new JsonPrimitive(msg));
-                }
-                return obj;
+                data = cause.getMessage();
+
+                return ErrorDtoBuilder.getResponseDto(data, error, message);
             }
         }
 
         // message
-        obj.add(Constants.MESSAGE_FIELD, new JsonPrimitive(e.getClass()
-                .getSimpleName()));
-
+        message = e.getClass().getSimpleName();
         // data
-        String msg = e.getMessage();
-        if (msg == null) {
-            obj.add(Constants.DATA_FIELD, JsonNull.INSTANCE);
-        } else {
-            obj.add(Constants.DATA_FIELD, new JsonPrimitive(e.getMessage()));
-        }
+        data = e.getMessage();
 
-        return obj;
+        return ErrorDtoBuilder.getResponseDto(data, error, message);
     }
 
     /**
-     * 根据异常创建json-rpc的error数据
      * 
      * @param e
-     *            异常
-     * @return error数据
+     * @return
      */
-    public JsonElement serialize(JsonRpcException e) {
+    public ErrorDto serialize(JsonRpcException e) {
 
         Integer error = exceptionMap.get(e.getClass());
 
@@ -107,37 +89,26 @@ public class ExceptionHandler {
 
             return makeExcetpion(e.errorCode(), e);
         }
-
     }
 
     /**
-     * 根据json-rpc的error数据创建异常
      * 
      * @param e
-     *            error数据
-     * @return 创建的异常
+     * @return
      */
-    public JsonRpcException deserialize(JsonElement e) {
+    public JsonRpcException deserialize(ErrorDto e) {
 
         try {
 
-            //
-            // get object
-            //
-            JsonObject obj = e.getAsJsonObject();
-
-            //
             // get data
-            //
-            String cause = null;
-            if (obj.get(Constants.DATA_FIELD).isJsonPrimitive()) {
-                cause = obj.get(Constants.DATA_FIELD).getAsString();
-            }
+            String cause = e.getData();
 
             //
             // get code
             //
-            int code = obj.get(Constants.CODE_FIELD).getAsInt();
+            int code = e.getCode();
+
+            // exception
             Class<? extends JsonRpcException> p = errorCodeMap.get(code);
 
             //
@@ -153,14 +124,8 @@ public class ExceptionHandler {
                 // 系统的
                 //
 
-                //
                 // get message
-                //
-                String message = null;
-
-                if (obj.get(Constants.MESSAGE_FIELD).isJsonPrimitive()) {
-                    message = obj.get(Constants.MESSAGE_FIELD).getAsString();
-                }
+                String message = e.getMessage();
 
                 if (code == ParseErrorException.PARSE_ERROR_CODE) {
 

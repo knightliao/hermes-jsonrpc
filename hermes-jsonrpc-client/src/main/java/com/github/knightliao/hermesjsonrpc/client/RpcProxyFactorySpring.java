@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.github.knightliao.hermesjsonrpc.client.core.jsonrpc.RpcProxyWithHeaderProperty;
 import com.github.knightliao.hermesjsonrpc.client.exception.RpcServiceException;
+import com.github.knightliao.hermesjsonrpc.client.protocol.gson.GsonRpcProxy;
 import com.github.knightliao.hermesjsonrpc.client.selector.ServiceInvoker;
 import com.github.knightliao.hermesjsonrpc.client.selector.ServiceSelector;
 import com.github.knightliao.hermesjsonrpc.client.selector.impl.RandomServiceSelector;
@@ -106,43 +106,40 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
                     public Object getInvoker() throws RpcServiceException {
 
-                        RpcProxyWithHeaderProperty rpcProxyWithHeaderProperty = null;
+                        GsonRpcProxy gsonRpcProxy = null;
 
                         //
                         // 判断是否开启用户名、密码模式
                         //
                         if (userName != null && password != null) {
-                            rpcProxyWithHeaderProperty = RpcProxyFactory
-                                    .getJsonRpcProxyWithAuthenticator(
+                            gsonRpcProxy = RpcProxyFactory
+                                    .getGsonRpcProxyWithAuthenticator(
                                             serviceUrl, encoding, userName,
                                             password);
                         } else {
 
-                            rpcProxyWithHeaderProperty = RpcProxyFactory
-                                    .getJsonRpcWithHeaderProxy(serviceUrl,
+                            gsonRpcProxy = RpcProxyFactory
+                                    .getGsonRpcWithHeaderProxy(serviceUrl,
                                             encoding);
                         }
 
-                        // 
+                        //
                         if (connectionTimeout > 0) {
-                            rpcProxyWithHeaderProperty
-                                    .setConnectTimeout(connectionTimeout);
+                            gsonRpcProxy.setConnectTimeout(connectionTimeout);
                         }
 
                         //
                         if (readTimeout > 0) {
-                            rpcProxyWithHeaderProperty
-                                    .setReadTimeout(readTimeout);
+                            gsonRpcProxy.setReadTimeout(readTimeout);
                         }
 
                         // 加头
                         if (headerMap.keySet().size() > 0) {
-                            rpcProxyWithHeaderProperty
-                                    .addHeaderProperties(headerMap);
+                            gsonRpcProxy.addHeaderProperties(headerMap);
                         }
 
                         return RpcProxyFactory.createProxy(targetClass,
-                                rpcProxyWithHeaderProperty);
+                                gsonRpcProxy);
                     }
 
                 };

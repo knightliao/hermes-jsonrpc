@@ -1,7 +1,8 @@
 package com.github.knightliao.hermesjsonrpc.server.handler;
 
 import com.github.knightliao.hermesjsonrpc.core.exception.JsonRpcException;
-import com.github.knightliao.hermesjsonrpc.server.model.RpcRequest;
+import com.github.knightliao.hermesjsonrpc.server.dto.RpcRequestDto;
+import com.github.knightliao.hermesjsonrpc.server.dto.RpcResponseDto;
 
 /**
  * Rpc处理器的接口
@@ -16,5 +17,6 @@ public interface RpcHandler {
      *            Rpc请求的相关数据
      * @throws JsonRpcException
      */
-    public void service(RpcRequest parameterObject) throws JsonRpcException;
+    public RpcResponseDto service(RpcRequestDto parameterObject)
+            throws JsonRpcException;
 }

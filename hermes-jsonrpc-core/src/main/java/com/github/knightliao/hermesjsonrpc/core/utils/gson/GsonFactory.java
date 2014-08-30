@@ -1,4 +1,4 @@
-package com.github.knightliao.hermesjsonrpc.core.gson;
+package com.github.knightliao.hermesjsonrpc.core.utils.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
