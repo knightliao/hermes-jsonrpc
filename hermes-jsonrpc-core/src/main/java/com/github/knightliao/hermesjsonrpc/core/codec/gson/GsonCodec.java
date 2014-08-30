@@ -26,10 +26,11 @@ public class GsonCodec implements Codec {
      * @return
      * @throws JsonSyntaxException
      */
+    @SuppressWarnings("unchecked")
     public <T> T decode(JsonElement jsonElement, Type type)
             throws JsonSyntaxException {
 
-        return gson.fromJson(jsonElement, type);
+        return (T) gson.fromJson(jsonElement, type);
     }
 
     /**
