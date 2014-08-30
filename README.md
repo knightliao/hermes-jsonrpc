@@ -35,6 +35,16 @@ hermes-jsonrpc当前最新版本：
 	- 支持接受GET请求，它显示接口信息。GET请求支持白名单
 - 同步调用，不支持异步调用
 
+## 协议规范示例 ##
+
+client request: 
+
+	{"id":"8754","method":"getRandom","params":[6],"jsonrpc":"2.0"}
+
+server response:
+	
+	{"jsonrpc":"2.0","result":358255,"id":"38197"}
+
 ## 使用 ##
 
 在您的 Maven POM 文件里加入：
