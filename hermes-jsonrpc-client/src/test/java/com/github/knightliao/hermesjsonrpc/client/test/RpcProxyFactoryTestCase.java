@@ -13,19 +13,10 @@ import com.github.knightliao.hermesjsonrpc.client.protocol.gson.GsonRpcProxy;
 public class RpcProxyFactoryTestCase {
 
     @Test
-    public void getJsonRpcWithHeaderProxyTest() {
+    public void getGsonRpcProxyTest() {
 
         GsonRpcProxy rpcProxyWithHeaderProperty = RpcProxyFactory
-                .getGsonRpcWithHeaderProxy("http://django-china.cn", "UTF-8");
-
-    }
-
-    @Test
-    public void getJsonRpcProxyWithAuthenticatorTest() {
-
-        GsonRpcProxy rpcProxyWithHeaderProperty = RpcProxyFactory
-                .getGsonRpcProxyWithAuthenticator("http://django-china.cn",
-                        "UTF-8", "hello", "hermesjsonrpc");
+                .getGsonRpcProxy("http://django-china.cn", "UTF-8", null, null);
 
     }
 }

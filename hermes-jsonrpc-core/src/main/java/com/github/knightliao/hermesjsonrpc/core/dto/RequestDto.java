@@ -85,4 +85,7 @@ public class RequestDto {
                 + ", params=" + Arrays.toString(params) + ", id=" + id + "]";
     }
 
+    public RequestDto() {
+
+    }
 }

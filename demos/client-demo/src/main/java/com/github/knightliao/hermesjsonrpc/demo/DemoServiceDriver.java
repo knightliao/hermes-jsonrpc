@@ -33,6 +33,12 @@ public interface DemoServiceDriver {
             this.minValue = minValue;
         }
 
+        @Override
+        public String toString() {
+            return "Request [maxValue=" + maxValue + ", minValue=" + minValue
+                    + "]";
+        }
+
         private int minValue;
     }
 
@@ -51,6 +57,11 @@ public interface DemoServiceDriver {
 
         public void setValue(int value) {
             this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "Response [value=" + value + "]";
         }
     }
 

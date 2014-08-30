@@ -45,6 +45,7 @@
         <property name="readTimeout" value="${readTimeout}" />
         <property name="userName" value="${server.username}" />
         <property name="password" value="${server.password}" />
+        <property name="codecType" value="application/json-hermes-protostuff" />
     </bean>
 
 </beans>

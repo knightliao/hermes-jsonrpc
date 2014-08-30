@@ -9,12 +9,16 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.knightliao.hermesjsonrpc.core.auth.AuthController;
 import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
 import com.github.knightliao.hermesjsonrpc.core.dto.ErrorDto;
 import com.github.knightliao.hermesjsonrpc.core.dto.RequestDto;
@@ -37,13 +41,16 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     protected static final Logger LOG = LoggerFactory
             .getLogger(RpcProxyBase.class);
 
-    protected ExceptionHandler exceptionHandler = new ExceptionHandler();
+    private ExceptionHandler exceptionHandler = new ExceptionHandler();
 
-    protected AtomicLong counter = new AtomicLong(0L);
+    private AtomicLong counter = new AtomicLong(0L);
     protected String encoding;
-    protected String url;
-    protected int _connectTimeout = 30; // 默认连接超时30秒
-    protected int _readTimeout = 60; // 默认连接超时60秒
+    private String url;
+    private int _connectTimeout = 30; // 默认连接超时30秒
+    private int _readTimeout = 60; // 默认连接超时60秒
+
+    /** 用于放置header中需要添加的属性信息 */
+    private Map<String, String> headerProperties = new HashMap<String, String>();
 
     /**
      * 
@@ -51,8 +58,8 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      * @return
      * @throws ParseErrorException
      */
-    protected abstract ResponseDto deserialize(byte[] req,
-            Type genericReturnType) throws ParseErrorException;
+    protected abstract ResponseDto deserialize(byte[] req, Type type)
+            throws ParseErrorException;
 
     /**
      * 
@@ -76,12 +83,27 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      * @param exceptionHandler
      */
     public RpcProxyBase(String url, String encoding,
+            ExceptionHandler exceptionHandler, String username, String password) {
+
+        this(url, encoding, exceptionHandler);
+
+        // 授权信息
+        addHeaderProperties(Constants.WWW_AUTH_RPC,
+                AuthController.getAuth(username, password, encoding));
+    }
+
+    /**
+     * 
+     * @param url
+     * @param encoding
+     * @param exceptionHandler
+     */
+    public RpcProxyBase(String url, String encoding,
             ExceptionHandler exceptionHandler) {
         this.encoding = encoding;
         this.url = url;
         this.exceptionHandler = exceptionHandler;
         this.counter.set(new Random().nextInt(100000));
-
     }
 
     /**
@@ -103,7 +125,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             // 序列化
             //
             byte[] reqBytes = serialize(request);
-            // LOG.debug("request bytes size is " + reqBytes.length);
+            LOG.debug("request bytes size is " + reqBytes.length);
 
             //
             // 连接
@@ -227,6 +249,21 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      */
     protected void sendRequest(byte[] reqBytes, URLConnection connection) {
 
+        //
+        // 加头
+        //
+        if (null != headerProperties) {
+            for (Entry<String, String> entry : headerProperties.entrySet()) {
+                if (null != entry.getValue()) {
+                    connection.addRequestProperty(entry.getKey(),
+                            entry.getValue());
+                }
+            }
+        }
+
+        //
+        // 发送消息
+        //
         HttpURLConnection httpconnection = (HttpURLConnection) connection;
         OutputStream out = null;
 
@@ -268,8 +305,14 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      */
     protected RequestDto makeRequest(long id, Method method, Object[] args) {
 
-        return RequestDtoBuilder.getRequestDto(method.getName(),
-                Constants.JSONRPC_PROTOCOL_VERSION_VALUE, args, id);
+        RequestDto requestDto = RequestDtoBuilder.getRequestDto(
+                method.getName(), Constants.JSONRPC_PROTOCOL_VERSION_VALUE,
+                args, id);
+
+        LOG.debug("Request: JsonRpc head=" + headerProperties + " request="
+                + requestDto);
+
+        return requestDto;
     }
 
     /**
@@ -282,6 +325,9 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      */
     protected void checkResponse(long id, ResponseDto responseDto, Method method)
             throws Exception {
+
+        // LOG.debug("Response: JsonRpc head=" + headerProperties + " response="
+        // + responseDto);
 
         //
         // 版本
@@ -382,5 +428,40 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
      */
     public int getReadTimeout() {
         return _readTimeout;
+    }
+
+    /**
+     * 
+     * @param key
+     * @param value
+     */
+    private void addHeaderProperties(String key, String value) {
+
+        if (this.headerProperties == null) {
+            this.headerProperties = new HashMap<String, String>();
+        }
+        this.headerProperties.put(key, value);
+    }
+
+    /**
+     * 
+     * @param headerProperties
+     */
+    public void addHeaderProperties(Map<String, String> headerProperties) {
+
+        if (headerProperties != null) {
+            if (this.headerProperties == null) {
+                this.headerProperties = new HashMap<String, String>();
+            }
+            this.headerProperties.putAll(headerProperties);
+        }
+    }
+
+    public Map<String, String> getHeaderProperties() {
+        return headerProperties;
+    }
+
+    public void setHeaderProperties(Map<String, String> headerProperties) {
+        this.headerProperties = headerProperties;
     }
 }

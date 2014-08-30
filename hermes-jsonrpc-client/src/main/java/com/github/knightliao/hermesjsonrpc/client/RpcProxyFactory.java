@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 import com.github.knightliao.hermesjsonrpc.client.protocol.gson.GsonRpcProxy;
+import com.github.knightliao.hermesjsonrpc.client.protocol.protostuff.ProtostuffPrcProxy;
 import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 
 /**
@@ -15,27 +16,28 @@ import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 public class RpcProxyFactory {
 
     /**
-     * 获取具有头部功能的Gson Rpc Proxy
+     * 获取 Protostuf Rpc Proxy
      * 
      * @param url
      * @param encoding
      * @return
      */
-    public static GsonRpcProxy getGsonRpcWithHeaderProxy(String url,
-            String encoding) {
+    public static ProtostuffPrcProxy getProtostuffRpc(String url,
+            String encoding, String userName, String password) {
 
-        return new GsonRpcProxy(url, encoding, new ExceptionHandler());
+        return new ProtostuffPrcProxy(url, encoding, new ExceptionHandler(),
+                 userName,  password);
     }
 
     /**
-     * 获取带权限验证的Rpc Proxy
+     * 获取 Gson Rpc Proxy
      * 
      * @param url
      * @param encoding
      * @return
      */
-    public static GsonRpcProxy getGsonRpcProxyWithAuthenticator(String url,
-            String encoding, String userName, String password) {
+    public static GsonRpcProxy getGsonRpcProxy(String url, String encoding,
+            String userName, String password) {
 
         return new GsonRpcProxy(url, encoding, new ExceptionHandler(),
                 userName, password);

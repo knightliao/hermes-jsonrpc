@@ -3,7 +3,7 @@ package com.github.knightliao.hermesjsonrpc.core.test.gson;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.knightliao.hermesjsonrpc.core.utils.gson.GsonFactory;
+import com.github.knightliao.hermesjsonrpc.core.utils.GsonFactory;
 import com.google.gson.Gson;
 
 /**

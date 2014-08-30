@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Iterator;
 
-import com.github.knightliao.hermesjsonrpc.core.codec.gson.GsonProcessor;
+import com.github.knightliao.hermesjsonrpc.core.codec.gson.GsonCodec;
 import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
 import com.github.knightliao.hermesjsonrpc.core.dto.RequestDto;
 import com.github.knightliao.hermesjsonrpc.core.dto.RequestDto.RequestDtoBuilder;
@@ -24,17 +24,17 @@ import com.google.gson.JsonObject;
  */
 public class GsonRpcHandler extends JsonRpcHandlerBase {
 
-    private static final GsonProcessor processor = new GsonProcessor();
+    private static final GsonCodec processor = new GsonCodec();
 
     @Override
     protected byte[] serialize(String encoding, ResponseDto responseDto)
             throws ParseErrorException {
 
-        JsonElement jsonElement = processor.serialize(responseDto,
+        JsonElement jsonElement = processor.encode(responseDto,
                 ResponseDto.class);
         LOGGER.debug("response: " + jsonElement.toString());
 
-        return processor.serialize(encoding, jsonElement);
+        return processor.encode(encoding, jsonElement);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
         //
         // 反序列化JSON对象
         //
-        JsonElement jsonElement = processor.deserialize(encoding, req);
+        JsonElement jsonElement = processor.decode(encoding, req);
         LOGGER.debug("request: " + jsonElement.toString());
 
         JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -91,7 +91,7 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
                 Object arg_obj[] = new Object[argtype.length];
                 Iterator<JsonElement> e = jsonArray.iterator();
                 for (int i = 0; i < jsonArray.size(); i++) {
-                    arg_obj[i] = processor.deserialize(e.next(), argtype[i]);
+                    arg_obj[i] = processor.decode(e.next(), argtype[i]);
                 }
 
                 // 拿版本号

@@ -32,6 +32,18 @@ public enum ProtocolEnum {
         return null;
     }
 
+    public static ProtocolEnum getByName(String name) {
+
+        for (ProtocolEnum protocolEnum : values()) {
+
+            if (protocolEnum.getModelName().equals(name)) {
+                return protocolEnum;
+            }
+        }
+
+        return null;
+    }
+
     public int getType() {
         return type;
     }

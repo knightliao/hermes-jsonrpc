@@ -1,19 +1,12 @@
 package com.github.knightliao.hermesjsonrpc.client.protocol.gson;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.knightliao.hermesjsonrpc.client.core.RpcProxyBase;
-import com.github.knightliao.hermesjsonrpc.core.auth.AuthController;
-import com.github.knightliao.hermesjsonrpc.core.codec.gson.GsonProcessor;
-import com.github.knightliao.hermesjsonrpc.core.constant.Constants;
+import com.github.knightliao.hermesjsonrpc.core.codec.gson.GsonCodec;
 import com.github.knightliao.hermesjsonrpc.core.constant.ProtocolEnum;
 import com.github.knightliao.hermesjsonrpc.core.dto.RequestDto;
 import com.github.knightliao.hermesjsonrpc.core.dto.ResponseDto;
@@ -33,13 +26,10 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
     protected static final Logger LOG = LoggerFactory
             .getLogger(GsonRpcProxy.class);
 
-    /** 用于放置header中需要添加的属性信息 */
-    protected Map<String, String> headerProperties = new HashMap<String, String>();
-
     /**
      * 处理器
      */
-    private static final com.github.knightliao.hermesjsonrpc.core.codec.gson.GsonProcessor processor = new GsonProcessor();
+    private static final GsonCodec processor = new GsonCodec();
 
     /**
      * @param url
@@ -67,25 +57,25 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
     @Override
     protected byte[] serialize(RequestDto res) throws ParseErrorException {
 
-        JsonElement jsonElement = processor.serialize(res, RequestDto.class);
+        JsonElement jsonElement = processor.encode(res, RequestDto.class);
         LOG.debug("request: " + jsonElement.toString());
 
-        return processor.serialize(encoding, jsonElement);
+        return processor.encode(encoding, jsonElement);
     }
 
     /**
      * 
      */
     @Override
-    protected ResponseDto deserialize(byte[] req, Type genericReturnType)
+    protected ResponseDto deserialize(byte[] req, Type type)
             throws ParseErrorException {
 
-        JsonElement jsonElement = processor.deserialize(encoding, req);
+        JsonElement jsonElement = processor.decode(encoding, req);
         LOG.debug("response: " + jsonElement.toString());
 
         try {
 
-            ResponseDto responseDto = processor.deserialize(jsonElement,
+            ResponseDto responseDto = processor.decode(jsonElement,
                     ResponseDto.class);
 
             //
@@ -93,8 +83,7 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
             //
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             JsonElement resultJson = jsonObject.get(ResponseDto.JSON_RESULT);
-            Object retsult = processor.deserialize(resultJson,
-                    genericReturnType);
+            Object retsult = processor.decode(resultJson, type);
 
             responseDto.setResult(retsult);
 
@@ -102,95 +91,9 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
 
         } catch (Exception e) {
 
-            LOG.error("Deserialize byte failed", e);
-            throw new ParseErrorException("Deserialize byte error");
+            LOG.error("deserialize byte failed", e);
+            throw new ParseErrorException("deserialize byte error");
         }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public Object clone() {
-        GsonRpcProxy result = new GsonRpcProxy(url, encoding, exceptionHandler);
-        result.setHeaderProperties(headerProperties);
-        return result;
-    }
-
-    public Map<String, String> getHeaderProperties() {
-        return headerProperties;
-    }
-
-    public void setHeaderProperties(Map<String, String> headerProperties) {
-        this.headerProperties = headerProperties;
-    }
-
-    /**
-     * 
-     * @param headerProperties
-     */
-    public void addHeaderProperties(Map<String, String> headerProperties) {
-        if (headerProperties != null) {
-            if (this.headerProperties == null) {
-                this.headerProperties = new HashMap<String, String>();
-            }
-            this.headerProperties.putAll(headerProperties);
-        }
-    }
-
-    /**
-     * 带验证头的数据发送
-     */
-    @Override
-    protected void sendRequest(byte[] reqBytes, URLConnection connection) {
-
-        if (null != headerProperties) {
-            for (Entry<String, String> entry : headerProperties.entrySet()) {
-                if (null != entry.getValue()) {
-                    connection.addRequestProperty(entry.getKey(),
-                            entry.getValue());
-                }
-            }
-        }
-        super.sendRequest(reqBytes, connection);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected RequestDto makeRequest(long id, Method method, Object[] args)
-            throws ParseErrorException {
-        RequestDto result = super.makeRequest(id, method, args);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("JsonRpc head=" + headerProperties + " request=" + result);
-        }
-        return result;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void checkResponse(long id, ResponseDto responseDto, Method method)
-            throws Exception {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("JsonRpc head=" + headerProperties + " response="
-                    + responseDto);
-        }
-        super.checkResponse(id, responseDto, method);
-    }
-
-    /**
-     * 
-     * @param key
-     * @param value
-     */
-    public void addHeaderProperties(String key, String value) {
-        if (this.headerProperties == null) {
-            this.headerProperties = new HashMap<String, String>();
-        }
-        this.headerProperties.put(key, value);
     }
 
     /**
@@ -203,10 +106,7 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
      */
     public GsonRpcProxy(String url, String encoding, ExceptionHandler exp,
             String username, String password) {
-        super(url, encoding, exp);
-        // 授权信息
-        addHeaderProperties(Constants.WWW_AUTH_RPC,
-                AuthController.getAuth(username, password, encoding));
+        super(url, encoding, exp, username, password);
     }
 
     /**

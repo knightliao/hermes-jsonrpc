@@ -289,6 +289,17 @@
             </dependency>
 
             <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-json</artifactId>
+                <version>1.0.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-api</artifactId>
+                <version>1.0.8</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-nop</artifactId>
                 <version>1.7.6</version>
@@ -462,6 +473,11 @@
                 <groupId>com.github.knightliao.apollo</groupId>
                 <artifactId>apollo</artifactId>
                 <version>1.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-runtime</artifactId>
+                <version>1.0.8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

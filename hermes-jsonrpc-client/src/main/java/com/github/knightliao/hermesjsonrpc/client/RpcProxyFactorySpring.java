@@ -13,11 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.github.knightliao.hermesjsonrpc.client.core.RpcProxyBase;
 import com.github.knightliao.hermesjsonrpc.client.exception.RpcServiceException;
-import com.github.knightliao.hermesjsonrpc.client.protocol.gson.GsonRpcProxy;
 import com.github.knightliao.hermesjsonrpc.client.selector.ServiceInvoker;
 import com.github.knightliao.hermesjsonrpc.client.selector.ServiceSelector;
 import com.github.knightliao.hermesjsonrpc.client.selector.impl.RandomServiceSelector;
+import com.github.knightliao.hermesjsonrpc.core.constant.ProtocolEnum;
 
 /**
  * 最新通的通用的基于JDK的客户端调用方式<br/>
@@ -56,6 +57,9 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
     // 接口
     private Class serviceInterface;
+
+    // codec类型
+    private String codecType = "";
 
     /** 出错后是否直接退出,默认是false */
     protected boolean errorExit = false;
@@ -100,46 +104,31 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
                     services.length);
             for (int i = 0; i < services.length; i++) {
 
-                final String serviceUrl = services[i];
+                final String curServiceUrl = services[i];
 
                 ServiceInvoker service = new ServiceInvoker() {
 
                     public Object getInvoker() throws RpcServiceException {
 
-                        GsonRpcProxy gsonRpcProxy = null;
-
-                        //
-                        // 判断是否开启用户名、密码模式
-                        //
-                        if (userName != null && password != null) {
-                            gsonRpcProxy = RpcProxyFactory
-                                    .getGsonRpcProxyWithAuthenticator(
-                                            serviceUrl, encoding, userName,
-                                            password);
-                        } else {
-
-                            gsonRpcProxy = RpcProxyFactory
-                                    .getGsonRpcWithHeaderProxy(serviceUrl,
-                                            encoding);
-                        }
+                        RpcProxyBase rpcProxyBase = getRpcProxyBase(curServiceUrl);
 
                         //
                         if (connectionTimeout > 0) {
-                            gsonRpcProxy.setConnectTimeout(connectionTimeout);
+                            rpcProxyBase.setConnectTimeout(connectionTimeout);
                         }
 
                         //
                         if (readTimeout > 0) {
-                            gsonRpcProxy.setReadTimeout(readTimeout);
+                            rpcProxyBase.setReadTimeout(readTimeout);
                         }
 
                         // 加头
                         if (headerMap.keySet().size() > 0) {
-                            gsonRpcProxy.addHeaderProperties(headerMap);
+                            rpcProxyBase.addHeaderProperties(headerMap);
                         }
 
                         return RpcProxyFactory.createProxy(targetClass,
-                                gsonRpcProxy);
+                                rpcProxyBase);
                     }
 
                 };
@@ -296,6 +285,38 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * 
+     * 
+     * @return
+     */
+    private RpcProxyBase getRpcProxyBase(String curServiceUrl) {
+
+        ProtocolEnum protocolEnum = ProtocolEnum.getByName(codecType);
+        if (protocolEnum == null) {
+            // 默认使用 gson
+            protocolEnum = ProtocolEnum.GSON;
+        }
+
+        if (protocolEnum.equals(ProtocolEnum.GSON)) {
+
+            return RpcProxyFactory.getGsonRpcProxy(curServiceUrl, encoding,
+                    userName, password);
+        } else {
+
+            return RpcProxyFactory.getProtostuffRpc(curServiceUrl, encoding,
+                    userName, password);
+        }
+    }
+
+    public String getCodecType() {
+        return codecType;
+    }
+
+    public void setCodecType(String codecType) {
+        this.codecType = codecType;
     }
 
 }

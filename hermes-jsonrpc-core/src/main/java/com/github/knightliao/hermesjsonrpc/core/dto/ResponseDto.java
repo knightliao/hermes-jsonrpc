@@ -74,4 +74,8 @@ public class ResponseDto {
         return "ResponseDto [result=" + result + ", error=" + error
                 + ", version=" + version + ", id=" + id + "]";
     }
+
+    public ResponseDto() {
+
+    }
 }
