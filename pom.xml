@@ -707,6 +707,7 @@
                             <exclude>**/*Controller.class</exclude>
                             <exclude>**/*Vo.class</exclude>
                             <exclude>**/*Form.class</exclude>
+                            <exclude>**/Demo*.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
