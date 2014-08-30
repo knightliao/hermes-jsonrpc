@@ -81,13 +81,14 @@ public class GsonCodec implements Codec {
     /**
      * 
      */
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T decode(String encoding, Class<T> clazz, byte[] bytes)
             throws Exception {
 
         JsonElement jsonElement = decode(encoding, bytes);
 
-        return decode(jsonElement, clazz);
+        return (T) decode(jsonElement, clazz);
     }
 
     /**
