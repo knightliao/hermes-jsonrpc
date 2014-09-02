@@ -29,6 +29,11 @@ public class RpcProxyFactorySpringTestCase extends BaseTestCase {
     @Test
     public void testGson() {
 
+        //
+        //
+        //
+        setupGsonRpc();
+
         contextInitialized();
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
                 fn);
@@ -57,6 +62,11 @@ public class RpcProxyFactorySpringTestCase extends BaseTestCase {
     @Test
     public void testProtostuff() {
 
+        //
+        //
+        //
+        setupProtostuffRpc();
+
         contextInitialized();
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
                 fn);
@@ -65,7 +75,7 @@ public class RpcProxyFactorySpringTestCase extends BaseTestCase {
         //
         //
         DemoServiceDriver demoServiceDriver = (DemoServiceDriver) ctx
-                .getBean("demoServiceDriver");
+                .getBean("demoServiceDriver2");
 
         Request request = new Request(1000, 10);
         Response response = demoServiceDriver.getRandom(request);
