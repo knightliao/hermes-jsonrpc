@@ -46,7 +46,7 @@
 
         <!-- 模块版本号 -->
         <client.version>1.0.2-SNAPSHOT</client.version>
-        <core.version>1.0.2-SNAPSHOT1</core.version>
+        <core.version>1.0.2-SNAPSHOT</core.version>
         <server.version>1.0.2-SNAPSHOT</server.version>
     </properties>
 

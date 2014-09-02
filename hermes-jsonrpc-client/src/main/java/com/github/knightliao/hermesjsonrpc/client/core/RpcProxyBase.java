@@ -12,7 +12,6 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
@@ -102,8 +101,8 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             ExceptionHandler exceptionHandler) {
         this.encoding = encoding;
         this.url = url;
+        LOG.debug("url: " + url);
         this.exceptionHandler = exceptionHandler;
-        this.counter.set(new Random().nextInt(100000));
     }
 
     /**
@@ -332,8 +331,9 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
         //
         // 版本
         //
-        if (!responseDto.getVersion().equals(
-                Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
+        if (responseDto.getVersion() == null
+                || !responseDto.getVersion().equals(
+                        Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
             throw new InternalErrorException();
         }
 

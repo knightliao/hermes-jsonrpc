@@ -16,6 +16,9 @@ public class Constants {
 
     // 统一的ID
     public static final String JSONRPC_ID = "id";
+    
+    // default coding
+    public static final String DEFAULT_CODING= "UTF-8";
 
     //
     // HTTP

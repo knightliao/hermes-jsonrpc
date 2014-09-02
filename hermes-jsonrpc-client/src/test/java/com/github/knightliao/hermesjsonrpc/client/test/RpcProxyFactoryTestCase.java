@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import com.github.knightliao.hermesjsonrpc.client.RpcProxyFactory;
 import com.github.knightliao.hermesjsonrpc.client.protocol.gson.GsonRpcProxy;
+import com.github.knightliao.hermesjsonrpc.client.protocol.protostuff.ProtostuffPrcProxy;
 
 /**
  * 
@@ -12,6 +13,9 @@ import com.github.knightliao.hermesjsonrpc.client.protocol.gson.GsonRpcProxy;
  */
 public class RpcProxyFactoryTestCase {
 
+    /**
+     * 
+     */
     @Test
     public void getGsonRpcProxyTest() {
 
@@ -19,4 +23,16 @@ public class RpcProxyFactoryTestCase {
                 .getGsonRpcProxy("http://django-china.cn", "UTF-8", null, null);
 
     }
+
+    /**
+     * 
+     */
+    @Test
+    public void getProtoRpcProxyTest() {
+
+        ProtostuffPrcProxy rpcProxyWithHeaderProperty = RpcProxyFactory
+                .getProtostuffRpc("http://django-china.cn", "UTF-8", null, null);
+
+    }
+
 }
