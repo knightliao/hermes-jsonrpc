@@ -7,7 +7,8 @@ A Java-Version light-weight HTTP-JSON RPC framework using GSON/Protostuff.
 
 hermes-jsonrpc当前最新版本：
 
-- 1.0.1
+- dev:    1.0.2-SNAPSHOT
+- stable：1.0.1
 
 在Maven Central Repository里查看 [com.github.knightliao.hermesjsonrpc](http://search.maven.org/#search%7Cga%7C1%7Ccom.github.knightliao.hermesjsonrpc )
 
