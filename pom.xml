@@ -717,13 +717,13 @@
                     </formats>
                     <instrumentation>
                         <excludes>
-                            <exclude>**/*Proto.class</exclude>
+                            <exclude>**/*Dto.class</exclude>
                             <exclude>**/*Proto$*.class</exclude>
-                            <exclude>**/*Test.class</exclude>
+                            <exclude>**/*Enum.class</exclude>
                             <exclude>**/*Controller.class</exclude>
-                            <exclude>**/*Vo.class</exclude>
+                            <exclude>**/*Exception.class</exclude>
                             <exclude>**/*Form.class</exclude>
-                            <exclude>**/Demo*.class</exclude>
+                            <exclude>**/baidu/ub/**/*.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
