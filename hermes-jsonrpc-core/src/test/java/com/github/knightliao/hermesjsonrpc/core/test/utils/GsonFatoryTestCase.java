@@ -1,4 +1,4 @@
-package com.github.knightliao.hermesjsonrpc.core.test.gson;
+package com.github.knightliao.hermesjsonrpc.core.test.utils;
 
 import org.junit.Assert;
 import org.junit.Test;
