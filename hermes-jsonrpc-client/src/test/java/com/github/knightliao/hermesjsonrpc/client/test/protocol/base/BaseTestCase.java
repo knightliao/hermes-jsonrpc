@@ -8,6 +8,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
+import org.junit.Test;
 
 import com.github.knightliao.apollo.utils.data.GsonUtils;
 import com.github.knightliao.hermesjsonrpc.client.test.protocol.common.DemoServiceDriver.Response;
@@ -61,6 +62,11 @@ public class BaseTestCase {
                 aResponse().withHeader("Content-Type", CONTENT_TYPE)
                         .withStatus(200)
                         .withBody(GsonUtils.toJson(responseDto))));
+
+    }
+
+    @Test
+    public void test() {
 
     }
 }

@@ -119,6 +119,7 @@
         <dependency>
             <groupId>com.github.knightliao.hermesjsonrpc</groupId>
             <artifactId>hermes-jsonrpc-core</artifactId>
+            <type>test-jar</type>
             <scope>test</scope>
             <version>${core.version}</version>
         </dependency>

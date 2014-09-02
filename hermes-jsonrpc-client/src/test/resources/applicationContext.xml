@@ -48,4 +48,20 @@
         <property name="codecType" value="application/json-hermes-gson" />
     </bean>
 
+    <bean id="demoServiceDriver2"
+        class="com.github.knightliao.hermesjsonrpc.client.RpcProxyFactorySpring">
+        <property name="serviceInterface">
+            <value>com.github.knightliao.hermesjsonrpc.client.test.protocol.common.DemoServiceDriver
+            </value>
+        </property>
+        <property name="serviceUrl" value="${SERVICE_URL}" />
+        <property name="servers" value="${SERVER}" />
+        <property name="encoding" value="UTF-8" />
+        <property name="connectionTimeout" value="${connectionTimeout}" />
+        <property name="readTimeout" value="${readTimeout}" />
+        <property name="userName" value="${server.username}" />
+        <property name="password" value="${server.password}" />
+        <property name="codecType" value="application/json-hermes-protostuff" />
+    </bean>
+
 </beans>

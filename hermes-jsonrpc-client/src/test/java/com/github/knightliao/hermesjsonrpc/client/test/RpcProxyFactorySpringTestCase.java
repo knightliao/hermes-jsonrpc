@@ -27,7 +27,35 @@ public class RpcProxyFactorySpringTestCase extends BaseTestCase {
      * 
      */
     @Test
-    public void test() {
+    public void testGson() {
+
+        contextInitialized();
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+                fn);
+
+        //
+        //
+        //
+        DemoServiceDriver demoServiceDriver = (DemoServiceDriver) ctx
+                .getBean("demoServiceDriver");
+
+        Request request = new Request(1000, 10);
+        Response response = demoServiceDriver.getRandom(request);
+
+        if (response == null) {
+            Assert.assertTrue(false);
+        }
+
+        Assert.assertEquals(BaseTestCase.DEFAULT_VALUE.intValue(),
+                response.getValue());
+
+    }
+
+    /**
+     * 
+     */
+    @Test
+    public void testProtostuff() {
 
         contextInitialized();
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
