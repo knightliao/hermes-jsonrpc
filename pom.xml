@@ -517,6 +517,7 @@
                         <instrumentation>
                             <excludes>
                                 <exclude>**/*Dto.class</exclude>
+                                <exclude>**/*Dto$*.class</exclude>
                                 <exclude>**/*Proto$*.class</exclude>
                                 <exclude>**/*Enum.class</exclude>
                                 <exclude>**/*Controller.class</exclude>
