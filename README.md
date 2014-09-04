@@ -5,10 +5,10 @@ A Java-Version light-weight HTTP-JSON RPC framework using GSON/Protostuff.
 
 使用 GSON/Protostuff 的轻量级HTTP协议的Java Json Rpc框架
 
-hermes-jsonrpc当前最新版本：
+hermes-jsonrpc branches and Maven version:
 
-- dev:    1.0.2-SNAPSHOT
-- stable：1.0.1
+- dev(develop branch): 1.0.3-SNAPSHOT
+- master(stable branch)：1.0.2
 
 在Maven Central Repository里查看 [com.github.knightliao.hermesjsonrpc](http://search.maven.org/#search%7Cga%7C1%7Ccom.github.knightliao.hermesjsonrpc )
 
@@ -119,7 +119,7 @@ client:
     <dependency>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
         <artifactId>hermes-jsonrpc-client</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
 
 server:
@@ -127,12 +127,8 @@ server:
     <dependency>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
         <artifactId>hermes-jsonrpc-server</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
-
-主要依赖为：
-
-- apollo(1.0.1)
 
 ### Tutorials ###
 
