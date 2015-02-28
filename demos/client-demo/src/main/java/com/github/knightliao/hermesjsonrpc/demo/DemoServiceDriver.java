@@ -1,7 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.demo;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-21
  */
@@ -35,8 +34,7 @@ public interface DemoServiceDriver {
 
         @Override
         public String toString() {
-            return "Request [maxValue=" + maxValue + ", minValue=" + minValue
-                    + "]";
+            return "Request [maxValue=" + maxValue + ", minValue=" + minValue + "]";
         }
 
         private int minValue;

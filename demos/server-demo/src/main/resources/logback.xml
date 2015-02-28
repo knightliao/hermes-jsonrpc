@@ -2,9 +2,9 @@
 
 <configuration>
 
-    <property name="log.base" value="./log/jsonrpc-server-demo" />
+    <property name="log.base" value="./log/jsonrpc-server-demo"/>
 
-    <jmxConfigurator />
+    <jmxConfigurator/>
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -15,10 +15,10 @@
     </appender>
 
     <appender name="logfile"
-        class="ch.qos.logback.core.rolling.RollingFileAppender">
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${log.base}.log</File>
         <rollingPolicy
-            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${log.base}.%d{yyyy-MM-dd}.log
             </FileNamePattern>
         </rollingPolicy>
@@ -30,25 +30,25 @@
     </appender>
 
     <logger name="com.github.knightliao">
-        <level value="DEBUG" />
+        <level value="DEBUG"/>
     </logger>
 
     <logger name="org.springframework">
-        <level value="WARN" />
+        <level value="WARN"/>
     </logger>
 
     <logger name="net.sf.ehcache">
-        <level value="ERROR" />
+        <level value="ERROR"/>
     </logger>
 
     <logger name="org.springmodules">
-        <level value="ERROR" />
+        <level value="ERROR"/>
     </logger>
 
     <root>
-        <level value="INFO" />
-        <appender-ref ref="stdout" />
-        <appender-ref ref="logfile" />
+        <level value="INFO"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="logfile"/>
     </root>
 
 </configuration>
