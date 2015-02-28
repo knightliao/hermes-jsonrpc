@@ -41,6 +41,8 @@
         <property name="serviceBean">
             <ref bean="demoServiceProxy"/>
         </property>
+        <property name="userName" value="hello"/>
+        <property name="password" value="hermesjsonrpc"/>
         <property name="ipSet">
             <set>
                 <value>127.0.0.1</value>
