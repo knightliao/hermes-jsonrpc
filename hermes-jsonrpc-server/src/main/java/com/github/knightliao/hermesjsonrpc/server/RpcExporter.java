@@ -15,8 +15,8 @@ public class RpcExporter {
     private Object serviceBean;
 
     // 用户名&密码
-    private String userName = "";
-    private String password = "";
+    private String userName = null;
+    private String password = null;
 
     // IP白名单
     private Set<String> ipSet = new HashSet<String>();

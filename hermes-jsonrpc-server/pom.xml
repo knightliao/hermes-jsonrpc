@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>hermes-jsonrpc-server</artifactId>
     <packaging>jar</packaging>
+    <version>${server.version}</version>
 
     <parent>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
@@ -304,6 +305,6 @@
             </build>
         </profile>
     </profiles>
-    <version>${server.version}</version>
+
     <description>https://github.com/knightliao/hermes-jsonrpc/tree/master/hermes-jsonrpc-server</description>
 </project>

@@ -102,13 +102,13 @@ hermes-jsonrpc branches and Maven version:
         Response getRandom(Request seed);
     }
 
-###client request: ###
+###client request示例（在没有权限控制的情况下）: ###
 
-    {"method":"getRandom","version":"2.0","params":[{"maxValue":0,"minValue":50}],"id":39547}
+    curl -d '{"id":"99999","version":"2.0","method":"getRandom","params":[{"maxValue":0,"minValue":50}]}' http://127.0.0.1:8085/export/DemoServiceDriver -H 'Content-Type: application/json-hermes-gson'
 
-###server response:###
+###server response示例（在没有权限控制的情况下）:###
     
-    {"result":{"value":27},"version":"2.0","id":39547}
+    {"result":{"value":32},"version":"2.0","id":99999}
 
 ## 使用 ##
 
