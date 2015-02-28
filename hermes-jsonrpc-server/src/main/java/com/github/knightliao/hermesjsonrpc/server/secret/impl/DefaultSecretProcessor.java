@@ -20,7 +20,7 @@ public class DefaultSecretProcessor implements SecretProcessor {
     public boolean isAuthOk(String data, String encoding, String userName, String password) {
 
         // 均为空则认为过
-        if (data == null && userName == null && password == null) {
+        if (userName == null && password == null) {
             return true;
         }
 
