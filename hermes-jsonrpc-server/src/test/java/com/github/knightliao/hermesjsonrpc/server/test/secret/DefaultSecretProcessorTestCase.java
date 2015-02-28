@@ -11,7 +11,6 @@ import com.github.knightliao.hermesjsonrpc.server.secret.SecretProcessor;
 import com.github.knightliao.hermesjsonrpc.server.secret.impl.DefaultSecretProcessor;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
@@ -27,8 +26,7 @@ public class DefaultSecretProcessorTestCase {
         String encoding = "UTF-8";
 
         String data = AuthController.getAuth(userName, password, encoding);
-        boolean ret = secretProcessor.isAuthOk(data, encoding, userName,
-                password);
+        boolean ret = secretProcessor.isAuthOk(data, encoding, userName, password);
         Assert.assertEquals(ret, true);
 
         data = AuthController.getAuth(userName + "1", password, encoding);

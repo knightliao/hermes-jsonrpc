@@ -20,7 +20,6 @@ import com.github.knightliao.hermesjsonrpc.core.dto.ResponseDto.ResponseDtoBuild
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-9-2
  */
@@ -35,47 +34,39 @@ public class BaseTestCase {
     public static final Integer DEFAULT_VALUE = 4;
 
     /**
-     * 
+     *
      */
     protected static void setupGsonRpc() {
 
         Response response = new Response(DEFAULT_VALUE);
 
-        ResponseDto responseDto = ResponseDtoBuilder.getResponseDto(response,
-                null, "2.0", 0L);
+        ResponseDto responseDto = ResponseDtoBuilder.getResponseDto(response, null, "2.0", 0L);
 
         System.out.println(GsonUtils.toJson(responseDto));
 
-        stubFor(post(urlEqualTo(URL)).willReturn(
-                aResponse().withHeader("Content-Type", CONTENT_TYPE)
-                        .withStatus(200)
-                        .withBody(GsonUtils.toJson(responseDto))));
+        stubFor(post(urlEqualTo(URL)).willReturn(aResponse().withHeader("Content-Type", CONTENT_TYPE).withStatus(200)
+                                                     .withBody(GsonUtils.toJson(responseDto))));
 
     }
 
     /**
-     * 
+     *
      */
     protected static void setupProtostuffRpc() {
 
         Response response = new Response(DEFAULT_VALUE);
 
-        ResponseDto responseDto = ResponseDtoBuilder.getResponseDto(response,
-                null, "2.0", 0L);
+        ResponseDto responseDto = ResponseDtoBuilder.getResponseDto(response, null, "2.0", 0L);
 
         System.out.println(GsonUtils.toJson(responseDto));
 
         Codec protostuffCodec = new ProtostuffCodec();
 
         try {
-            stubFor(post(urlEqualTo(URL)).willReturn(
-                    aResponse()
-                            .withHeader("Content-Type", CONTENT_TYPE)
-                            .withStatus(200)
-                            .withBody(
-                                    protostuffCodec.encode(
-                                            Constants.DEFAULT_CODING,
-                                            ResponseDto.class, responseDto))));
+            stubFor(post(urlEqualTo(URL))
+                        .willReturn(aResponse().withHeader("Content-Type", CONTENT_TYPE).withStatus(200)
+                                        .withBody(protostuffCodec.encode(Constants.DEFAULT_CODING, ResponseDto.class,
+                                                                            responseDto))));
         } catch (Exception e) {
             Assert.assertTrue(false);
         }

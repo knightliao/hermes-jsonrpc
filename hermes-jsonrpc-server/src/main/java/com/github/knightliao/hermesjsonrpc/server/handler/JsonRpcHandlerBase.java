@@ -26,28 +26,27 @@ import com.github.knightliao.hermesjsonrpc.server.dto.RpcResponseDto.RpcResponse
 
 /**
  * 所有JsonRpc处理器的基类
- * 
+ *
  * @author liaoqiqi
  * @version 2014-8-20
  */
 public abstract class JsonRpcHandlerBase implements RpcHandler {
 
-    protected static final Logger LOGGER = LoggerFactory
-            .getLogger(JsonRpcHandlerBase.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(JsonRpcHandlerBase.class);
 
     private final static ExceptionHandler exp = new ExceptionHandler();
 
     /**
-     * 
      * @param objClass
      * @param obj
      * @param methodname
      * @param args
+     *
      * @return
+     *
      * @throws JsonRpcException
      */
-    protected Object invoke(Class<?> objClass, Object obj, String methodname,
-            Object[] args) throws JsonRpcException {
+    protected Object invoke(Class<?> objClass, Object obj, String methodname, Object[] args) throws JsonRpcException {
 
         for (Method ms : objClass.getMethods()) {
 
@@ -104,53 +103,51 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
     }
 
     /**
-     * 
      * @param encoding
      * @param req
+     *
      * @return
+     *
      * @throws ParseErrorException
      */
-    protected abstract <T> RequestDto deserialize(String encoding, byte[] req,
-            Class<T> clazz) throws ParseErrorException;
+    protected abstract <T> RequestDto deserialize(String encoding, byte[] req, Class<T> clazz)
+        throws ParseErrorException;
 
     /**
-     * 
      * @param encoding
      * @param responseDto
+     *
      * @return
+     *
      * @throws ParseErrorException
      */
-    protected abstract byte[] serialize(String encoding, ResponseDto responseDto)
-            throws ParseErrorException;
+    protected abstract byte[] serialize(String encoding, ResponseDto responseDto) throws ParseErrorException;
 
     /**
-     * 
+     *
      */
-    private void checkRequest(RequestDto requestDto)
-            throws InvalidRequestException {
+    private void checkRequest(RequestDto requestDto) throws InvalidRequestException {
 
         //
         // 版本
         //
-        if (!requestDto.getVersion().equals(
-                Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
+        if (!requestDto.getVersion().equals(Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
             throw new InvalidRequestException();
         }
     }
 
     /**
-     * 
+     *
      */
-    public RpcResponseDto service(RpcRequestDto rpcRequestDto)
-            throws JsonRpcException {
+    public RpcResponseDto service(RpcRequestDto rpcRequestDto) throws JsonRpcException {
 
         try {
 
             //
             // 反序列化
             //
-            RequestDto requestDto = deserialize(rpcRequestDto.getEncoding(),
-                    rpcRequestDto.getRequest(), rpcRequestDto.getService());
+            RequestDto requestDto =
+                deserialize(rpcRequestDto.getEncoding(), rpcRequestDto.getRequest(), rpcRequestDto.getService());
             // LOGGER.debug("request=" + requestDto);
 
             //
@@ -166,24 +163,20 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
             Class<?> objClass = rpcRequestDto.getService();
             Object obj = rpcRequestDto.getActor();
 
-            Object ret = invoke(objClass, obj, requestDto.getMethod(),
-                    requestDto.getParams());
+            Object ret = invoke(objClass, obj, requestDto.getMethod(), requestDto.getParams());
 
-            rpcResponseDtoInner = make_res(rpcRequestDto, ret, null,
-                    requestDto.getId());
+            rpcResponseDtoInner = make_res(rpcRequestDto, ret, null, requestDto.getId());
 
             //
             // 序列化
             //
-            byte[] data = serialize(rpcRequestDto.getEncoding(),
-                    rpcResponseDtoInner.getResponseDto());
+            byte[] data = serialize(rpcRequestDto.getEncoding(), rpcResponseDtoInner.getResponseDto());
 
             //
             // 返回
             //
-            return RpcResponseDtoBuilder.getRpcResponseDto(
-                    rpcRequestDto.getEncoding(),
-                    rpcResponseDtoInner.getStatus(), data);
+            return RpcResponseDtoBuilder
+                       .getRpcResponseDto(rpcRequestDto.getEncoding(), rpcResponseDtoInner.getStatus(), data);
 
         } catch (JsonRpcException e) {
 
@@ -192,37 +185,34 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
             // 序列化失败
 
             // 结果
-            RpcResponseDtoInner rpcResponseDtoInner = make_res(rpcRequestDto,
-                    null, e, null);
+            RpcResponseDtoInner rpcResponseDtoInner = make_res(rpcRequestDto, null, e, null);
 
             // 序列化
-            byte[] data = serialize(rpcRequestDto.getEncoding(),
-                    rpcResponseDtoInner.getResponseDto());
+            byte[] data = serialize(rpcRequestDto.getEncoding(), rpcResponseDtoInner.getResponseDto());
 
-            return RpcResponseDtoBuilder.getRpcResponseDto(
-                    rpcRequestDto.getEncoding(),
-                    rpcResponseDtoInner.getStatus(), data);
+            return RpcResponseDtoBuilder
+                       .getRpcResponseDto(rpcRequestDto.getEncoding(), rpcResponseDtoInner.getStatus(), data);
         }
     }
 
     /**
-     * 
      * @param parameterObject
      * @param result
      * @param error
      * @param id
+     *
      * @return
      */
-    protected RpcResponseDtoInner make_res(RpcRequestDto parameterObject,
-            Object result, JsonRpcException error, Long id) {
+    protected RpcResponseDtoInner make_res(RpcRequestDto parameterObject, Object result, JsonRpcException error,
+                                           Long id) {
 
         //
         // 正确的
         //
         if (result != null && error == null && id != null) {
 
-            ResponseDto responseDto = ResponseDtoBuilder.getResponseDto(result,
-                    null, Constants.JSONRPC_PROTOCOL_VERSION_VALUE, id);
+            ResponseDto responseDto =
+                ResponseDtoBuilder.getResponseDto(result, null, Constants.JSONRPC_PROTOCOL_VERSION_VALUE, id);
 
             return new RpcResponseDtoInner(responseDto, Constants.HTTP_OK);
 
@@ -234,8 +224,8 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
             //
             // 错误的
             //
-            ResponseDto responseDto = ResponseDtoBuilder.getResponseDto(result,
-                    errorDto, Constants.JSONRPC_PROTOCOL_VERSION_VALUE, id);
+            ResponseDto responseDto =
+                ResponseDtoBuilder.getResponseDto(result, errorDto, Constants.JSONRPC_PROTOCOL_VERSION_VALUE, id);
 
             int code = error.errorCode();
 
@@ -256,13 +246,11 @@ public abstract class JsonRpcHandlerBase implements RpcHandler {
 
         } else {
 
-            return make_res(parameterObject, null,
-                    new InternalErrorException(), null);
+            return make_res(parameterObject, null, new InternalErrorException(), null);
         }
     }
 
     /**
-     * 
      * @author liaoqiqi
      * @version 2014-8-30
      */

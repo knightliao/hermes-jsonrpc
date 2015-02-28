@@ -1,7 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.core.dto;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
@@ -16,14 +15,12 @@ public class ResponseDto {
     private Long id;
 
     /**
-     * 
      * @author liaoqiqi
      * @version 2014-8-30
      */
     static public class ResponseDtoBuilder {
 
-        public static ResponseDto getResponseDto(Object result, ErrorDto error,
-                String version, Long id) {
+        public static ResponseDto getResponseDto(Object result, ErrorDto error, String version, Long id) {
 
             return new ResponseDto(result, error, version, id);
         }
@@ -71,8 +68,7 @@ public class ResponseDto {
 
     @Override
     public String toString() {
-        return "ResponseDto [result=" + result + ", error=" + error
-                + ", version=" + version + ", id=" + id + "]";
+        return "ResponseDto [result=" + result + ", error=" + error + ", version=" + version + ", id=" + id + "]";
     }
 
     public ResponseDto() {

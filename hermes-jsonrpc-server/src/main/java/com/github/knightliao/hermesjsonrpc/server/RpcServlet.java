@@ -34,7 +34,7 @@ import com.github.knightliao.hermesjsonrpc.server.secret.impl.DefaultSecretProce
 
 /**
  * 用于处理JsonRpc请求的Servlet
- * 
+ *
  * @author liaoqiqi
  * @version 2014-8-20
  */
@@ -62,8 +62,7 @@ public class RpcServlet extends HttpServlet {
      * 显示接口信息
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //
         // 只允许指定IP人员来访问
@@ -89,15 +88,12 @@ public class RpcServlet extends HttpServlet {
 
             out.println("<h1>Server Summary</h1>");
             out.println("This list all supported services");
-            out.println("<table border=\"1\"><tr>" + "<th>Service</th>"
-                    + "<th>Interface</th>" + "</tr>");
+            out.println("<table border=\"1\"><tr>" + "<th>Service</th>" + "<th>Interface</th>" + "</tr>");
 
             for (Entry<String, RpcExporter> i : exporters.entrySet()) {
-                out.println("<tr><td>" + i.getKey() + "</td><td><a href=\""
-                        + req.getContextPath() + req.getServletPath() + "/"
-                        + i.getKey() + "\">"
-                        + i.getValue().getServiceInterfaceName()
-                        + "</a></td></tr>");
+                out.println("<tr><td>" + i.getKey() + "</td><td><a href=\"" + req.getContextPath() +
+                                req.getServletPath() + "/" + i.getKey() + "\">" +
+                                i.getValue().getServiceInterfaceName() + "</a></td></tr>");
             }
             out.println("</table>");
 
@@ -113,33 +109,27 @@ public class RpcServlet extends HttpServlet {
 
                 out.println("<h1>Interface Summary</h1>");
 
-                out.println("This list all functions in <a href=\""
-                        + req.getContextPath() + req.getServletPath()
-                        + "\"/>service</a> "
-                        + serviceExporter.getServiceInterfaceName());
+                out.println("This list all functions in <a href=\"" + req.getContextPath() + req.getServletPath() +
+                                "\"/>service</a> " + serviceExporter.getServiceInterfaceName());
 
                 try {
 
-                    out.println("<table border=\"1\"><tr>" + "<th>Method</th>"
-                            + "<th>Signature</th>" + "</tr>");
+                    out.println("<table border=\"1\"><tr>" + "<th>Method</th>" + "<th>Signature</th>" + "</tr>");
 
-                    for (Method m : serviceExporter.getServiceInterface()
-                            .getMethods()) {
-                        out.println("<tr>"
-                                + "<td>"
-                                + m.getName()
-                                + "</td>"
-                                + "<td>"
-                                + HtmlUtils.escapeHTML(m
-                                        .toGenericString()
-                                        .substring(16)
-                                        .replaceAll("java\\.lang\\.", "")
-                                        .replaceAll("java\\.util\\.", "")
-                                        .replaceAll(
-                                                serviceExporter
-                                                        .getServiceInterfaceName()
-                                                        + ".", ""))
-                                + "</td></tr>");
+                    for (Method m : serviceExporter.getServiceInterface().getMethods()) {
+                        out.println("<tr>" + "<td>" + m.getName() + "</td>" + "<td>" + HtmlUtils
+                                                                                           .escapeHTML(m.toGenericString()
+                                                                                                           .substring
+                                                                                                                (16)
+                                                                                                           .replaceAll("java\\.lang\\.",
+                                                                                                                          "")
+                                                                                                           .replaceAll("java\\.util\\.",
+                                                                                                                          "")
+                                                                                                           .replaceAll(serviceExporter
+                                                                                                                           .getServiceInterfaceName() +
+                                                                                                                           ".",
+                                                                                                                          "")) +
+                                        "</td></tr>");
                     }
 
                     out.println("</table>");
@@ -187,8 +177,7 @@ public class RpcServlet extends HttpServlet {
 
             ApplicationContext factory = null;
 
-            factory = WebApplicationContextUtils
-                    .getWebApplicationContext(config.getServletContext());
+            factory = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
             String[] beanNames = factory.getBeanNamesForType(RpcExporter.class);
 
             if (beanNames == null || beanNames.length == 0) {
@@ -205,25 +194,18 @@ public class RpcServlet extends HttpServlet {
                     Class<?> interf = exporter.getServiceInterface();
                     context = interf.getSimpleName();
 
-                    if (interf.isAssignableFrom(exporter.getServiceBean()
-                            .getClass())) {
+                    if (interf.isAssignableFrom(exporter.getServiceBean().getClass())) {
                         exporters.put(context, exporter);
-                        log.info("export "
-                                + context
-                                + " as rpc service,url is http://${server}:${port}/${context}/"
-                                + context);
+                        log.info("export " + context + " as rpc service,url is http://${server}:${port}/${context}/" +
+                                     context);
 
                     } else {
-                        log.warn("the interface " + interf.getName()
-                                + " is not compatible with the bean "
-                                + beanName);
+                        log.warn("the interface " + interf.getName() + " is not compatible with the bean " + beanName);
                     }
 
                 } catch (ClassNotFoundException e) {
 
-                    log.warn("the interface "
-                            + exporter.getServiceInterfaceName()
-                            + " not found.");
+                    log.warn("the interface " + exporter.getServiceInterfaceName() + " not found.");
                 }
             }
         } catch (BeansException e1) {
@@ -241,21 +223,17 @@ public class RpcServlet extends HttpServlet {
 
     /**
      * The doPost method of the servlet. <br>
-     * 
+     * <p/>
      * This method is called when a form has its tag value method equals to
      * post.
-     * 
-     * @param request
-     *            the request send by the client to the server
-     * @param response
-     *            the response send by the server to the client
-     * @throws ServletException
-     *             if an error occurred
-     * @throws IOException
-     *             if an error occurred
+     *
+     * @param request  the request send by the client to the server
+     * @param response the response send by the server to the client
+     *
+     * @throws ServletException if an error occurred
+     * @throws IOException      if an error occurred
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String context = request.getPathInfo();
         if (context == null) {
@@ -298,19 +276,17 @@ public class RpcServlet extends HttpServlet {
                 }
 
                 // 读取请求
-                byte[] bytes = readStream(request.getInputStream(),
-                        request.getContentLength());
+                byte[] bytes = readStream(request.getInputStream(), request.getContentLength());
 
                 // 组装请求
-                RpcRequestDto rpcReq = new RpcRequestDto(
-                        serviceExporter.getServiceInterface(),
-                        serviceExporter.getServiceBean(), bytes, encoding);
+                RpcRequestDto rpcReq =
+                    new RpcRequestDto(serviceExporter.getServiceInterface(), serviceExporter.getServiceBean(), bytes,
+                                         encoding);
 
                 //
                 // 处理器
                 //
-                RpcHandler handler = handlerFactory
-                        .getProtocolHandler(contentType);
+                RpcHandler handler = handlerFactory.getProtocolHandler(contentType);
 
                 // 处理
                 RpcResponseDto rpcResponseDto = handler.service(rpcReq);
@@ -331,10 +307,12 @@ public class RpcServlet extends HttpServlet {
 
     /**
      * 从stream中读取全部数据
-     * 
+     *
      * @param input
      * @param length
+     *
      * @return 读取到的数据
+     *
      * @throws IOException
      */
     private byte[] readStream(InputStream input, int length) throws IOException {
@@ -346,8 +324,9 @@ public class RpcServlet extends HttpServlet {
         while (offset < bytes.length) {
 
             int bytesRead = input.read(bytes, offset, bytes.length - offset);
-            if (bytesRead == -1)
+            if (bytesRead == -1) {
                 break; // end of stream
+            }
             offset += bytesRead;
         }
 
@@ -356,23 +335,21 @@ public class RpcServlet extends HttpServlet {
 
     /**
      * 门神验证
-     * 
+     *
      * @return
      */
-    private boolean doorCheck(HttpServletRequest request,
-            RpcExporter serviceExporter, String encoding) {
+    private boolean doorCheck(HttpServletRequest request, RpcExporter serviceExporter, String encoding) {
 
         String data = request.getHeader("Authorization");
 
-        boolean authOK = secretProcessor.isAuthOk(data, encoding,
-                serviceExporter.getUserName(), serviceExporter.getPassword());
+        boolean authOK =
+            secretProcessor.isAuthOk(data, encoding, serviceExporter.getUserName(), serviceExporter.getPassword());
         if (!authOK) {
             log.warn("auth check failed.");
             return false;
         }
 
-        boolean ipOk = secretProcessor.isIpOk(request.getRemoteAddr(),
-                serviceExporter.getIpSet());
+        boolean ipOk = secretProcessor.isIpOk(request.getRemoteAddr(), serviceExporter.getIpSet());
         if (!ipOk) {
             log.warn("ip check failed. Ip: " + request.getRemoteAddr());
             return false;

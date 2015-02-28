@@ -2,7 +2,6 @@ package com.github.knightliao.hermesjsonrpc.server.dto;
 
 /**
  * 代表一个rpc请求
- * 
  */
 public class RpcRequestDto {
 
@@ -27,17 +26,12 @@ public class RpcRequestDto {
     private String encoding;
 
     /**
-     * @param service
-     *            所调用的服务接口
-     * @param actor
-     *            完成请求的bean
-     * @param reqs
-     *            传入的协议数据
-     * @param encoding
-     *            请求所使用的字符编码
+     * @param service  所调用的服务接口
+     * @param actor    完成请求的bean
+     * @param reqs     传入的协议数据
+     * @param encoding 请求所使用的字符编码
      */
-    public RpcRequestDto(Class<?> service, Object actor, byte[] reqs,
-            String encoding) {
+    public RpcRequestDto(Class<?> service, Object actor, byte[] reqs, String encoding) {
 
         this.service = service;
         this.actor = actor;

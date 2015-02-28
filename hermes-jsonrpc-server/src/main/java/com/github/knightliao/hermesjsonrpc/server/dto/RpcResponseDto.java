@@ -1,7 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.server.dto;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
@@ -23,14 +22,12 @@ public class RpcResponseDto {
     private byte[] response;
 
     /**
-     * 
      * @author liaoqiqi
      * @version 2014-8-30
      */
     static public class RpcResponseDtoBuilder {
 
-        public static RpcResponseDto getRpcResponseDto(String encoding,
-                int statusCode, byte[] response) {
+        public static RpcResponseDto getRpcResponseDto(String encoding, int statusCode, byte[] response) {
 
             return new RpcResponseDto(encoding, statusCode, response);
         }

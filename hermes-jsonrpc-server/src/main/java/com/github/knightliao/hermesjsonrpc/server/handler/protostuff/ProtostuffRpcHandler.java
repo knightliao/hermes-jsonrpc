@@ -11,23 +11,20 @@ import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
 import com.github.knightliao.hermesjsonrpc.server.handler.JsonRpcHandlerBase;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
 public class ProtostuffRpcHandler extends JsonRpcHandlerBase {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(ProtostuffRpcHandler.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(ProtostuffRpcHandler.class);
 
     private Codec codec = new ProtostuffCodec();
 
     /**
-     * 
+     *
      */
     @Override
-    protected <T> RequestDto deserialize(String encoding, byte[] req,
-            Class<T> clazz) throws ParseErrorException {
+    protected <T> RequestDto deserialize(String encoding, byte[] req, Class<T> clazz) throws ParseErrorException {
 
         try {
 
@@ -46,11 +43,10 @@ public class ProtostuffRpcHandler extends JsonRpcHandlerBase {
     }
 
     /**
-     * 
+     *
      */
     @Override
-    protected byte[] serialize(String encoding, ResponseDto responseDto)
-            throws ParseErrorException {
+    protected byte[] serialize(String encoding, ResponseDto responseDto) throws ParseErrorException {
 
         try {
 

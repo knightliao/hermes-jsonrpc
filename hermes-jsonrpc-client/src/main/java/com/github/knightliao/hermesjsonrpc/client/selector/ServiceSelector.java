@@ -1,7 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.client.selector;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-21
  */

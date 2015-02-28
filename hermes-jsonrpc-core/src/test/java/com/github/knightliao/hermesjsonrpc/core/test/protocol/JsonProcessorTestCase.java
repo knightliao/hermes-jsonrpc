@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-28
  */
@@ -38,9 +37,7 @@ public class JsonProcessorTestCase {
         byte[] byteData = processor.encode("UTF-8", el);
 
         System.out.println(new String(byteData));
-        Assert.assertEquals(
-                "[{\"name\":\"kevin\",\"age\":25},{\"name\":\"cissy\",\"age\":24}]",
-                new String(byteData));
+        Assert.assertEquals("[{\"name\":\"kevin\",\"age\":25},{\"name\":\"cissy\",\"age\":24}]", new String(byteData));
     }
 
 }

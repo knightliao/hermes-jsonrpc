@@ -17,44 +17,41 @@ import com.github.knightliao.hermesjsonrpc.core.exception.ExceptionHandler;
 import com.github.knightliao.hermesjsonrpc.core.exception.ParseErrorException;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
 public class ProtostuffPrcProxy extends RpcProxyBase {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(ProtostuffPrcProxy.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(ProtostuffPrcProxy.class);
 
-    /** 用于放置header中需要添加的属性信息 */
+    /**
+     * 用于放置header中需要添加的属性信息
+     */
     protected Map<String, String> headerProperties = new HashMap<String, String>();
 
     private Codec codec = new ProtostuffCodec();
 
     /**
-     * 
      * @param url
      * @param encoding
      * @param exceptionHandler
      * @param userName
      * @param password
      */
-    public ProtostuffPrcProxy(String url, String encoding,
-            ExceptionHandler exceptionHandler, String userName, String password) {
+    public ProtostuffPrcProxy(String url, String encoding, ExceptionHandler exceptionHandler, String userName,
+                              String password) {
         super(url, encoding, exceptionHandler, userName, password);
     }
 
     /**
-     * 
+     *
      */
     @Override
-    protected ResponseDto deserialize(byte[] req, Type type)
-            throws ParseErrorException {
+    protected ResponseDto deserialize(byte[] req, Type type) throws ParseErrorException {
 
         try {
 
-            ResponseDto dataDto = codec
-                    .decode(encoding, ResponseDto.class, req);
+            ResponseDto dataDto = codec.decode(encoding, ResponseDto.class, req);
             LOG.debug("response: " + dataDto.toString());
 
             return dataDto;
@@ -67,7 +64,7 @@ public class ProtostuffPrcProxy extends RpcProxyBase {
     }
 
     /**
-     * 
+     *
      */
     @Override
     protected byte[] serialize(RequestDto res) throws ParseErrorException {
