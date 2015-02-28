@@ -15,8 +15,7 @@ import com.github.knightliao.hermesjsonrpc.server.handler.protostuff.ProtostuffR
  */
 public class HandlerFactory {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(HandlerFactory.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(HandlerFactory.class);
 
     final static RpcHandler gson = new GsonRpcHandler();
     final static RpcHandler protostuff = new ProtostuffRpcHandler();
@@ -30,8 +29,9 @@ public class HandlerFactory {
 
     /**
      * 根据Content-type获取协议处理器
-     * 
+     *
      * @param type
+     *
      * @return 协议处理器
      */
     public RpcHandler getProtocolHandler(String type) {

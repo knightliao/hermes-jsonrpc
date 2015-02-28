@@ -9,32 +9,28 @@ import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver.Request;
 import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver.Response;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-21
  */
 public class DemoClientMain {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(DemoClientMain.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(DemoClientMain.class);
     private static String[] fn = null;
 
     // 初始化spring文档
     private static void contextInitialized() {
-        fn = new String[] { "applicationContext.xml" };
+        fn = new String[] {"applicationContext.xml"};
     }
 
     public static void main(String[] args) {
 
         contextInitialized();
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-                fn);
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(fn);
 
         //
         // process
         //
-        DemoServiceDriver demoServiceDriver = (DemoServiceDriver) ctx
-                .getBean("demoServiceDriver");
+        DemoServiceDriver demoServiceDriver = (DemoServiceDriver) ctx.getBean("demoServiceDriver");
 
         LOG.info("start to process");
 
@@ -42,8 +38,7 @@ public class DemoClientMain {
 
             try {
 
-                Response ret = demoServiceDriver.getRandom(new Request(0,
-                        i * 10));
+                Response ret = demoServiceDriver.getRandom(new Request(0, i * 10));
 
                 LOG.info(ret + "");
             } catch (Exception e) {

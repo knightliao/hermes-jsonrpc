@@ -29,12 +29,12 @@ hermes-jsonrpc branches and Maven version:
 - 传输格式：JSON
 - codec协议: GSON 或 Protostuff
 - Client编程方式：
-	- 支持Spring AOP代理方式请求方式
+    - 支持Spring AOP代理方式请求方式
 - Server编程方式：
-	- 支持Spring Web Servlet接受请求方式
-	- 支持安全的 用户名/密码验证(无法反算)
-	- 支持白名单
-	- 支持接受GET请求，它显示接口信息。GET请求支持白名单
+    - 支持Spring Web Servlet接受请求方式
+    - 支持安全的 用户名/密码验证(无法反算)
+    - 支持白名单
+    - 支持接受GET请求，它显示接口信息。GET请求支持白名单
 - 同步调用，不支持异步调用
 
 注：本框架遵循的规范可参见: [https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md](https://github.com/knightliao/docs/blob/master/baidu/rpc/rpcspec.md)
@@ -43,72 +43,72 @@ hermes-jsonrpc branches and Maven version:
 
 ###Java接口:####
 
-	package com.github.knightliao.hermesjsonrpc.demo;
-	
-	/**
-	 * 
-	 * @author liaoqiqi
-	 * @version 2014-8-21
-	 */
-	public interface DemoServiceDriver {
-	
-	    public class Request {
-	
-	        public Request(int maxValue, int minValue) {
-	            super();
-	            this.maxValue = maxValue;
-	            this.minValue = minValue;
-	        }
-	
-	        private int maxValue;
-	
-	        public int getMaxValue() {
-	            return maxValue;
-	        }
-	
-	        public void setMaxValue(int maxValue) {
-	            this.maxValue = maxValue;
-	        }
-	
-	        public int getMinValue() {
-	            return minValue;
-	        }
-	
-	        public void setMinValue(int minValue) {
-	            this.minValue = minValue;
-	        }
-	
-	        private int minValue;
-	    }
-	
-	    public class Response {
-	
-	        public Response(int value) {
-	            super();
-	            this.value = value;
-	        }
-	
-	        private int value;
-	
-	        public int getValue() {
-	            return value;
-	        }
-	
-	        public void setValue(int value) {
-	            this.value = value;
-	        }
-	    }
-	
-	    Response getRandom(Request seed);
-	}
+    package com.github.knightliao.hermesjsonrpc.demo;
+    
+    /**
+     * 
+     * @author liaoqiqi
+     * @version 2014-8-21
+     */
+    public interface DemoServiceDriver {
+    
+        public class Request {
+    
+            public Request(int maxValue, int minValue) {
+                super();
+                this.maxValue = maxValue;
+                this.minValue = minValue;
+            }
+    
+            private int maxValue;
+    
+            public int getMaxValue() {
+                return maxValue;
+            }
+    
+            public void setMaxValue(int maxValue) {
+                this.maxValue = maxValue;
+            }
+    
+            public int getMinValue() {
+                return minValue;
+            }
+    
+            public void setMinValue(int minValue) {
+                this.minValue = minValue;
+            }
+    
+            private int minValue;
+        }
+    
+        public class Response {
+    
+            public Response(int value) {
+                super();
+                this.value = value;
+            }
+    
+            private int value;
+    
+            public int getValue() {
+                return value;
+            }
+    
+            public void setValue(int value) {
+                this.value = value;
+            }
+        }
+    
+        Response getRandom(Request seed);
+    }
 
-###client request: ###
+###client request示例（在没有权限控制的情况下）: ###
 
-	{"method":"getRandom","version":"2.0","params":[{"maxValue":0,"minValue":50}],"id":39547}
+    curl -d '{"id":"99999","version":"2.0","method":"getRandom","params":[{"maxValue":0,"minValue":50}]}' http://127.0.0.1:8085/export/DemoServiceDriver -H 'Content-Type: application/json-hermes-gson'
 
-###server response:###
-	
-	{"result":{"value":27},"version":"2.0","id":39547}
+###server response示例（在没有权限控制的情况下）:###
+    
+    {"result":{"value":32},"version":"2.0","id":99999}
 
 ## 使用 ##
 
@@ -137,7 +137,7 @@ server:
 - [Tutorial 3 带有权限验证和IP白名单的 Json GSON RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial3)
 - [Tutorial 4 请求带有权限验证 Json GSON RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial4)
 - [Tutorial 5 Json Protostuff RPC 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial5)
-	
+    
 ## 局限性 ##
 
 - 服务和客户端均只能是Java语言编程

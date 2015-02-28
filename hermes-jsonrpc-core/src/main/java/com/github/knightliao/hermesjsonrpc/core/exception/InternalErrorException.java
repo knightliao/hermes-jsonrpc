@@ -2,7 +2,6 @@ package com.github.knightliao.hermesjsonrpc.core.exception;
 
 /**
  * 当Rpc出现其他内部错误时抛出
- * 
  */
 public class InternalErrorException extends JsonRpcException {
 
@@ -25,15 +24,10 @@ public class InternalErrorException extends JsonRpcException {
     }
 
     /**
-	 * 
-	 */
+     *
+     */
     private static final long serialVersionUID = -3629678837586531475L;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.baidu.rpc.exception.JsonRpcException#errorCode()
-     */
     @Override
     public int errorCode() {
         return INTERNAL_ERROR_CODE;

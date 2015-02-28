@@ -22,37 +22,48 @@ import com.github.knightliao.hermesjsonrpc.core.constant.ProtocolEnum;
 
 /**
  * 最新通的通用的基于JDK的客户端调用方式<br/>
- * 
+ * <p/>
  * 支持<br/>
  * 1. 普通的RPC调用 <br/>
  * 2. 带头的RPC <br/>
  * 3. 带用户名密码的验证的RPC<br/>
- * 
+ *
  * @author liaoqiqi
  * @version 2014-8-22
  */
 @SuppressWarnings("rawtypes")
 public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(RpcProxyFactorySpring.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(RpcProxyFactorySpring.class);
 
-    /** 服务列表，非空，由server+url生成 */
+    /**
+     * 服务列表，非空，由server+url生成
+     */
     private String[] services;
 
-    /** 配置的服务器列表，含端口 */
+    /**
+     * 配置的服务器列表，含端口
+     */
     private String[] servers;
 
-    /** 协议前缀 */
+    /**
+     * 协议前缀
+     */
     private String protocol = "http://";
 
-    /** 调用的Url */
+    /**
+     * 调用的Url
+     */
     private String serviceUrl;
 
-    /** 编码 */
+    /**
+     * 编码
+     */
     private String encoding = "UTF-8";
 
-    /** 重试次数，会取min(services.length, retryTimes)的较小值来重试 */
+    /**
+     * 重试次数，会取min(services.length, retryTimes)的较小值来重试
+     */
     private int retryTimes = 3;
 
     // 接口
@@ -61,13 +72,19 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
     // codec类型
     private String codecType = "";
 
-    /** 出错后是否直接退出,默认是false */
+    /**
+     * 出错后是否直接退出,默认是false
+     */
     protected boolean errorExit = false;
 
-    /** 连接超时，毫秒数 */
+    /**
+     * 连接超时，毫秒数
+     */
     private int connectionTimeout;
 
-    /** 读超时，毫秒数 */
+    /**
+     * 读超时，毫秒数
+     */
     private int readTimeout;
 
     // header map
@@ -78,15 +95,13 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
     private String password = null;
 
     /**
-     * 
      * @author liaoqiqi
      * @version 2014-8-21
      */
     class SelectorProxy implements InvocationHandler {
 
         @SuppressWarnings("unchecked")
-        public Object invoke(Object proxy, Method method, Object[] args)
-                throws Throwable {
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
             // 待调用的接口
             final Class targetClass = method.getDeclaringClass();
@@ -100,8 +115,7 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
             //
             // 具体调用时实现重试功能
             //
-            List<ServiceInvoker> serviceInvokers = new ArrayList<ServiceInvoker>(
-                    services.length);
+            List<ServiceInvoker> serviceInvokers = new ArrayList<ServiceInvoker>(services.length);
             for (int i = 0; i < services.length; i++) {
 
                 final String curServiceUrl = services[i];
@@ -127,28 +141,26 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
                             rpcProxyBase.addHeaderProperties(headerMap);
                         }
 
-                        return RpcProxyFactory.createProxy(targetClass,
-                                rpcProxyBase);
+                        return RpcProxyFactory.createProxy(targetClass, rpcProxyBase);
                     }
 
                 };
                 serviceInvokers.add(service);
             }
 
-            ServiceSelector serviceSelector = new RandomServiceSelector(
-                    serviceInvokers, retryTimes, targetMethodmethod, targetArgs);
+            ServiceSelector serviceSelector =
+                new RandomServiceSelector(serviceInvokers, retryTimes, targetMethodmethod, targetArgs);
             return serviceSelector.invoke(errorExit);
         }
     }
 
     /**
-     * 
+     *
      */
     public Object getObject() throws Exception {
 
         // 生成一个执行代理
-        return Proxy.newProxyInstance(getClass().getClassLoader(),
-                new Class[] { serviceInterface }, new SelectorProxy());
+        return Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] {serviceInterface}, new SelectorProxy());
     }
 
     public Class getObjectType() {
@@ -181,8 +193,7 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
     public void setServiceInterface(Class serviceInterface) {
         if (serviceInterface == null || !serviceInterface.isInterface()) {
-            throw new IllegalArgumentException(
-                    "'serviceInterface' must be an interface");
+            throw new IllegalArgumentException("'serviceInterface' must be an interface");
         }
         this.serviceInterface = serviceInterface;
     }
@@ -193,8 +204,7 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
     public void setServices(String[] services) {
         if (services == null || services.length < 1) {
-            throw new IllegalArgumentException(
-                    "'services' must be an nonempty array");
+            throw new IllegalArgumentException("'services' must be an nonempty array");
         }
         this.services = services;
     }
@@ -232,14 +242,13 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
     }
 
     /**
-     * 
+     *
      */
     public void afterPropertiesSet() throws Exception {
 
         if (servers == null || servers.length < 1) {
 
-            throw new IllegalArgumentException(
-                    "either servers or services is required!");
+            throw new IllegalArgumentException("either servers or services is required!");
         }
         services = new String[servers.length];
         for (int i = 0; i < servers.length; i++) {
@@ -288,8 +297,6 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
     }
 
     /**
-     * 
-     * 
      * @return
      */
     private RpcProxyBase getRpcProxyBase(String curServiceUrl) {
@@ -302,12 +309,10 @@ public class RpcProxyFactorySpring implements FactoryBean, InitializingBean {
 
         if (protocolEnum.equals(ProtocolEnum.GSON)) {
 
-            return RpcProxyFactory.getGsonRpcProxy(curServiceUrl, encoding,
-                    userName, password);
+            return RpcProxyFactory.getGsonRpcProxy(curServiceUrl, encoding, userName, password);
         } else {
 
-            return RpcProxyFactory.getProtostuffRpc(curServiceUrl, encoding,
-                    userName, password);
+            return RpcProxyFactory.getProtostuffRpc(curServiceUrl, encoding, userName, password);
         }
     }
 

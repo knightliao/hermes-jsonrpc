@@ -9,7 +9,6 @@ import com.github.knightliao.hermesjsonrpc.core.test.codec.TestData;
 import com.github.knightliao.hermesjsonrpc.core.test.codec.gson.GsonCodecTestCase;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-9-2
  */
@@ -20,7 +19,7 @@ public class ProtostuffCodecTestCase {
     public static final String encoding = "UTF-8";
 
     /**
-     * 
+     *
      */
     @Test
     public void test() {
@@ -39,8 +38,7 @@ public class ProtostuffCodecTestCase {
                 data = proCodec.encode(encoding, TestData.class, testData);
 
                 length = data.length;
-                TestData testData2 = proCodec.decode(encoding, TestData.class,
-                        data);
+                TestData testData2 = proCodec.decode(encoding, TestData.class, data);
 
                 Assert.assertEquals(testData, testData2);
             }

@@ -31,14 +31,13 @@ import com.github.knightliao.hermesjsonrpc.core.exception.ServerErrorException;
 
 /**
  * JsonRpc调用端的公共基类，包含绝大部分rpc调用的实现
- * 
+ *
  * @author liaoqiqi
  * @version 2014-8-20
  */
 public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(RpcProxyBase.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(RpcProxyBase.class);
 
     private ExceptionHandler exceptionHandler = new ExceptionHandler();
 
@@ -48,57 +47,54 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     private int _connectTimeout = 30; // 默认连接超时30秒
     private int _readTimeout = 60; // 默认连接超时60秒
 
-    /** 用于放置header中需要添加的属性信息 */
+    /**
+     * 用于放置header中需要添加的属性信息
+     */
     private Map<String, String> headerProperties = new HashMap<String, String>();
 
     /**
-     * 
      * @param req
+     *
      * @return
+     *
      * @throws ParseErrorException
      */
-    protected abstract ResponseDto deserialize(byte[] req, Type type)
-            throws ParseErrorException;
+    protected abstract ResponseDto deserialize(byte[] req, Type type) throws ParseErrorException;
 
     /**
-     * 
      * @param res
+     *
      * @return
+     *
      * @throws ParseErrorException
      */
-    protected abstract byte[] serialize(RequestDto res)
-            throws ParseErrorException;
+    protected abstract byte[] serialize(RequestDto res) throws ParseErrorException;
 
     /**
-     * 
      * @return
      */
     protected abstract String contentType();
 
     /**
-     * 
      * @param url
      * @param encoding
      * @param exceptionHandler
      */
-    public RpcProxyBase(String url, String encoding,
-            ExceptionHandler exceptionHandler, String username, String password) {
+    public RpcProxyBase(String url, String encoding, ExceptionHandler exceptionHandler, String username,
+                        String password) {
 
         this(url, encoding, exceptionHandler);
 
         // 授权信息
-        addHeaderProperties(Constants.WWW_AUTH_RPC,
-                AuthController.getAuth(username, password, encoding));
+        addHeaderProperties(Constants.WWW_AUTH_RPC, AuthController.getAuth(username, password, encoding));
     }
 
     /**
-     * 
      * @param url
      * @param encoding
      * @param exceptionHandler
      */
-    public RpcProxyBase(String url, String encoding,
-            ExceptionHandler exceptionHandler) {
+    public RpcProxyBase(String url, String encoding, ExceptionHandler exceptionHandler) {
         this.encoding = encoding;
         this.url = url;
         LOG.debug("url: " + url);
@@ -108,8 +104,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     /**
      * 调用 函数
      */
-    public Object invoke(Object proxy, Method method, Object[] args)
-            throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
         try {
 
@@ -129,8 +124,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             // 连接
             //
-            HttpURLConnection connection = (HttpURLConnection) new URL(url)
-                    .openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             if (_connectTimeout > 0) {
                 connection.setConnectTimeout(_connectTimeout);
             }
@@ -148,8 +142,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             //
             // 反序列化
             //
-            ResponseDto responseDto = deserialize(resBytes,
-                    method.getGenericReturnType());
+            ResponseDto responseDto = deserialize(resBytes, method.getGenericReturnType());
             // LOG.debug("result=" + responseDto);
 
             //
@@ -167,14 +160,15 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     /**
      * 读取服务器返回的信息
-     * 
+     *
      * @param connection
+     *
      * @return 读取到的数据
+     *
      * @throws IOException
      * @throws JsonRpcException
      */
-    protected byte[] readResponse(URLConnection connection)
-            throws JsonRpcException {
+    protected byte[] readResponse(URLConnection connection) throws JsonRpcException {
 
         byte[] resBytes;
         InputStream in = null;
@@ -191,8 +185,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             } else {
 
                 // 读取错误日志
-                if (httpconnection.getContentType().equals(contentType())
-                        && httpconnection.getErrorStream() != null) {
+                if (httpconnection.getContentType().equals(contentType()) && httpconnection.getErrorStream() != null) {
                     in = httpconnection.getErrorStream();
                 } else {
                     in = httpconnection.getInputStream();
@@ -209,8 +202,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             resBytes = new byte[len];
             int offset = 0;
             while (offset < resBytes.length) {
-                int bytesRead = in.read(resBytes, offset, resBytes.length
-                        - offset);
+                int bytesRead = in.read(resBytes, offset, resBytes.length - offset);
                 if (bytesRead == -1) {
                     break; // end of stream
                 }
@@ -218,8 +210,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             }
 
             if (offset <= 0) {
-                throw new InternalErrorException("there is no service to "
-                        + url);
+                throw new InternalErrorException("there is no service to " + url);
             }
 
         } catch (IOException e) {
@@ -241,9 +232,10 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     /**
      * 向服务器发送信息
-     * 
+     *
      * @param reqBytes
      * @param connection
+     *
      * @throws IOException
      */
     protected void sendRequest(byte[] reqBytes, URLConnection connection) {
@@ -254,8 +246,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
         if (null != headerProperties) {
             for (Entry<String, String> entry : headerProperties.entrySet()) {
                 if (null != entry.getValue()) {
-                    connection.addRequestProperty(entry.getKey(),
-                            entry.getValue());
+                    connection.addRequestProperty(entry.getKey(), entry.getValue());
                 }
             }
         }
@@ -271,10 +262,8 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
             httpconnection.setUseCaches(false);
             httpconnection.setDoInput(true);
             httpconnection.setDoOutput(true);
-            httpconnection.setRequestProperty("Content-Type", contentType()
-                    + ";charset=" + encoding);
-            httpconnection.setRequestProperty("Content-Length", ""
-                    + reqBytes.length);
+            httpconnection.setRequestProperty("Content-Type", contentType() + ";charset=" + encoding);
+            httpconnection.setRequestProperty("Content-Length", "" + reqBytes.length);
             httpconnection.connect();
             out = httpconnection.getOutputStream();
             out.write(reqBytes);
@@ -296,34 +285,32 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     }
 
     /**
-     * 
      * @param id
      * @param method
      * @param args
+     *
      * @return
      */
     protected RequestDto makeRequest(long id, Method method, Object[] args) {
 
-        RequestDto requestDto = RequestDtoBuilder.getRequestDto(
-                method.getName(), Constants.JSONRPC_PROTOCOL_VERSION_VALUE,
-                args, id);
+        RequestDto requestDto =
+            RequestDtoBuilder.getRequestDto(method.getName(), Constants.JSONRPC_PROTOCOL_VERSION_VALUE, args, id);
 
-        LOG.debug("Request: JsonRpc head=" + headerProperties + " request="
-                + requestDto);
+        LOG.debug("Request: JsonRpc head=" + headerProperties + " request=" + requestDto);
 
         return requestDto;
     }
 
     /**
-     * 
      * @param id
      * @param responseDto
      * @param method
+     *
      * @return
+     *
      * @throws Exception
      */
-    protected void checkResponse(long id, ResponseDto responseDto, Method method)
-            throws Exception {
+    protected void checkResponse(long id, ResponseDto responseDto, Method method) throws Exception {
 
         // LOG.debug("Response: JsonRpc head=" + headerProperties + " response="
         // + responseDto);
@@ -331,9 +318,8 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
         //
         // 版本
         //
-        if (responseDto.getVersion() == null
-                || !responseDto.getVersion().equals(
-                        Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
+        if (responseDto.getVersion() == null ||
+                !responseDto.getVersion().equals(Constants.JSONRPC_PROTOCOL_VERSION_VALUE)) {
             throw new InternalErrorException();
         }
 
@@ -368,8 +354,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
                     Class<?>[] exp_types = method.getExceptionTypes();
                     for (Class<?> exp_type : exp_types) {
                         if (msg.equals(exp_type.getSimpleName())) {
-                            Exception custom_exp = (Exception) exp_type
-                                    .newInstance();
+                            Exception custom_exp = (Exception) exp_type.newInstance();
                             custom_exp.initCause(jre.getCause());
                             throw custom_exp;
                         }
@@ -392,7 +377,7 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     }
 
     /**
-     * 
+     *
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -400,7 +385,6 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     /**
      * 设置连接超时(ms)
-     * 
      */
     public void setConnectTimeout(int v) {
         _connectTimeout = v;
@@ -408,7 +392,6 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     /**
      * 获取连接超时设置(ms)
-     * 
      */
     public int getConnectTimeout() {
         return _connectTimeout;
@@ -416,7 +399,6 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     /**
      * 获取读超时设置(ms)
-     * 
      */
     public void setReadTimeout(int v) {
         _readTimeout = v;
@@ -424,14 +406,12 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
 
     /**
      * 设置读超时(ms)/c
-     * 
      */
     public int getReadTimeout() {
         return _readTimeout;
     }
 
     /**
-     * 
      * @param key
      * @param value
      */
@@ -444,7 +424,6 @@ public abstract class RpcProxyBase implements InvocationHandler, Cloneable {
     }
 
     /**
-     * 
      * @param headerProperties
      */
     public void addHeaderProperties(Map<String, String> headerProperties) {

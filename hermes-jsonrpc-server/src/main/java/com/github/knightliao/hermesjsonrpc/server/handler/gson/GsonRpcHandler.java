@@ -18,7 +18,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
@@ -27,19 +26,16 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
     private static final GsonCodec processor = new GsonCodec();
 
     @Override
-    protected byte[] serialize(String encoding, ResponseDto responseDto)
-            throws ParseErrorException {
+    protected byte[] serialize(String encoding, ResponseDto responseDto) throws ParseErrorException {
 
-        JsonElement jsonElement = processor.encode(responseDto,
-                ResponseDto.class);
+        JsonElement jsonElement = processor.encode(responseDto, ResponseDto.class);
         LOGGER.debug("response: " + jsonElement.toString());
 
         return processor.encode(encoding, jsonElement);
     }
 
     @Override
-    protected <T> RequestDto deserialize(String encoding, byte[] req,
-            Class<T> clazz) throws ParseErrorException {
+    protected <T> RequestDto deserialize(String encoding, byte[] req, Class<T> clazz) throws ParseErrorException {
 
         //
         // 反序列化JSON对象
@@ -53,8 +49,7 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
         // 拿函数名
         //
 
-        String methodname = jsonObject.get(RequestDto.JSONRPC_METHOD)
-                .getAsString();
+        String methodname = jsonObject.get(RequestDto.JSONRPC_METHOD).getAsString();
         if (methodname == null) {
             throw new MethodNotFoundException();
         }
@@ -70,8 +65,7 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
             if (ms.getName().equals(methodname)) {
 
                 // 拿参数
-                JsonArray jsonArray = jsonObject.get(RequestDto.JSONRPC_PARAM)
-                        .getAsJsonArray();
+                JsonArray jsonArray = jsonObject.get(RequestDto.JSONRPC_PARAM).getAsJsonArray();
                 if (jsonArray == null) {
                     continue;
                 }
@@ -96,8 +90,7 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
 
                 // 拿版本号
                 String version = "";
-                JsonElement versionE = jsonObject
-                        .get(Constants.JSONRPC_PROTOCOL_VERSION);
+                JsonElement versionE = jsonObject.get(Constants.JSONRPC_PROTOCOL_VERSION);
                 if (versionE != null) {
                     version = versionE.getAsString();
                 }
@@ -109,8 +102,7 @@ public class GsonRpcHandler extends JsonRpcHandlerBase {
                     id = idElement.getAsLong();
                 }
 
-                return RequestDtoBuilder.getRequestDto(methodname, version,
-                        arg_obj, id);
+                return RequestDtoBuilder.getRequestDto(methodname, version, arg_obj, id);
             }
         }
 

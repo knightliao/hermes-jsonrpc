@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * 请求对象
- * 
+ *
  * @author liaoqiqi
  * @version 2014-8-30
  */
@@ -26,14 +26,12 @@ public class RequestDto {
     private Long id;
 
     /**
-     * 
      * @author liaoqiqi
      * @version 2014-8-30
      */
     static public class RequestDtoBuilder {
 
-        public static RequestDto getRequestDto(String method, String version,
-                Object[] params, Long id) {
+        public static RequestDto getRequestDto(String method, String version, Object[] params, Long id) {
 
             return new RequestDto(method, version, params, id);
         }
@@ -81,8 +79,8 @@ public class RequestDto {
 
     @Override
     public String toString() {
-        return "RequestDto [method=" + method + ", version=" + version
-                + ", params=" + Arrays.toString(params) + ", id=" + id + "]";
+        return "RequestDto [method=" + method + ", version=" + version + ", params=" + Arrays.toString(params) +
+                   ", id=" + id + "]";
     }
 
     public RequestDto() {

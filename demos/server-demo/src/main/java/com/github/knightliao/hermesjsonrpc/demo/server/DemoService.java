@@ -6,7 +6,6 @@ import com.github.knightliao.apollo.utils.common.RandomUtil;
 import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-21
  */
@@ -15,8 +14,7 @@ public class DemoService implements DemoServiceDriver {
 
     public Response getRandom(Request seed) {
 
-        return new Response(RandomUtil.random(seed.getMinValue(),
-                seed.getMaxValue()));
+        return new Response(RandomUtil.random(seed.getMinValue(), seed.getMaxValue()));
     }
 
 }

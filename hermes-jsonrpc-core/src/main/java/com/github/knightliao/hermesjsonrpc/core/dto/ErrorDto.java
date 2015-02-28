@@ -1,7 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.core.dto;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
@@ -19,14 +18,12 @@ public class ErrorDto {
     private String message;
 
     /**
-     * 
      * @author liaoqiqi
      * @version 2014-8-30
      */
     static public class ErrorDtoBuilder {
 
-        public static ErrorDto getResponseDto(String data, int code,
-                String message) {
+        public static ErrorDto getResponseDto(String data, int code, String message) {
 
             return new ErrorDto(data, code, message);
         }
@@ -65,7 +62,6 @@ public class ErrorDto {
 
     @Override
     public String toString() {
-        return "ErrorDto [data=" + data + ", code=" + code + ", message="
-                + message + "]";
+        return "ErrorDto [data=" + data + ", code=" + code + ", message=" + message + "]";
     }
 }

@@ -1,7 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.core.test.codec;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-9-2
  */
@@ -52,25 +51,33 @@ public class TestData {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         TestData other = (TestData) obj;
-        if (a != other.a)
+        if (a != other.a) {
             return false;
+        }
         if (cc == null) {
-            if (other.cc != null)
+            if (other.cc != null) {
                 return false;
-        } else if (!cc.equals(other.cc))
+            }
+        } else if (!cc.equals(other.cc)) {
             return false;
+        }
         if (data == null) {
-            if (other.data != null)
+            if (other.data != null) {
                 return false;
-        } else if (!data.equals(other.data))
+            }
+        } else if (!data.equals(other.data)) {
             return false;
+        }
         return true;
     }
 

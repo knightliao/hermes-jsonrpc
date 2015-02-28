@@ -20,15 +20,15 @@ public class GsonCodec implements Codec {
     private static final Gson gson = GsonFactory.getGson();
 
     /**
-     * 
      * @param jsonElement
      * @param type
+     *
      * @return
+     *
      * @throws JsonSyntaxException
      */
     @SuppressWarnings("unchecked")
-    public <T> T decode(JsonElement jsonElement, Type type)
-            throws JsonSyntaxException {
+    public <T> T decode(JsonElement jsonElement, Type type) throws JsonSyntaxException {
 
         return (T) gson.fromJson(jsonElement, type);
     }
@@ -36,8 +36,7 @@ public class GsonCodec implements Codec {
     /**
      * 将 字节码 转成 对象
      */
-    public JsonElement decode(String encoding, byte[] req)
-            throws ParseErrorException {
+    public JsonElement decode(String encoding, byte[] req) throws ParseErrorException {
         String json;
         try {
             json = new String(req, encoding);
@@ -50,8 +49,7 @@ public class GsonCodec implements Codec {
     /**
      * 将对象转成字节码
      */
-    public byte[] encode(String encoding, JsonElement res)
-            throws ParseErrorException {
+    public byte[] encode(String encoding, JsonElement res) throws ParseErrorException {
 
         try {
 
@@ -67,25 +65,24 @@ public class GsonCodec implements Codec {
     }
 
     /**
-     * 
      * @param object
      * @param type
+     *
      * @return
+     *
      * @throws ParseErrorException
      */
-    public JsonElement encode(Object object, Type type)
-            throws ParseErrorException {
+    public JsonElement encode(Object object, Type type) throws ParseErrorException {
 
         return gson.toJsonTree(object, type);
     }
 
     /**
-     * 
+     *
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T decode(String encoding, Class<T> clazz, byte[] bytes)
-            throws Exception {
+    public <T> T decode(String encoding, Class<T> clazz, byte[] bytes) throws Exception {
 
         JsonElement jsonElement = decode(encoding, bytes);
 
@@ -93,11 +90,10 @@ public class GsonCodec implements Codec {
     }
 
     /**
-     * 
+     *
      */
     @Override
-    public <T> byte[] encode(String encoding, Class<T> clazz, T object)
-            throws Exception {
+    public <T> byte[] encode(String encoding, Class<T> clazz, T object) throws Exception {
 
         JsonElement jsonElement = encode(object, clazz);
         return encode(encoding, jsonElement);

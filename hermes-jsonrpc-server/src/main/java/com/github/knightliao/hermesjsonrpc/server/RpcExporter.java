@@ -5,8 +5,6 @@ import java.util.Set;
 
 /**
  * 用于在spring配置文件里指定服务的辅助类
- * 
- * 
  */
 public class RpcExporter {
 
@@ -17,15 +15,15 @@ public class RpcExporter {
     private Object serviceBean;
 
     // 用户名&密码
-    private String userName = "";
-    private String password = "";
+    private String userName = null;
+    private String password = null;
 
     // IP白名单
     private Set<String> ipSet = new HashSet<String>();
 
     /**
      * 获取对外服务的接口名称
-     * 
+     *
      * @return 对外服务的接口名
      */
     public String getServiceInterfaceName() {
@@ -34,8 +32,9 @@ public class RpcExporter {
 
     /**
      * 获取对外服务的接口类型
-     * 
+     *
      * @return 对外服务的接口类型
+     *
      * @throws ClassNotFoundException
      */
     public Class<?> getServiceInterface() throws ClassNotFoundException {
@@ -44,7 +43,7 @@ public class RpcExporter {
 
     /**
      * 设置对外服务的接口名称
-     * 
+     *
      * @param serviceInterface
      */
     public void setServiceInterfaceName(String serviceInterface) {
@@ -53,7 +52,7 @@ public class RpcExporter {
 
     /**
      * 获取对外服务的Java Bean
-     * 
+     *
      * @return 对外服务的对象
      */
     public Object getServiceBean() {
@@ -62,7 +61,7 @@ public class RpcExporter {
 
     /**
      * 设置对外服务的Java Bean
-     * 
+     *
      * @param serviceBean
      */
     public void setServiceBean(Object serviceBean) {

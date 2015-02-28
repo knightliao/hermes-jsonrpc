@@ -8,7 +8,6 @@ import com.github.knightliao.hermesjsonrpc.core.codec.gson.GsonCodec;
 import com.github.knightliao.hermesjsonrpc.core.test.codec.TestData;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-9-2
  */
@@ -19,7 +18,7 @@ public class GsonCodecTestCase {
     public static final String encoding = "UTF-8";
 
     /**
-     * 
+     *
      */
     @Test
     public void test() {
@@ -37,8 +36,7 @@ public class GsonCodecTestCase {
 
                 data = gsonCodec.encode(encoding, TestData.class, testData);
                 length = data.length;
-                TestData testData2 = gsonCodec.decode(encoding, TestData.class,
-                        data);
+                TestData testData2 = gsonCodec.decode(encoding, TestData.class, data);
 
                 Assert.assertEquals(testData, testData2);
             }

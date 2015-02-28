@@ -13,14 +13,13 @@ import com.github.knightliao.hermesjsonrpc.client.selector.ServiceSelector;
 
 /**
  * 实现动态调用Service该类要实现以下两个功能：负载均衡和互备。
- * 
+ *
  * @author liaoqiqi
  * @version 2014-8-21
  */
 public class RandomServiceSelector implements ServiceSelector {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(RandomServiceSelector.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(RandomServiceSelector.class);
 
     private List<ServiceInvoker> invokerList = null;
     private int retryTime = 0;
@@ -31,21 +30,15 @@ public class RandomServiceSelector implements ServiceSelector {
     private Random randomer = new Random();
 
     /**
-     * @param serviceList
-     *            服务列表
-     * @param retryTimes
-     *            重试次数
-     * @param method
-     *            方法入口
-     * @param args
-     *            方法参数
+     * @param serviceList 服务列表
+     * @param retryTimes  重试次数
+     * @param method      方法入口
+     * @param args        方法参数
      */
-    public RandomServiceSelector(List<ServiceInvoker> serviceList,
-            int retryTimes, Method method, Object[] args) {
+    public RandomServiceSelector(List<ServiceInvoker> serviceList, int retryTimes, Method method, Object[] args) {
 
         if (CollectionUtils.isEmpty(serviceList)) {
-            throw new IllegalArgumentException(
-                    "serviceList should not be empty!");
+            throw new IllegalArgumentException("serviceList should not be empty!");
         }
         invokerList = serviceList;
 
@@ -60,7 +53,7 @@ public class RandomServiceSelector implements ServiceSelector {
     }
 
     /**
-     * 
+     *
      */
     public Object invoke(boolean errorExit) {
 
@@ -96,7 +89,6 @@ public class RandomServiceSelector implements ServiceSelector {
     }
 
     /**
-     * 
      * @param e
      */
     private void printErrMessage(Throwable e) {
@@ -111,13 +103,10 @@ public class RandomServiceSelector implements ServiceSelector {
         }
 
         // "o"=origin, "d"=direct, "e"=exception, "m"=message
-        String errMsg = "RPC invoke error,Target=["
-                + method.getDeclaringClass().getCanonicalName() + "#"
-                + method.getName() + "()], oe=["
-                + baseCause.getClass().getCanonicalName() + "], om=["
-                + baseCause.getMessage() + "], de=["
-                + e.getClass().getCanonicalName() + "], dm=[" + e.getMessage()
-                + "]";
+        String errMsg =
+            "RPC invoke error,Target=[" + method.getDeclaringClass().getCanonicalName() + "#" + method.getName() +
+                "()], oe=[" + baseCause.getClass().getCanonicalName() + "], om=[" + baseCause.getMessage() + "], de=[" +
+                e.getClass().getCanonicalName() + "], dm=[" + e.getMessage() + "]";
 
         LOG.error(errMsg, e);
     }

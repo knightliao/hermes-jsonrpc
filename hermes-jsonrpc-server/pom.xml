@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>hermes-jsonrpc-server</artifactId>
     <packaging>jar</packaging>
+    <version>${server.version}</version>
 
     <parent>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
         <artifactId>hermes-jsonrpc-base</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
 
@@ -32,7 +33,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
-
 
 
         <dependency>
@@ -59,7 +59,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-
 
 
         <dependency>
@@ -98,7 +97,6 @@
                 Jetty, Jackson or Apache HTTP Client -->
             <classifier>standalone</classifier>
         </dependency>
-
 
 
         <dependency>
@@ -182,7 +180,7 @@
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <compilerArguments>
-                        <verbose />
+                        <verbose/>
                         <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
                     </compilerArguments>
                 </configuration>
@@ -236,8 +234,8 @@
     <url>https://github.com/knightliao/hermes-jsonrpc/tree/master/hermes-jsonrpc-server</url>
 
     <organization>
-        <name>Baidu</name>
-        <url>http://www.baidu.com</url>
+        <name>Knight</name>
+        <url>http://www.liaoqiqi.com</url>
     </organization>
 
     <scm>
@@ -307,6 +305,6 @@
             </build>
         </profile>
     </profiles>
-    <version>${server.version}</version>
+
     <description>https://github.com/knightliao/hermes-jsonrpc/tree/master/hermes-jsonrpc-server</description>
 </project>

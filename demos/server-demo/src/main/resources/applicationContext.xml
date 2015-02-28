@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/aop   
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
         http://www.springframework.org/schema/beans   
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
         http://www.springframework.org/schema/context   
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd   
-        http://www.springframework.org/schema/mvc   
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd   
-        http://www.springframework.org/schema/tx   
-        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <description>Spring公共配置</description>
 
     <bean id="myvalidator"
-        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass"
-            value="org.hibernate.validator.HibernateValidator" />
-        <property name="validationMessageSource" ref="messageSource" />
+                  value="org.hibernate.validator.HibernateValidator"/>
+        <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 
-    <context:component-scan base-package="com.github.knightliao.hermesjsonrpc" />
-    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <context:component-scan base-package="com.github.knightliao.hermesjsonrpc"/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
 
     <bean id="apiInternalProxyBase" class="org.springframework.aop.framework.ProxyFactoryBean"
-        abstract="true">
+          abstract="true">
     </bean>
 
     <bean id="demoServiceProxy" parent="apiInternalProxyBase">
         <property name="target" ref="demoService"></property>
         <property name="proxyInterfaces"
-            value="com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver">
+                  value="com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver">
         </property>
     </bean>
 
     <bean class="com.github.knightliao.hermesjsonrpc.server.RpcExporter"
-        scope="singleton">
+          scope="singleton">
         <property name="serviceInterfaceName"
-            value="com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver" />
+                  value="com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver"/>
         <property name="serviceBean">
-            <ref bean="demoServiceProxy" />
+            <ref bean="demoServiceProxy"/>
         </property>
-        <property name="userName" value="hello" />
-        <property name="password" value="hermesjsonrpc" />
+        <property name="userName" value="hello"/>
+        <property name="password" value="hermesjsonrpc"/>
         <property name="ipSet">
             <set>
                 <value>127.0.0.1</value>

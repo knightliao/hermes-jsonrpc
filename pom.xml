@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.knightliao.hermesjsonrpc</groupId>
     <artifactId>hermes-jsonrpc-base</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -45,9 +45,9 @@
         <project.build.offline.sourceDir>${project.basedir}/src/main/resources</project.build.offline.sourceDir>
 
         <!-- 模块版本号 -->
-        <client.version>1.0.2</client.version>
-        <core.version>1.0.2</core.version>
-        <server.version>1.0.2</server.version>
+        <client.version>1.0.3-SNAPSHOT</client.version>
+        <core.version>1.0.3-SNAPSHOT</core.version>
+        <server.version>1.0.3-SNAPSHOT</server.version>
     </properties>
 
 
@@ -472,7 +472,7 @@
             <dependency>
                 <groupId>com.github.knightliao.apollo</groupId>
                 <artifactId>apollo</artifactId>
-                <version>1.0.2-SNAPSHOT</version>
+                <version>1.0.3-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dyuproject.protostuff</groupId>
@@ -523,7 +523,6 @@
                                 <exclude>**/*Controller.class</exclude>
                                 <exclude>**/*Exception.class</exclude>
                                 <exclude>**/*Form.class</exclude>
-                                <exclude>**/baidu/ub/**/*.class</exclude>
                             </excludes>
                         </instrumentation>
                     </configuration>
@@ -550,7 +549,7 @@
                         <showDeprecation>true</showDeprecation>
                         <showWarnings>true</showWarnings>
                         <compilerArguments>
-                            <verbose />
+                            <verbose/>
                             <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
                         </compilerArguments>
                     </configuration>
@@ -724,7 +723,6 @@
                             <exclude>**/*Controller.class</exclude>
                             <exclude>**/*Exception.class</exclude>
                             <exclude>**/*Form.class</exclude>
-                            <exclude>**/baidu/ub/**/*.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
@@ -763,8 +761,8 @@
     </developers>
 
     <organization>
-        <name>Baidu</name>
-        <url>http://www.baidu.com</url>
+        <name>Knight</name>
+        <url>http://www.liaoqiqi.com</url>
     </organization>
 
     <scm>

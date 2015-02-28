@@ -1,7 +1,6 @@
 package com.github.knightliao.hermesjsonrpc.core.constant;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-20
  */
@@ -16,9 +15,9 @@ public class Constants {
 
     // 统一的ID
     public static final String JSONRPC_ID = "id";
-    
+
     // default coding
-    public static final String DEFAULT_CODING= "UTF-8";
+    public static final String DEFAULT_CODING = "UTF-8";
 
     //
     // HTTP

@@ -2,7 +2,6 @@ package com.github.knightliao.hermesjsonrpc.core.exception;
 
 /**
  * 找不到被调用的函数时抛出
- * 
  */
 public class MethodNotFoundException extends JsonRpcException {
 
@@ -26,11 +25,6 @@ public class MethodNotFoundException extends JsonRpcException {
         super(cause);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.baidu.rpc.exception.JsonRpcException#errorCode()
-     */
     @Override
     public int errorCode() {
         return METHOD_NOT_FOUND_ERROR_CODE;

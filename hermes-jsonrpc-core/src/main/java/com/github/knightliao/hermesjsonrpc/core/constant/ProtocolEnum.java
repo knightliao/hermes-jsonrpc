@@ -1,14 +1,12 @@
 package com.github.knightliao.hermesjsonrpc.core.constant;
 
 /**
- * 
  * @author liaoqiqi
  * @version 2014-8-30
  */
 public enum ProtocolEnum {
 
-    GSON(0, "application/json-hermes-gson"), PROTOSTUFF(1,
-            "application/json-hermes-protostuff");
+    GSON(0, "application/json-hermes-gson"), PROTOSTUFF(1, "application/json-hermes-protostuff");
 
     private int type = 0;
     private String modelName = null;

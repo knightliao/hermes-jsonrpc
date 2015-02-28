@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-id="WebApp_ID" version="2.5">
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
 
     <display-name>dsp-web</display-name>
-    
+
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>
@@ -13,17 +13,17 @@ id="WebApp_ID" version="2.5">
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath*:/applicationContext*.xml</param-value>
     </context-param>
-    
+
     <context-param>
         <param-name>spring.profiles.default</param-name>
         <param-value>production</param-value>
     </context-param>
-    
+
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -33,22 +33,22 @@ id="WebApp_ID" version="2.5">
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-    
+
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
-    
+
     <filter>
         <filter-name>HttpPutFormContentFilter</filter-name>
         <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
     </filter>
-    
+
     <filter-mapping>
         <filter-name>HttpPutFormContentFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -67,18 +67,18 @@ id="WebApp_ID" version="2.5">
             <param-value>true</param-value>
         </init-param>
     </filter>
-    
+
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
+
     <mime-mapping>
         <extension>json</extension>
         <mime-type>application/json</mime-type>
     </mime-mapping>
-    
-    
+
+
     <servlet>
         <display-name>json-rpc servlet</display-name>
         <servlet-name>jsonRpcServlet</servlet-name>

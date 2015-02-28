@@ -17,14 +17,13 @@ import com.google.gson.JsonObject;
 
 /**
  * GSON 序列化方式
- * 
+ *
  * @author liaoqiqi
  * @version 2014-8-20
  */
 public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
 
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(GsonRpcProxy.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(GsonRpcProxy.class);
 
     /**
      * 处理器
@@ -32,12 +31,9 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
     private static final GsonCodec processor = new GsonCodec();
 
     /**
-     * @param url
-     *            服务的url
-     * @param encoding
-     *            编码
-     * @param exp
-     *            异常处理器
+     * @param url      服务的url
+     * @param encoding 编码
+     * @param exp      异常处理器
      */
     public GsonRpcProxy(String url, String encoding, ExceptionHandler exp) {
         super(url, encoding, exp);
@@ -64,19 +60,17 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
     }
 
     /**
-     * 
+     *
      */
     @Override
-    protected ResponseDto deserialize(byte[] req, Type type)
-            throws ParseErrorException {
+    protected ResponseDto deserialize(byte[] req, Type type) throws ParseErrorException {
 
         JsonElement jsonElement = processor.decode(encoding, req);
         LOG.debug("response: " + jsonElement.toString());
 
         try {
 
-            ResponseDto responseDto = processor.decode(jsonElement,
-                    ResponseDto.class);
+            ResponseDto responseDto = processor.decode(jsonElement, ResponseDto.class);
 
             //
             // get result
@@ -97,20 +91,17 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
     }
 
     /**
-     * 
      * @param url
      * @param encoding
      * @param exp
      * @param username
      * @param password
      */
-    public GsonRpcProxy(String url, String encoding, ExceptionHandler exp,
-            String username, String password) {
+    public GsonRpcProxy(String url, String encoding, ExceptionHandler exp, String username, String password) {
         super(url, encoding, exp, username, password);
     }
 
     /**
-     * 
      * @param url
      * @param encoding
      * @param username
@@ -119,9 +110,8 @@ public class GsonRpcProxy extends RpcProxyBase implements Cloneable {
      * @param readTimeout
      * @param exp
      */
-    public GsonRpcProxy(String url, String encoding, String username,
-            String password, int connectTimeout, int readTimeout,
-            ExceptionHandler exp) {
+    public GsonRpcProxy(String url, String encoding, String username, String password, int connectTimeout,
+                        int readTimeout, ExceptionHandler exp) {
 
         this(url, encoding, exp, username, password);
         setConnectTimeout(connectTimeout);
