@@ -2,7 +2,6 @@ package com.github.knightliao.hermesjsonrpc.core.exception;
 
 /**
  * 序列化和反序列化出错时抛出
- * 
  */
 public class ParseErrorException extends JsonRpcException {
 
@@ -26,11 +25,6 @@ public class ParseErrorException extends JsonRpcException {
         super(cause);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.baidu.rpc.exception.JsonRpcException#errorCode()
-     */
     @Override
     public int errorCode() {
         return PARSE_ERROR_CODE;

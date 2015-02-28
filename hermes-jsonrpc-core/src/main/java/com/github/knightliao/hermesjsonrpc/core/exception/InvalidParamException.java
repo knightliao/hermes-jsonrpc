@@ -2,7 +2,6 @@ package com.github.knightliao.hermesjsonrpc.core.exception;
 
 /**
  * 当Rpc调用参数不满足要求时（类型错误，值错误）时抛出
- * 
  */
 public class InvalidParamException extends JsonRpcException {
 
@@ -26,11 +25,6 @@ public class InvalidParamException extends JsonRpcException {
         super(cause);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.baidu.rpc.exception.JsonRpcException#errorCode()
-     */
     @Override
     public int errorCode() {
         return INVALID_PARAM_ERROR_CODE;

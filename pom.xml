@@ -523,7 +523,6 @@
                                 <exclude>**/*Controller.class</exclude>
                                 <exclude>**/*Exception.class</exclude>
                                 <exclude>**/*Form.class</exclude>
-                                <exclude>**/baidu/ub/**/*.class</exclude>
                             </excludes>
                         </instrumentation>
                     </configuration>
@@ -724,7 +723,6 @@
                             <exclude>**/*Controller.class</exclude>
                             <exclude>**/*Exception.class</exclude>
                             <exclude>**/*Form.class</exclude>
-                            <exclude>**/baidu/ub/**/*.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
@@ -763,8 +761,8 @@
     </developers>
 
     <organization>
-        <name>Baidu</name>
-        <url>http://www.baidu.com</url>
+        <name>Knight</name>
+        <url>http://www.liaoqiqi.com</url>
     </organization>
 
     <scm>
