@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.util.HtmlUtils;
 
-import com.github.knightliao.apollo.utils.web.HtmlUtils;
 import com.github.knightliao.hermesjsonrpc.core.constant.ProtocolEnum;
 import com.github.knightliao.hermesjsonrpc.server.dto.RpcRequestDto;
 import com.github.knightliao.hermesjsonrpc.server.dto.RpcResponseDto;
@@ -92,8 +92,8 @@ public class RpcServlet extends HttpServlet {
 
             for (Entry<String, RpcExporter> i : exporters.entrySet()) {
                 out.println("<tr><td>" + i.getKey() + "</td><td><a href=\"" + req.getContextPath() +
-                                req.getServletPath() + "/" + i.getKey() + "\">" +
-                                i.getValue().getServiceInterfaceName() + "</a></td></tr>");
+                        req.getServletPath() + "/" + i.getKey() + "\">" +
+                        i.getValue().getServiceInterfaceName() + "</a></td></tr>");
             }
             out.println("</table>");
 
@@ -110,26 +110,20 @@ public class RpcServlet extends HttpServlet {
                 out.println("<h1>Interface Summary</h1>");
 
                 out.println("This list all functions in <a href=\"" + req.getContextPath() + req.getServletPath() +
-                                "\"/>service</a> " + serviceExporter.getServiceInterfaceName());
+                        "\"/>service</a> " + serviceExporter.getServiceInterfaceName());
 
                 try {
 
                     out.println("<table border=\"1\"><tr>" + "<th>Method</th>" + "<th>Signature</th>" + "</tr>");
 
                     for (Method m : serviceExporter.getServiceInterface().getMethods()) {
-                        out.println("<tr>" + "<td>" + m.getName() + "</td>" + "<td>" + HtmlUtils
-                                                                                           .escapeHTML(m.toGenericString()
-                                                                                                           .substring
-                                                                                                                (16)
-                                                                                                           .replaceAll("java\\.lang\\.",
-                                                                                                                          "")
-                                                                                                           .replaceAll("java\\.util\\.",
-                                                                                                                          "")
-                                                                                                           .replaceAll(serviceExporter
-                                                                                                                           .getServiceInterfaceName() +
-                                                                                                                           ".",
-                                                                                                                          "")) +
-                                        "</td></tr>");
+                        out.println("<tr>" + "<td>" + m.getName() + "</td>" + "<td>" + HtmlUtils.htmlEscape(
+                                m.toGenericString()
+                                        .substring(16)
+                                        .replaceAll("java\\.lang\\.", "")
+                                        .replaceAll("java\\.util\\.", "")
+                                        .replaceAll(serviceExporter.getServiceInterfaceName() + ".", ""))
+                                + "</td></tr>");
                     }
 
                     out.println("</table>");
@@ -197,7 +191,7 @@ public class RpcServlet extends HttpServlet {
                     if (interf.isAssignableFrom(exporter.getServiceBean().getClass())) {
                         exporters.put(context, exporter);
                         log.info("export " + context + " as rpc service,url is http://${server}:${port}/${context}/" +
-                                     context);
+                                context);
 
                     } else {
                         log.warn("the interface " + interf.getName() + " is not compatible with the bean " + beanName);
@@ -280,8 +274,9 @@ public class RpcServlet extends HttpServlet {
 
                 // 组装请求
                 RpcRequestDto rpcReq =
-                    new RpcRequestDto(serviceExporter.getServiceInterface(), serviceExporter.getServiceBean(), bytes,
-                                         encoding);
+                        new RpcRequestDto(serviceExporter.getServiceInterface(), serviceExporter.getServiceBean(),
+                                bytes,
+                                encoding);
 
                 //
                 // 处理器
@@ -343,7 +338,7 @@ public class RpcServlet extends HttpServlet {
         String data = request.getHeader("Authorization");
 
         boolean authOK =
-            secretProcessor.isAuthOk(data, encoding, serviceExporter.getUserName(), serviceExporter.getPassword());
+                secretProcessor.isAuthOk(data, encoding, serviceExporter.getUserName(), serviceExporter.getPassword());
         if (!authOK) {
             log.warn("auth check failed.");
             return false;

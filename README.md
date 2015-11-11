@@ -138,6 +138,46 @@ server:
 - [Tutorial 4 请求带有权限验证 Json GSON RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial4)
 - [Tutorial 5 Json Protostuff RPC 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial5)
     
+### dependency
+
+#### client:
+
+    +- com.github.knightliao.hermesjsonrpc:hermes-jsonrpc-core:jar:1.0.3:compile
+    [INFO] |  +- commons-codec:commons-codec:jar:1.9:compile
+    [INFO] |  +- commons-httpclient:commons-httpclient:jar:3.1:compile
+    [INFO] |  |  \- commons-logging:commons-logging:jar:1.0.4:compile
+    [INFO] |  +- com.dyuproject.protostuff:protostuff-api:jar:1.0.8:compile
+    [INFO] |  +- com.dyuproject.protostuff:protostuff-json:jar:1.0.8:compile
+    [INFO] |  |  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.8:compile
+    [INFO] |  \- com.dyuproject.protostuff:protostuff-runtime:jar:1.0.8:compile
+    [INFO] |     \- com.dyuproject.protostuff:protostuff-collectionschema:jar:1.0.8:compile
+    [INFO] +- commons-collections:commons-collections:jar:3.2:compile
+    [INFO] +- org.springframework:spring-beans:jar:4.1.7.RELEASE:compile
+    [INFO] |  \- org.springframework:spring-core:jar:4.1.7.RELEASE:compile
+    [INFO] +- com.google.code.gson:gson:jar:2.3:compile
+    [INFO] +- org.slf4j:slf4j-api:jar:1.7.6:compile
+
+#### server:
+
+    +- com.github.knightliao.hermesjsonrpc:hermes-jsonrpc-core:jar:1.0.3:compile
+    [INFO] |  +- commons-codec:commons-codec:jar:1.9:compile
+    [INFO] |  +- com.dyuproject.protostuff:protostuff-api:jar:1.0.8:compile
+    [INFO] |  +- com.dyuproject.protostuff:protostuff-json:jar:1.0.8:compile
+    [INFO] |  |  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.8:compile
+    [INFO] |  \- com.dyuproject.protostuff:protostuff-runtime:jar:1.0.8:compile
+    [INFO] |     \- com.dyuproject.protostuff:protostuff-collectionschema:jar:1.0.8:compile
+    [INFO] +- org.springframework:spring-beans:jar:4.1.7.RELEASE:compile
+    [INFO] |  \- org.springframework:spring-core:jar:4.1.7.RELEASE:compile
+    [INFO] +- org.springframework:spring-context:jar:4.1.7.RELEASE:compile
+    [INFO] |  +- org.springframework:spring-aop:jar:4.1.7.RELEASE:compile
+    [INFO] |  |  \- aopalliance:aopalliance:jar:1.0:compile
+    [INFO] |  \- org.springframework:spring-expression:jar:4.1.7.RELEASE:compile
+    [INFO] +- org.springframework:spring-web:jar:4.1.7.RELEASE:compile
+    [INFO] +- javax.servlet:servlet-api:jar:2.4:provided
+    [INFO] +- com.google.code.gson:gson:jar:2.3:compile
+    [INFO] +- commons-lang:commons-lang:jar:2.4:compile
+    [INFO] +- org.slf4j:slf4j-api:jar:1.7.6:compile
+
 ## 局限性 ##
 
 - 服务和客户端均只能是Java语言编程

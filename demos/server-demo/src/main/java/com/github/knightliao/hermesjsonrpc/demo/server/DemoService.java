@@ -1,8 +1,8 @@
 package com.github.knightliao.hermesjsonrpc.demo.server;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.stereotype.Service;
 
-import com.github.knightliao.apollo.utils.common.RandomUtil;
 import com.github.knightliao.hermesjsonrpc.demo.DemoServiceDriver;
 
 /**
@@ -14,7 +14,7 @@ public class DemoService implements DemoServiceDriver {
 
     public Response getRandom(Request seed) {
 
-        return new Response(RandomUtil.random(seed.getMinValue(), seed.getMaxValue()));
+        return new Response(RandomUtils.nextInt(Math.abs(seed.getMaxValue()) - seed.getMinValue() + 100));
     }
 
 }
