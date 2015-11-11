@@ -5,7 +5,7 @@
 
     <groupId>com.github.knightliao.hermesjsonrpc</groupId>
     <artifactId>hermes-jsonrpc-base</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -45,9 +45,9 @@
         <project.build.offline.sourceDir>${project.basedir}/src/main/resources</project.build.offline.sourceDir>
 
         <!-- 模块版本号 -->
-        <client.version>1.0.3-SNAPSHOT</client.version>
-        <core.version>1.0.3-SNAPSHOT</core.version>
-        <server.version>1.0.3-SNAPSHOT</server.version>
+        <client.version>1.0.3</client.version>
+        <core.version>1.0.3</core.version>
+        <server.version>1.0.3</server.version>
     </properties>
 
 
@@ -59,7 +59,7 @@
             <dependency>
                 <groupId>com.github.knightliao.apollo</groupId>
                 <artifactId>apollo</artifactId>
-                <version>1.0.3-SNAPSHOT</version>
+                <version>1.0.8</version>
             </dependency>
 
             <!-- spring dependencies -->
