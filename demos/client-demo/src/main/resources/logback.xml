@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  ~ Copyright (C) 2015 Baidu, Inc. All Rights Reserved.
-  -->
 <configuration>
 
     <property name="log.base" value="./log/jsonrpc-server-demo"/>

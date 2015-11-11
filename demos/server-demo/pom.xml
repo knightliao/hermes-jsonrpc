@@ -6,6 +6,12 @@
     <artifactId>hermes-jsonrpc-demo-server-demo</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <source.version>1.7</source.version>
+        <target.version>1.7</target.version>
+        <encoding>UTF-8</encoding>
+    </properties>
+
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -16,12 +22,75 @@
     </licenses>
 
     <dependencies>
+
+        <!-- my dependencies -->
+
+        <dependency>
+            <groupId>com.github.knightliao.hermesjsonrpc</groupId>
+            <artifactId>hermes-jsonrpc-server</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+        </dependency>
+
+        <!-- spring dependencies -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.1.7.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.1.7.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.1.7.RELEASE</version>
+        </dependency>
+
+        <!-- common dependencies -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.8</version>
+        </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>1.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0</version>
+            <classifier>site</classifier>
+        </dependency>
+
+        <!-- log dependencies -->
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -35,11 +104,6 @@
             <version>1.0.9</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
-        </dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
@@ -53,14 +117,7 @@
             <version>1.7.6</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>16.0</version>
-            <classifier>site</classifier>
-        </dependency>
-
+        <!-- test dependencies -->
 
         <dependency>
             <groupId>junit</groupId>
@@ -69,41 +126,6 @@
             <version>4.10</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.knightliao.hermesjsonrpc</groupId>
-            <artifactId>hermes-jsonrpc-server</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>3.1.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>3.1.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>3.1.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.2.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.1</version>
-        </dependency>
     </dependencies>
 
     <build>

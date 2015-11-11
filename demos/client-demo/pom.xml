@@ -6,6 +6,12 @@
     <artifactId>hermes-jsonrpc-demo-client-demo</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <source.version>1.7</source.version>
+        <target.version>1.7</target.version>
+        <encoding>UTF-8</encoding>
+    </properties>
+
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -16,12 +22,57 @@
     </licenses>
 
     <dependencies>
+
+        <!-- my dependencies -->
+
+        <dependency>
+            <groupId>com.github.knightliao.hermesjsonrpc</groupId>
+            <artifactId>hermes-jsonrpc-client</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+        </dependency>
+
+        <!-- spring dependencies -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
+
+        <!-- common dependencies -->
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>1.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0</version>
+            <classifier>site</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.6.6.Final</version>
+        </dependency>
+
+        <!-- log dependencies -->
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -36,12 +87,6 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
-        </dependency>
-
-        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.0.4</version>
@@ -53,14 +98,7 @@
             <version>1.7.6</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>16.0</version>
-            <classifier>site</classifier>
-        </dependency>
-
+        <!-- test dependencies -->
 
         <dependency>
             <groupId>junit</groupId>
@@ -69,26 +107,6 @@
             <version>4.10</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>2.5.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty</artifactId>
-            <version>3.6.6.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.knightliao.hermesjsonrpc</groupId>
-            <artifactId>hermes-jsonrpc-client</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>3.1.2.RELEASE</version>
-        </dependency>
     </dependencies>
 
     <build>
