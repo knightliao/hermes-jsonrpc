@@ -62,7 +62,7 @@ client:
     <dependency>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
         <artifactId>hermes-jsonrpc-client</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </dependency>
 
 server:
@@ -70,7 +70,7 @@ server:
     <dependency>
         <groupId>com.github.knightliao.hermesjsonrpc</groupId>
         <artifactId>hermes-jsonrpc-server</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </dependency>
 
 ### Tutorials ###
