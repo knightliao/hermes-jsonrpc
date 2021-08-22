@@ -27,7 +27,7 @@
         <java.version>1.8</java.version>
         <source.version>1.8</source.version>
         <target.version>1.8</target.version>
-        <spring.version>4.3.20.RELEASE</spring.version>
+        <spring.version>5.2.16.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <jsp.version>2.0</jsp.version>
         <servlet.version>2.4</servlet.version>
@@ -420,12 +420,6 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>1.4.3</version>
-            </dependency>
-
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.14</version>
             </dependency>
 
             <!-- test dependencies -->
