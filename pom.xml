@@ -32,6 +32,7 @@
         <jsp.version>2.0</jsp.version>
         <servlet.version>2.4</servlet.version>
         <cglib.version>2.2.2</cglib.version>
+        <jackson.version>2.11.4</jackson.version>
 
         <!-- resource path -->
         <project.build.online.sourceDir>${project.basedir}/src/main/online-resources</project.build.online.sourceDir>
@@ -172,15 +173,15 @@
             </dependency>
 
             <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>1.9.8</version>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>1.9.8</version>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
@@ -459,13 +460,6 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit-dep</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
