@@ -41,15 +41,15 @@ hermes-jsonrpc branches and Maven version:
 
 ## 协议规范示例 ##
 
-###Java接口:####
+### Java接口: ####
 
 [link](https://github.com/knightliao/hermes-jsonrpc/blob/master/demos/client-demo/src/main/java/com/github/knightliao/hermesjsonrpc/demo/DemoServiceDriver.java)
 
-###client request示例（在没有权限控制的情况下）: ###
+### client request示例（在没有权限控制的情况下）:  ###
 
     curl -d '{"id":"99999","version":"2.0","method":"getRandom","params":[{"maxValue":0,"minValue":50}]}' http://127.0.0.1:8085/export/DemoServiceDriver -H 'Content-Type: application/json-hermes-gson'
 
-###server response示例（在没有权限控制的情况下）:###
+### server response示例（在没有权限控制的情况下）: ###
     
     {"result":{"value":32},"version":"2.0","id":99999}
 
@@ -80,46 +80,6 @@ server:
 - [Tutorial 3 带有权限验证和IP白名单的 Json GSON RPC Server撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial3)
 - [Tutorial 4 请求带有权限验证 Json GSON RPC Client 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial4)
 - [Tutorial 5 Json Protostuff RPC 撰写方法（最佳实践）](https://github.com/knightliao/hermes-jsonrpc/wiki/Tutorial5)
-    
-### dependency
-
-#### client:
-
-    +- com.github.knightliao.hermesjsonrpc:hermes-jsonrpc-core:jar:1.0.3:compile
-    [INFO] |  +- commons-codec:commons-codec:jar:1.9:compile
-    [INFO] |  +- commons-httpclient:commons-httpclient:jar:3.1:compile
-    [INFO] |  |  \- commons-logging:commons-logging:jar:1.0.4:compile
-    [INFO] |  +- com.dyuproject.protostuff:protostuff-api:jar:1.0.8:compile
-    [INFO] |  +- com.dyuproject.protostuff:protostuff-json:jar:1.0.8:compile
-    [INFO] |  |  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.8:compile
-    [INFO] |  \- com.dyuproject.protostuff:protostuff-runtime:jar:1.0.8:compile
-    [INFO] |     \- com.dyuproject.protostuff:protostuff-collectionschema:jar:1.0.8:compile
-    [INFO] +- commons-collections:commons-collections:jar:3.2:compile
-    [INFO] +- org.springframework:spring-beans:jar:4.1.7.RELEASE:compile
-    [INFO] |  \- org.springframework:spring-core:jar:4.1.7.RELEASE:compile
-    [INFO] +- com.google.code.gson:gson:jar:2.3:compile
-    [INFO] +- org.slf4j:slf4j-api:jar:1.7.6:compile
-
-#### server:
-
-    +- com.github.knightliao.hermesjsonrpc:hermes-jsonrpc-core:jar:1.0.3:compile
-    [INFO] |  +- commons-codec:commons-codec:jar:1.9:compile
-    [INFO] |  +- com.dyuproject.protostuff:protostuff-api:jar:1.0.8:compile
-    [INFO] |  +- com.dyuproject.protostuff:protostuff-json:jar:1.0.8:compile
-    [INFO] |  |  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.8:compile
-    [INFO] |  \- com.dyuproject.protostuff:protostuff-runtime:jar:1.0.8:compile
-    [INFO] |     \- com.dyuproject.protostuff:protostuff-collectionschema:jar:1.0.8:compile
-    [INFO] +- org.springframework:spring-beans:jar:4.1.7.RELEASE:compile
-    [INFO] |  \- org.springframework:spring-core:jar:4.1.7.RELEASE:compile
-    [INFO] +- org.springframework:spring-context:jar:4.1.7.RELEASE:compile
-    [INFO] |  +- org.springframework:spring-aop:jar:4.1.7.RELEASE:compile
-    [INFO] |  |  \- aopalliance:aopalliance:jar:1.0:compile
-    [INFO] |  \- org.springframework:spring-expression:jar:4.1.7.RELEASE:compile
-    [INFO] +- org.springframework:spring-web:jar:4.1.7.RELEASE:compile
-    [INFO] +- javax.servlet:servlet-api:jar:2.4:provided
-    [INFO] +- com.google.code.gson:gson:jar:2.3:compile
-    [INFO] +- commons-lang:commons-lang:jar:2.4:compile
-    [INFO] +- org.slf4j:slf4j-api:jar:1.7.6:compile
 
 ## 局限性 ##
 

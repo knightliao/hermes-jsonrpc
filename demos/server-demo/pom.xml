@@ -5,10 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>hermes-jsonrpc-demo-server-demo</artifactId>
     <packaging>war</packaging>
+    <version>1.0.0</version>
+    <groupId>com.github.knightliao.hermesjsonrpc</groupId>
 
     <properties>
-        <source.version>1.7</source.version>
-        <target.version>1.7</target.version>
+        <source.version>1.8</source.version>
+        <target.version>1.8</target.version>
         <encoding>UTF-8</encoding>
     </properties>
 
@@ -36,25 +38,25 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.3.17.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.3.17.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.3.17.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.3.17.RELEASE</version>
         </dependency>
 
         <!-- common dependencies -->
@@ -77,87 +79,17 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.0.9</version>
+            <version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.0.9</version>
+            <version>1.2.0</version>
             <scope>runtime</scope>
         </dependency>
 
     </dependencies>
 
-    <build>
-
-        <defaultGoal>package</defaultGoal>
-        <finalName>${project.artifactId}</finalName>
-        <outputDirectory>target/classes</outputDirectory>
-
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/java</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <includes>
-                    <include>*.*</include>
-                </includes>
-            </resource>
-        </resources>
-
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${source.version}</source>
-                    <target>${target.version}</target>
-                    <encoding>${encoding}</encoding>
-                    <failOnError>true</failOnError>
-                    <showDeprecation>true</showDeprecation>
-                    <showWarnings>true</showWarnings>
-                    <compilerArguments>
-                        <verbose/>
-                        <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
-                    </compilerArguments>
-                </configuration>
-
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.plexus</groupId>
-                        <artifactId>plexus-compiler-javac</artifactId>
-                        <version>1.8.1</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>*.properties</exclude>
-                        <exclude>**/*.properties</exclude>
-                        <exclude>conf/**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
-
-    <organization>
-        <name>Knight</name>
-        <url>http://www.liaoqiqi.com</url>
-    </organization>
-
-    <version>1.0.0</version>
-    <groupId>com.github.knightliao.hermesjsonrpc</groupId>
 </project>
