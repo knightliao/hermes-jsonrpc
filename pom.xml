@@ -32,7 +32,7 @@
         <jsp.version>2.0</jsp.version>
         <servlet.version>2.4</servlet.version>
         <cglib.version>2.2.2</cglib.version>
-        <jackson.version>2.11.4</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
 
         <!-- resource path -->
         <project.build.online.sourceDir>${project.basedir}/src/main/online-resources</project.build.online.sourceDir>
